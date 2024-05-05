@@ -10,7 +10,6 @@ interface Props extends BoxProps {
   meta?: ReactNode;
   title: string;
 }
-
 const Page = forwardRef<HTMLDivElement, Props>(({ children, title = '', meta, ...other }, ref) => (
   <>
     <Helmet>
