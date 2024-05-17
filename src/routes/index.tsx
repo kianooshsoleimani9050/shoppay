@@ -3,7 +3,6 @@ import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 // hooks
 import useAuth from '../hooks/useAuth';
 // layouts
-import MainLayout from '../layouts/main';
 import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
@@ -64,7 +63,7 @@ export default function Router() {
 
     // Dashboard Routes
     {
-      path: 'dashboard',
+      path: '/',
       element: (
         <AuthGuard>
           <DashboardLayout />
@@ -72,6 +71,7 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
+        { path: "order-list", element: <OrderList /> },
         { path: 'app', element: <GeneralApp /> },
         { path: 'ecommerce', element: <GeneralEcommerce /> },
         { path: 'analytics', element: <GeneralAnalytics /> },
@@ -160,16 +160,6 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" replace /> },
       ],
     },
-    {
-      path: '/',
-      element: <MainLayout />,
-      children: [
-        { element: <HomePage />, index: true },
-        { path: 'about-us', element: <About /> },
-        { path: 'contact-us', element: <Contact /> },
-        { path: 'faqs', element: <Faqs /> },
-      ],
-    },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
@@ -185,6 +175,7 @@ const VerifyCode = Loadable(lazy(() => import('../pages/auth/VerifyCode')));
 
 // GENERAL
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
+const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
 const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
 const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
 const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBanking')));
@@ -234,10 +225,6 @@ const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
 const PermissionDenied = Loadable(lazy(() => import('../pages/dashboard/PermissionDenied')));
 
 // MAIN
-const HomePage = Loadable(lazy(() => import('../pages/Home')));
-const About = Loadable(lazy(() => import('../pages/About')));
-const Contact = Loadable(lazy(() => import('../pages/Contact')));
-const Faqs = Loadable(lazy(() => import('../pages/Faqs')));
 const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
 const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
 const Pricing = Loadable(lazy(() => import('../pages/Pricing')));
