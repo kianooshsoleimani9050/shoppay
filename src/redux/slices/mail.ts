@@ -74,7 +74,7 @@ export function getLabels() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/mail/labels');
+      const response = await axios.axiosInstance.get('/api/mail/labels');
       dispatch(slice.actions.getLabelsSuccess(response.data.labels));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -88,7 +88,7 @@ export function getMails(params: Record<string, string>) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/mail/mails', { params });
+      const response = await axios.axiosInstance.get('/api/mail/mails', { params });
       dispatch(slice.actions.getMailsSuccess(response.data.mails));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -102,7 +102,7 @@ export function getMail(mailId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/mail/mail', {
+      const response = await axios.axiosInstance.get('/api/mail/mail', {
         params: { mailId },
       });
       dispatch(slice.actions.getMailSuccess(response.data.mail));

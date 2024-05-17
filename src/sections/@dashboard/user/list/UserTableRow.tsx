@@ -8,11 +8,12 @@ import { UserManager } from '../../../../@types/user';
 import Label from '../../../../components/Label';
 import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
+import { UserDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: UserManager;
+  row: UserDto;
   selected: boolean;
   onEditRow: VoidFunction;
   onSelectRow: VoidFunction;
@@ -28,10 +29,10 @@ export default function UserTableRow({
 }: Props) {
   const theme = useTheme();
 
-  const { name, avatarUrl, company, role, isVerified, status } = row;
+  const { fullName, avatar, email, role, isActive, mobile,createdAt } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
-
+  const [date, setDate] = useState(new Date(createdAt));
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpenMenuActions(event.currentTarget);
   };
@@ -47,38 +48,36 @@ export default function UserTableRow({
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} />
+        {/* <Avatar alt={fullName} src={avatar} sx={{ mr: 2 }} /> */}
         <Typography variant="subtitle2" noWrap>
-          {name}
+          {fullName}
         </Typography>
       </TableCell>
 
-      <TableCell align="left">{company}</TableCell>
+      <TableCell align="left">{email}</TableCell>
 
       <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        {role}
+        {role?.toLowerCase()}
       </TableCell>
 
       <TableCell align="center">
         <Iconify
-          icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
+          icon={isActive ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
           sx={{
             width: 20,
             height: 20,
             color: 'success.main',
-            ...(!isVerified && { color: 'warning.main' }),
+            ...(!isActive && { color: 'warning.main' }),
           }}
         />
       </TableCell>
 
-      <TableCell align="left">
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={(status === 'banned' && 'error') || 'success'}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {status}
-        </Label>
+      <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+        {mobile}
+      </TableCell>
+
+      <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+        {date.toDateString()}
       </TableCell>
 
       <TableCell align="right">

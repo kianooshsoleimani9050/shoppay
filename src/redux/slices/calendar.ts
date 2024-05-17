@@ -107,7 +107,7 @@ export function getEvents() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/calendar/events');
+      const response = await axios.axiosInstance.get('/api/calendar/events');
       dispatch(slice.actions.getEventsSuccess(response.data.events));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -121,7 +121,7 @@ export function createEvent(newEvent: Omit<EventInput, 'id'>) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('/api/calendar/events/new', newEvent);
+      const response = await axios.axiosInstance.post('/api/calendar/events/new', newEvent);
       dispatch(slice.actions.createEventSuccess(response.data.event));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -142,7 +142,7 @@ export function updateEvent(
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('/api/calendar/events/update', {
+      const response = await axios.axiosInstance.post('/api/calendar/events/update', {
         eventId,
         updateEvent,
       });
@@ -159,7 +159,7 @@ export function deleteEvent(eventId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      await axios.post('/api/calendar/events/delete', { eventId });
+      await axios.axiosInstance.post('/api/calendar/events/delete', { eventId });
       dispatch(slice.actions.deleteEventSuccess({ eventId }));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

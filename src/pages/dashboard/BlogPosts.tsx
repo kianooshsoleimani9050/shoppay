@@ -56,7 +56,7 @@ export default function BlogPosts() {
 
   const getAllPosts = useCallback(async () => {
     try {
-      const response = await axios.get('/api/blog/posts/all');
+      const response = await axios.axiosInstance.get('/api/blog/posts/all');
 
       if (isMountedRef.current) {
         setPosts(response.data.posts);

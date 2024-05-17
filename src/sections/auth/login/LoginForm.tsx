@@ -19,7 +19,7 @@ import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hoo
 // ----------------------------------------------------------------------
 
 type FormValuesProps = {
-  email: string;
+  mobile: string;
   password: string;
   remember: boolean;
   afterSubmit?: string;
@@ -33,13 +33,13 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    mobile: Yup.string().min(10).max(11).required('Mobile is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    mobile: '',
+    password: '',
     remember: true,
   };
 
@@ -57,7 +57,7 @@ export default function LoginForm() {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      await login(data.email, data.password);
+      await login(data.mobile, data.password);
     } catch (error) {
       console.error(error);
 
@@ -74,7 +74,7 @@ export default function LoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="mobile" label="phone number" type='tel' />
 
         <RHFTextField
           name="password"

@@ -4,6 +4,7 @@ import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
 // @types
 import { ActionMap, AuthState, AuthUser, JWTContextType } from '../@types/auth';
+import { LoginPayloadDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
@@ -91,14 +92,14 @@ function AuthProvider({ children }: AuthProviderProps) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
+          const response = await axios.axiosInstance.get('/dashboards/users/profile');
           const { user } = response.data;
 
           dispatch({
             type: Types.Initial,
             payload: {
               isAuthenticated: true,
-              user,
+              user: {},
             },
           });
         } else {
@@ -125,14 +126,15 @@ function AuthProvider({ children }: AuthProviderProps) {
     initialize();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const response = await axios.post('/api/account/login', {
-      email,
+  const login = async (mobile: string, password: string) => {
+    const response: LoginPayloadDto = await axios.axiosInstance.post('/auth/admin/login', {
+      mobile,
       password,
-    });
-    const { accessToken, user } = response.data;
+    }).then((res) => res.data);
 
-    setSession(accessToken);
+    const { token, user } = response
+
+    setSession(token.accessToken);
 
     dispatch({
       type: Types.Login,
@@ -143,7 +145,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const register = async (email: string, password: string, firstName: string, lastName: string) => {
-    const response = await axios.post('/api/account/register', {
+    const response = await axios.axiosInstance.post('/api/account/register', {
       email,
       password,
       firstName,

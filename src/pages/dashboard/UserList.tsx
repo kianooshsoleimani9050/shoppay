@@ -1,5 +1,5 @@
 import { paramCase } from 'change-case';
-import { useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -42,6 +42,8 @@ import {
 } from '../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
+import AxiosApi from 'src/utils/axios';
+import { UserDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
@@ -61,15 +63,14 @@ const ROLE_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'company', label: 'Company', align: 'left' },
+  { id: 'fullName', label: 'Full name', align: 'left' },
+  { id: 'email', label: 'Email', align: 'left' },
   { id: 'role', label: 'Role', align: 'left' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
-  { id: 'status', label: 'Status', align: 'left' },
+  { id: 'isActive', label: 'status', align: 'left' },
+  { id: 'mobile', label: 'Mobile', align: 'center' },
+  { id: 'createdAt', label: 'Created at', align: 'left' },
   { id: '' },
 ];
-
-// ----------------------------------------------------------------------
 
 export default function UserList() {
   const {
@@ -95,7 +96,13 @@ export default function UserList() {
 
   const navigate = useNavigate();
 
-  const [tableData, setTableData] = useState(_userList);
+  const [tableData, setTableData] = useState<UserDto[]>([]);
+
+  useEffect(() => {
+    AxiosApi.getUsers({}).then((res) => {
+      setTableData(res.data)
+    }).catch((err) => {console.error(err)});
+  }, [])
 
   const [filterName, setFilterName] = useState('');
 
@@ -238,7 +245,7 @@ export default function UserList() {
                         selected={selected.includes(row.id)}
                         onSelectRow={() => onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.name)}
+                        onEditRow={() => handleEditRow(row.fullName as string)}
                       />
                     ))}
 
@@ -285,7 +292,7 @@ function applySortFilter({
   filterStatus,
   filterRole,
 }: {
-  tableData: UserManager[];
+  tableData: UserDto[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;

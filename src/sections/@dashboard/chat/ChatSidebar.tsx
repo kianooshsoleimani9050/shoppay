@@ -106,7 +106,7 @@ export default function ChatSidebar() {
       const { value } = event.target;
       setSearchQuery(value);
       if (value) {
-        const response = await axios.get('/api/chat/search', {
+        const response = await axios.axiosInstance.get('/api/chat/search', {
           params: { query: value },
         });
         setSearchResults(response.data.results);

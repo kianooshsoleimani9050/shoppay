@@ -215,7 +215,9 @@ export function getProducts() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response: { data: { products: Product[] } } = await axios.get('/api/products');
+      const response: { data: { products: Product[] } } = await axios.axiosInstance.get(
+        '/api/products'
+      );
       dispatch(slice.actions.getProductsSuccess(response.data.products));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -229,9 +231,12 @@ export function getProduct(name: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response: { data: { product: Product } } = await axios.get('/api/products/product', {
-        params: { name },
-      });
+      const response: { data: { product: Product } } = await axios.axiosInstance.get(
+        '/api/products/product',
+        {
+          params: { name },
+        }
+      );
       dispatch(slice.actions.getProductSuccess(response.data.product));
     } catch (error) {
       console.error(error);

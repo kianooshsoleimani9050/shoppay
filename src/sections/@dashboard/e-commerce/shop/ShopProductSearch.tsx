@@ -41,7 +41,7 @@ export default function ShopProductSearch() {
     try {
       setSearchQuery(value);
       if (value) {
-        const response = await axios.get('/api/products/search', {
+        const response = await axios.axiosInstance.get('/api/products/search', {
           params: { query: value },
         });
 

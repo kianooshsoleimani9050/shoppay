@@ -107,7 +107,7 @@ function AuthProvider({ children }: AuthProviderProps) {
               const attributes = await getUserAttributes(user);
               const token = session?.getIdToken().getJwtToken();
               // use the token or Bearer depend on the wait BE handle, by default amplify API only need to token.
-              axios.defaults.headers.common.Authorization = token as string;
+              axios.axiosInstance.defaults.headers.common.Authorization = token as string;
               dispatch({
                 type: Types.auth,
                 payload: { isAuthenticated: true, user: attributes },

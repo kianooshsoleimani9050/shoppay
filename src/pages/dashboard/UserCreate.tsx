@@ -13,6 +13,9 @@ import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import UserNewEditForm from '../../sections/@dashboard/user/UserNewEditForm';
+import AxiosApi from 'src/utils/axios';
+import { useEffect, useState } from 'react';
+import { UserDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
@@ -23,9 +26,14 @@ export default function UserCreate() {
 
   const { name = '' } = useParams();
 
+  const [users, setUsers ] = useState<UserDto[]>([])
   const isEdit = pathname.includes('edit');
-
-  const currentUser = _userList.find((user) => paramCase(user.name) === name);
+  useEffect(() => {
+    AxiosApi.getUsers({}).then((res) => {
+      setUsers(res.data)
+    }).catch((err) => {console.error(err)});
+  }, [])
+  const currentUser = users.find((user) => paramCase(user.fullName as string) === name);
 
   return (
     <Page title="User: Create a new user">

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -21,21 +21,32 @@ import Label from '../../../components/Label';
 import { CustomFile } from '../../../components/upload';
 import {
   FormProvider,
+  RHFCheckbox,
   RHFSelect,
   RHFSwitch,
   RHFTextField,
   RHFUploadAvatar,
 } from '../../../components/hook-form';
+import AxiosApi from 'src/utils/axios';
+import { RoleType, UserDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends Omit<UserManager, 'avatarUrl'> {
-  avatarUrl: CustomFile | string | null;
+interface FormValuesProps extends Omit<User, 'avatar'> {
+  avatar: CustomFile | string | null;
+}
+
+interface User {
+  fullName: string;
+  mobile: string;
+  email: string;
+  role: RoleType;
+  isActive: boolean;
 }
 
 type Props = {
   isEdit: boolean;
-  currentUser?: UserManager;
+  currentUser?: UserDto;
 };
 
 export default function UserNewEditForm({ isEdit, currentUser }: Props) {
@@ -44,33 +55,22 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    fullName: Yup.string().required('full name is required'),
     email: Yup.string().required('Email is required').email(),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role Number is required'),
-    avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
+    mobile: Yup.string().required('Phone number is required'),
+    isActive: Yup.string().required('status is required'),
+    role: Yup.string().required('role is required'),
+    avatar:Yup.mixed(),
   });
 
   const defaultValues = useMemo(
     () => ({
-      name: currentUser?.name || '',
+      fullName: currentUser?.fullName || '',
       email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
-      state: currentUser?.state || '',
-      city: currentUser?.city || '',
-      zipCode: currentUser?.zipCode || '',
-      avatarUrl: currentUser?.avatarUrl || '',
-      isVerified: currentUser?.isVerified || true,
-      status: currentUser?.status,
-      company: currentUser?.company || '',
-      role: currentUser?.role || '',
+      mobile: currentUser?.mobile || '',
+      isActive: currentUser?.isActive || true,
+      role: currentUser?.role || RoleType.USER,
+      avatar: "",
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentUser]
@@ -87,7 +87,7 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = methods;
 
   const values = watch();
@@ -104,6 +104,8 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
+      console.info(data);
+      await (isEdit ? handleCreateUser(data) : handleCreateUser(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
@@ -113,17 +115,24 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
     }
   };
 
+
+  const handleCreateUser = async (data: FormValuesProps) => {
+    AxiosApi.handleCreateUser({ fullName: data.fullName as string,mobile: data.mobile as string,nationalCode: data.fullName as string }).then(() => console.info('user has been created!'))
+  }
+
+  const handleUpdateUser = async (data: FormValuesProps) => {
+    AxiosApi.handleUpdateUser({ fullName: data.fullName as string,mobile: data.mobile as string,nationalCode: data.fullName as string }).then((res) => console.info(res))
+  }
+
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
 
       if (file) {
-        setValue(
-          'avatarUrl',
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
+        setValue('avatar',
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }) || "");
       }
     },
     [setValue]
@@ -136,10 +145,10 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
           <Card sx={{ py: 10, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.status !== 'active' ? 'error' : 'success'}
+                color={values.isActive !== true ? 'error' : 'success'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {values.status}
+                {values.isActive}
               </Label>
             )}
 
@@ -171,12 +180,12 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
                 labelPlacement="start"
                 control={
                   <Controller
-                    name="status"
+                    name="isActive"
                     control={control}
                     render={({ field }) => (
                       <Switch
                         {...field}
-                        checked={field.value !== 'active'}
+                        checked={field.value !== true}
                         onChange={(event) =>
                           field.onChange(event.target.checked ? 'banned' : 'active')
                         }
@@ -226,25 +235,17 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <RHFTextField name="name" label="Full Name" />
+              <RHFTextField name="fullName" label="Full Name" />
               <RHFTextField name="email" label="Email Address" />
-              <RHFTextField name="phoneNumber" label="Phone Number" />
-
-              <RHFSelect name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {countries.map((option) => (
-                  <option key={option.code} value={option.label}>
-                    {option.label}
+              <RHFTextField name="mobile" label="Phone Number" />
+              <RHFSelect name="role" label="Role" placeholder="Role">
+                {Object.keys(RoleType).map((option) => (
+                  <option key={option} value={option.toLowerCase()}>
+                    {option}
                   </option>
                 ))}
               </RHFSelect>
-
-              <RHFTextField name="state" label="State/Region" />
-              <RHFTextField name="city" label="City" />
-              <RHFTextField name="address" label="Address" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
-              <RHFTextField name="company" label="Company" />
-              <RHFTextField name="role" label="Role" />
+              <RHFCheckbox name="isActive" label="status" />
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>

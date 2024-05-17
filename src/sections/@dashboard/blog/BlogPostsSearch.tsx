@@ -41,7 +41,7 @@ export default function BlogPostsSearch() {
     try {
       setSearchQuery(value);
       if (value) {
-        const response = await axios.get('/api/blog/posts/search', {
+        const response = await axios.axiosInstance.get('/api/blog/posts/search', {
           params: { query: value },
         });
 

@@ -127,7 +127,7 @@ export function getContacts() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/chat/contacts');
+      const response = await axios.axiosInstance.get('/api/chat/contacts');
       dispatch(slice.actions.getContactsSuccess(response.data.contacts));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -141,7 +141,7 @@ export function getConversations() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/chat/conversations');
+      const response = await axios.axiosInstance.get('/api/chat/conversations');
       dispatch(slice.actions.getConversationsSuccess(response.data.conversations));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -155,7 +155,7 @@ export function getConversation(conversationKey: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/chat/conversation', {
+      const response = await axios.axiosInstance.get('/api/chat/conversation', {
         params: { conversationKey },
       });
       dispatch(slice.actions.getConversationSuccess(response.data.conversation));
@@ -171,7 +171,7 @@ export function markConversationAsRead(conversationId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      await axios.get('/api/chat/conversation/mark-as-seen', {
+      await axios.axiosInstance.get('/api/chat/conversation/mark-as-seen', {
         params: { conversationId },
       });
       dispatch(slice.actions.markConversationAsReadSuccess({ conversationId }));
@@ -187,7 +187,7 @@ export function getParticipants(conversationKey: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/chat/participants', {
+      const response = await axios.axiosInstance.get('/api/chat/participants', {
         params: { conversationKey },
       });
       dispatch(slice.actions.getParticipantsSuccess(response.data.participants));

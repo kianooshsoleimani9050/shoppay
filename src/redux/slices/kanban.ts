@@ -124,7 +124,7 @@ export function getBoard() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/kanban/board');
+      const response = await axios.axiosInstance.get('/api/kanban/board');
       dispatch(slice.actions.getBoardSuccess(response.data.board));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -138,7 +138,7 @@ export function createColumn(newColumn: { name: string }) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('/api/kanban/columns/new', newColumn);
+      const response = await axios.axiosInstance.post('/api/kanban/columns/new', newColumn);
       dispatch(slice.actions.createColumnSuccess(response.data.column));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -152,7 +152,7 @@ export function updateColumn(columnId: string, updateColumn: KanbanColumn) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('/api/kanban/columns/update', {
+      const response = await axios.axiosInstance.post('/api/kanban/columns/update', {
         columnId,
         updateColumn,
       });
@@ -169,7 +169,7 @@ export function deleteColumn(columnId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      await axios.post('/api/kanban/columns/delete', { columnId });
+      await axios.axiosInstance.post('/api/kanban/columns/delete', { columnId });
       dispatch(slice.actions.deleteColumnSuccess({ columnId }));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
