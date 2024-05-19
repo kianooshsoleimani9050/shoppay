@@ -71,7 +71,6 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-        { path: "order-list", element: <OrderList /> },
         { path: 'app', element: <GeneralApp /> },
         { path: 'ecommerce', element: <GeneralEcommerce /> },
         { path: 'analytics', element: <GeneralAnalytics /> },
@@ -100,6 +99,27 @@ export default function Router() {
             { path: 'new', element: <UserCreate /> },
             { path: ':name/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> },
+          ],
+        },
+        {
+          path: 'order',
+          children: [
+            { element: <Navigate to="/dashboard/order/list" replace />, index: true },
+            { path: 'profile', element: <UserProfile /> },
+            { path: 'cards', element: <UserCards /> },
+            { path: 'list', element: <OrderList /> },
+            { path: 'new', element: <UserCreate /> },
+            { path: ':name/edit', element: <UserCreate /> },
+            { path: 'account', element: <UserAccount /> },
+          ],
+        },
+        {
+          path: 'vendor',
+          children: [
+            { element: <Navigate to="/dashboard/vendor/list" replace />, index: true },
+            { path: 'list', element: <VendorList /> },
+            { path: 'new', element: <VendorCreate /> },
+            { path: ':id/edit', element: <UserCreate /> },
           ],
         },
         {
@@ -175,7 +195,6 @@ const VerifyCode = Loadable(lazy(() => import('../pages/auth/VerifyCode')));
 
 // GENERAL
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
-const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
 const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
 const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
 const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBanking')));
@@ -214,6 +233,13 @@ const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
 const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
 const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
+
+// ORDER
+const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
+
+// VENDOR
+const VendorList = Loadable(lazy(() => import('../pages/dashboard/VendorList')))
+const VendorCreate = Loadable(lazy(() => import('../pages/dashboard/VendorCreate')))
 
 // APP
 const Chat = Loadable(lazy(() => import('../pages/dashboard/Chat')));

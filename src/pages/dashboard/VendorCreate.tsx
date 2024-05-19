@@ -1,4 +1,4 @@
-import { paramCase, capitalCase } from 'change-case';
+import { capitalCase } from 'change-case';
 import { useParams, useLocation } from 'react-router-dom';
 // @mui
 import { Container } from '@mui/material';
@@ -7,47 +7,45 @@ import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
 import useSettings from '../../hooks/useSettings';
 // _mock_
-import { _userList } from '../../_mock';
 // components
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import UserNewEditForm from '../../sections/@dashboard/user/UserNewEditForm';
 import AxiosApi from 'src/utils/axios';
 import { useEffect, useState } from 'react';
-import { UserDto } from 'src/@types/models';
+import { VendorDto } from 'src/@types/models';
+import VendorNewEditForm from 'src/sections/@dashboard/vendor/VendorNewEditForm';
 
 // ----------------------------------------------------------------------
 
-export default function UserCreate() {
+export default function VendorCreate() {
   const { themeStretch } = useSettings();
 
   const { pathname } = useLocation();
 
-  const { name = '' } = useParams();
+  const { id = '' } = useParams();
 
-  const [users, setUsers ] = useState<UserDto[]>([])
+  const [vendor, setVendor ] = useState<VendorDto>()
   const isEdit = pathname.includes('edit');
   useEffect(() => {
-    AxiosApi.userList({}).then((res) => {
-      setUsers(res.data)
+    AxiosApi.singleVendor(id).then((res) => {
+      setVendor(res)
     }).catch((err) => {console.error(err)});
-  }, [])
-  const currentUser = users.find((user) => paramCase(user.fullName as string) === name);
+  }, [id])
 
   return (
-    <Page title="User: Create a new user">
+    <Page title="Vendor: Create a new vendor">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new user' : 'Edit user'}
+          heading={!isEdit ? 'Create a new vendor' : 'Edit vendor'}
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.list },
-            { name: !isEdit ? 'New user' : capitalCase(name) },
+            { name: 'Vendor', href: PATH_DASHBOARD.vendor.list },
+            { name: !isEdit ? 'New vendor' : capitalCase(vendor?.title as unknown as string) },
           ]}
         />
 
-        <UserNewEditForm isEdit={isEdit} currentUser={currentUser} />
+        <VendorNewEditForm isEdit={isEdit} currentVendor={vendor} />
       </Container>
     </Page>
   );

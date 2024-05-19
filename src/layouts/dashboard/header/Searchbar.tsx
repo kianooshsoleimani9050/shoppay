@@ -110,17 +110,17 @@ function Searchbar() {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  const reduceItems = NavConfig.map((list) => handleLoop(list.items, list.subheader)).flat();
+  // const reduceItems = NavConfig.map((list) => handleLoop(list.items, list.subheader)).flat();
 
-  const allItems = flattenArray(reduceItems).map((option) => {
-    const group = splitPath(reduceItems, option.path);
+  // const allItems = flattenArray(reduceItems).map((option) => {
+  //   const group = splitPath(reduceItems, option.path);
 
-    return {
-      group: group && group.length > 1 ? group[0] : (option as Option).subheader,
-      title: option.title,
-      path: option.path,
-    };
-  });
+  //   return {
+  //     group: group && group.length > 1 ? group[0] : (option as Option).subheader,
+  //     title: option.title,
+  //     path: option.path,
+  //   };
+  // });
 
   useEffect(() => {
     if (open) {
@@ -153,7 +153,7 @@ function Searchbar() {
           </IconButtonAnimate>
         )}
 
-        <Slide direction="down" in={open} mountOnEnter unmountOnExit>
+        {/* <Slide direction="down" in={open} mountOnEnter unmountOnExit>
           <SearchbarStyle>
             <Autocomplete
               sx={autocompleteStyle}
@@ -235,7 +235,7 @@ function Searchbar() {
               )}
             />
           </SearchbarStyle>
-        </Slide>
+        </Slide> */}
       </div>
     </ClickAwayListener>
   );

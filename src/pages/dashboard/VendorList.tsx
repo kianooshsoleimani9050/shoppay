@@ -1,11 +1,9 @@
 import { paramCase } from 'change-case';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Box,
-  Tab,
-  Tabs,
   Card,
   Table,
   Switch,
@@ -26,10 +24,6 @@ import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
 // @types
-import { UserManager } from '../../@types/user';
-// _mock_
-import { _userList } from '../../_mock';
-// components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
@@ -41,38 +35,26 @@ import {
   TableSelectedActions,
 } from '../../components/table';
 // sections
-import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
 import AxiosApi from 'src/utils/axios';
-import { UserDto } from 'src/@types/models';
+import { VendorDto } from 'src/@types/models';
+import VendorTableRow from 'src/sections/@dashboard/vendor/VendorTableRow';
+import VendorTableToolbar from 'src/sections/@dashboard/vendor/VendorTableToolbar';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
-const ROLE_OPTIONS = [
-  'all',
-  'ux designer',
-  'full stack designer',
-  'backend developer',
-  'project manager',
-  'leader',
-  'ui designer',
-  'ui/ux designer',
-  'front end developer',
-  'full stack developer',
-];
-
 const TABLE_HEAD = [
-  { id: 'fullName', label: 'Full name', align: 'left' },
-  { id: 'email', label: 'Email', align: 'left' },
-  { id: 'role', label: 'Role', align: 'left' },
-  { id: 'isActive', label: 'status', align: 'left' },
+  { id: 'title', label: 'Title', align: 'left' },
+  { id: 'user', label: 'User full name', align: 'center' },
+  { id: 'category', label: 'category', align: 'center' },
+  { id: 'balance', label: 'Balance', align: 'center' },
   { id: 'mobile', label: 'Mobile', align: 'center' },
-  { id: 'createdAt', label: 'Created at', align: 'left' },
+  { id: 'telephone', label: 'Telephone', align: 'left' },
+  { id: 'status', label: 'Status', align: 'left' },
+  { id: 'createdAt', label: 'Accepted At', align: 'center' },
   { id: '' },
 ];
 
-export default function UserList() {
+export default function VendorList() {
   const {
     dense,
     page,
@@ -80,12 +62,9 @@ export default function UserList() {
     orderBy,
     rowsPerPage,
     setPage,
-    //
     selected,
     setSelected,
-    onSelectRow,
     onSelectAllRows,
-    //
     onSort,
     onChangeDense,
     onChangePage,
@@ -96,26 +75,34 @@ export default function UserList() {
 
   const navigate = useNavigate();
 
-  const [tableData, setTableData] = useState<UserDto[]>([]);
+  const [tableData, setTableData] = useState<VendorDto[]>([]);
 
   useEffect(() => {
-    AxiosApi.userList({}).then((res) => {
-      setTableData(res.data)
-    }).catch((err) => {console.error(err)});
-  }, [])
+    getVendors();
+  }, []);
+
+  const getVendors = () => {
+    AxiosApi.vendorList({})
+      .then((res) => {
+        setTableData(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const [filterName, setFilterName] = useState('');
 
   const [filterRole, setFilterRole] = useState('all');
 
-  const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
+  const { currentTab: filterStatus } = useTabs('all');
 
-  const handleFilterName = (filterName: string) => {
-    setFilterName(filterName);
+  const handleFilterString = (filterString: string) => {
+    setFilterName(filterString);
     setPage(0);
   };
 
-  const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterRole(event.target.value);
   };
 
@@ -132,7 +119,11 @@ export default function UserList() {
   };
 
   const handleEditRow = (id: string) => {
-    navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
+    navigate(PATH_DASHBOARD.vendor.single(paramCase(id)));
+  };
+
+  const handleSingleRow = (id: string) => {
+    navigate(PATH_DASHBOARD.vendor.single(paramCase(id)));
   };
 
   const dataFiltered = applySortFilter({
@@ -151,49 +142,36 @@ export default function UserList() {
     (!dataFiltered.length && !!filterStatus);
 
   return (
-    <Page title="User: List">
+    <Page title="Vendor: List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="User List"
+          heading="Vendor List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
+            { name: 'Vendor', href: PATH_DASHBOARD.vendor.root },
             { name: 'List' },
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
+              to={PATH_DASHBOARD.vendor.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New User
+              New vendor
             </Button>
           }
         />
 
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: 'background.neutral' }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
 
-          <UserTableToolbar
-            filterName={filterName}
-            filterRole={filterRole}
-            onFilterName={handleFilterName}
-            onFilterRole={handleFilterRole}
-            optionsRole={ROLE_OPTIONS}
+          <VendorTableToolbar
+            filterString={filterName}
+            filterStatus={filterRole}
+            onFilterString={handleFilterString}
+            onFilterStatus={handleFilterStatus}
+            opetionStatus={[]}
           />
 
           <Scrollbar>
@@ -239,13 +217,13 @@ export default function UserList() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <UserTableRow
+                      <VendorTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
-                        onSelectRow={() => onSelectRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.fullName as string)}
+                        onSingleRow={() => handleSingleRow(row.id)}
                       />
                     ))}
 
@@ -292,7 +270,7 @@ function applySortFilter({
   filterStatus,
   filterRole,
 }: {
-  tableData: UserDto[];
+  tableData: VendorDto[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;

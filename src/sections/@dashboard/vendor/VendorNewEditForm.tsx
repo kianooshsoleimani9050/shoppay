@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -12,10 +12,6 @@ import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@m
 import { fData } from '../../../utils/formatNumber';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
-// @types
-import { UserManager } from '../../../@types/user';
-// _mock
-import { countries } from '../../../_mock';
 // components
 import Label from '../../../components/Label';
 import { CustomFile } from '../../../components/upload';
@@ -28,56 +24,57 @@ import {
   RHFUploadAvatar,
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
-import { RoleType, UserDto } from 'src/@types/models';
+import { RoleType, VendorDto, VendorDtoStatusEnum } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends Omit<User, 'avatar'> {
-  avatar: CustomFile | string | null;
-}
+interface FormValuesProps extends Omit<Vendor, 'avatar'> {}
 
-interface User {
-  fullName: string;
+interface Vendor {
+  natinoalCode: string;
+  telephone: string;
   mobile: string;
-  email: string;
-  role: RoleType;
-  isActive: boolean;
+  status: VendorDtoStatusEnum;
+  balance: number;
+  idCardImage: string;
+  businessLicense: string;
+  otherLincense: string;
+  categoryId: string;
 }
 
 type Props = {
   isEdit: boolean;
-  currentUser?: UserDto;
+  currentVendor?: VendorDto;
 };
 
-export default function UserNewEditForm({ isEdit, currentUser }: Props) {
+export default function VendorNewEditForm({ isEdit, currentVendor }: Props) {
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewUserSchema = Yup.object().shape({
-    fullName: Yup.string().required('full name is required'),
-    email: Yup.string().required('Email is required').email(),
+  const NewVendorSchema = Yup.object().shape({
+    natinoalCode: Yup.string().required('full name is required'),
+    telephone: Yup.string().required('Email is required').email(),
     mobile: Yup.string().required('Phone number is required'),
-    isActive: Yup.string().required('status is required'),
-    role: Yup.string().required('role is required'),
-    avatar:Yup.mixed(),
+    status: Yup.string().required('status is required'),
+    balance: Yup.string().required('role is required'),
+    categoryId: Yup.string().required(''),
   });
 
   const defaultValues = useMemo(
     () => ({
-      fullName: currentUser?.fullName || '',
-      email: currentUser?.email || '',
-      mobile: currentUser?.mobile || '',
-      isActive: currentUser?.isActive || true,
-      role: currentUser?.role || RoleType.USER,
-      avatar: "",
+      natinoalCode: currentVendor?.natinoalCode || '',
+      telephone: currentVendor?.telephone || '',
+      mobile: currentVendor?.mobile || '',
+      status: currentVendor?.status || VendorDtoStatusEnum.Accepted,
+      balance: currentVendor?.balance || 0,
+      categoryId: currentVendor?.categoryId || '',
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentUser]
+    [currentVendor]
   );
 
   const methods = useForm<FormValuesProps>({
-    resolver: yupResolver(NewUserSchema),
+    resolver: yupResolver(NewVendorSchema),
     defaultValues,
   });
 
@@ -93,18 +90,17 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && currentUser) {
+    if (isEdit && currentVendor) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentUser]);
+  }, [isEdit, currentVendor]);
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      console.info(data);
       await (isEdit ? handleCreateUser(data) : handleCreateUser(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
@@ -115,28 +111,29 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
     }
   };
 
-
   const handleCreateUser = async (data: FormValuesProps) => {
-    AxiosApi.handleCreateVendor({ fullName: data.fullName as string,mobile: data.mobile as string,nationalCode: data.fullName as string }).then(() => console.info('user has been created!'))
-  }
+    AxiosApi.handleCreateVendor({}).then(() => console.info('user has been created!'));
+  };
 
   const handleUpdateUser = async (data: FormValuesProps) => {
-    AxiosApi.handleUpdateVendor({ fullName: data.fullName as string,mobile: data.mobile as string,nationalCode: data.fullName as string }).then((res) => console.info(res))
-  }
+    AxiosApi.handleUpdateVendor({}).then((res) => console.info(res));
+  };
 
-  const handleDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
+  // const handleDrop = useCallback(
+  //   (acceptedFiles: File[]) => {
+  //     const file = acceptedFiles[0];
 
-      if (file) {
-        setValue('avatar',
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }) || "");
-      }
-    },
-    [setValue]
-  );
+  //     if (file) {
+  //       setValue(
+  //         'avatar',
+  //         Object.assign(file, {
+  //           preview: URL.createObjectURL(file),
+  //         }) || ''
+  //       );
+  //     }
+  //   },
+  //   [setValue]
+  // );
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -145,10 +142,10 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
           <Card sx={{ py: 10, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.isActive !== true ? 'error' : 'success'}
+                color={values.status !== VendorDtoStatusEnum.Accepted ? 'error' : 'success'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {values.isActive}
+                {values.status}
               </Label>
             )}
 
@@ -156,7 +153,7 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
               <RHFUploadAvatar
                 name="avatarUrl"
                 maxSize={3145728}
-                onDrop={handleDrop}
+                // onDrop={handleDrop}
                 helperText={
                   <Typography
                     variant="caption"
@@ -180,12 +177,12 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
                 labelPlacement="start"
                 control={
                   <Controller
-                    name="isActive"
+                    name="status"
                     control={control}
                     render={({ field }) => (
                       <Switch
                         {...field}
-                        checked={field.value !== true}
+                        checked={field.value !== VendorDtoStatusEnum.Accepted}
                         onChange={(event) =>
                           field.onChange(event.target.checked ? 'banned' : 'active')
                         }

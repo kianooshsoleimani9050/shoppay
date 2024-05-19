@@ -65,6 +65,17 @@ export const PATH_DASHBOARD = {
     edit: (name: string) => path(ROOTS_DASHBOARD, `/user/${name}/edit`),
     demoEdit: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
   },
+  order: {
+    root: path(ROOTS_DASHBOARD, 'order'),
+    list: path(ROOTS_DASHBOARD, '/order/list'),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/order/${id}/single`),
+  },
+  vendor: {
+    root: path(ROOTS_DASHBOARD, 'vendor'),
+    list: path(ROOTS_DASHBOARD, '/vendor/list'),
+    new: path(ROOTS_DASHBOARD, '/vendor/new'),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/single`),
+  },
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),
     shop: path(ROOTS_DASHBOARD, '/e-commerce/shop'),

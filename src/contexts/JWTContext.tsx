@@ -99,7 +99,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             type: Types.Initial,
             payload: {
               isAuthenticated: true,
-              user: {},
+              user,
             },
           });
         } else {

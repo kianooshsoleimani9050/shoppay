@@ -26,10 +26,6 @@ import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
 // @types
-import { UserManager } from '../../@types/user';
-// _mock_
-import { _userList } from '../../_mock';
-// components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
@@ -41,33 +37,19 @@ import {
   TableSelectedActions,
 } from '../../components/table';
 // sections
-import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
 import AxiosApi from 'src/utils/axios';
-import { UserDto } from 'src/@types/models';
+import { OrderDto, OrderDtoStatusEnum } from 'src/@types/models';
+import OrderTableRow from 'src/sections/@dashboard/order/OrderTableRow';
+import OrderTableToolbar from 'src/sections/@dashboard/order/OrderTableToolbar';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
-const ROLE_OPTIONS = [
-  'all',
-  'ux designer',
-  'full stack designer',
-  'backend developer',
-  'project manager',
-  'leader',
-  'ui designer',
-  'ui/ux designer',
-  'front end developer',
-  'full stack developer',
-];
-
 const TABLE_HEAD = [
-  { id: 'fullName', label: 'Full name', align: 'left' },
-  { id: 'email', label: 'Email', align: 'left' },
-  { id: 'role', label: 'Role', align: 'left' },
-  { id: 'isActive', label: 'status', align: 'left' },
-  { id: 'mobile', label: 'Mobile', align: 'center' },
+  { id: 'code', label: 'Code', align: 'center' },
+  { id: 'totalPrice', label: 'Total price', align: 'center' },
+  { id: 'status', label: 'Status', align: 'center' },
+  { id: 'address', label: 'Address', align: 'center' },
+  { id: 'userName', label: 'User full name', align: 'center' },
   { id: 'createdAt', label: 'Created at', align: 'left' },
   { id: '' },
 ];
@@ -83,7 +65,6 @@ export default function OrderList() {
     //
     selected,
     setSelected,
-    onSelectRow,
     onSelectAllRows,
     //
     onSort,
@@ -96,26 +77,34 @@ export default function OrderList() {
 
   const navigate = useNavigate();
 
-  const [tableData, setTableData] = useState<UserDto[]>([]);
+  const [tableData, setTableData] = useState<OrderDto[]>([]);
 
   useEffect(() => {
-    AxiosApi.getUsers({}).then((res) => {
-      setTableData(res.data)
-    }).catch((err) => {console.error(err)});
-  }, [])
+    getOrders();
+  }, []);
+
+  const getOrders = () => {
+    AxiosApi.orderList({})
+    .then((res) => {
+      setTableData(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
 
   const [filterName, setFilterName] = useState('');
 
   const [filterRole, setFilterRole] = useState('all');
 
-  const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
+  const { currentTab: filterStatus } = useTabs('all');
 
   const handleFilterName = (filterName: string) => {
     setFilterName(filterName);
     setPage(0);
   };
 
-  const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterRole(event.target.value);
   };
 
@@ -132,8 +121,12 @@ export default function OrderList() {
   };
 
   const handleEditRow = (id: string) => {
-    navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
+    navigate(PATH_DASHBOARD.order.single(paramCase(id)));
   };
+
+  const handleSingleRow = (id: string) => {
+    navigate(PATH_DASHBOARD.order.single(paramCase(id)))
+  }
 
   const dataFiltered = applySortFilter({
     tableData,
@@ -151,29 +144,29 @@ export default function OrderList() {
     (!dataFiltered.length && !!filterStatus);
 
   return (
-    <Page title="User: List">
+    <Page title="Orders: List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="User List"
+          heading="Orders List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
+            { name: 'Order', href: PATH_DASHBOARD.order.root },
             { name: 'List' },
           ]}
-          action={
-            <Button
-              variant="contained"
-              component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-            >
-              New User
-            </Button>
-          }
+          // action={
+          //   <Button
+          //     variant="contained"
+          //     component={RouterLink}
+          //     to={PATH_DASHBOARD.order.new}
+          //     startIcon={<Iconify icon={'eva:plus-fill'} />}
+          //   >
+          //     New User
+          //   </Button>
+          // }
         />
 
         <Card>
-          <Tabs
+          {/* <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
             scrollButtons="auto"
@@ -184,16 +177,16 @@ export default function OrderList() {
             {STATUS_OPTIONS.map((tab) => (
               <Tab disableRipple key={tab} label={tab} value={tab} />
             ))}
-          </Tabs>
+          </Tabs> */}
 
           <Divider />
 
-          <UserTableToolbar
-            filterName={filterName}
-            filterRole={filterRole}
-            onFilterName={handleFilterName}
-            onFilterRole={handleFilterRole}
-            optionsRole={ROLE_OPTIONS}
+          <OrderTableToolbar
+            filterString={filterName}
+            filterStatus={filterRole}
+            onFilterString={handleFilterName}
+            onFilterStatus={handleFilterStatus}
+            opetionStatus={Object.keys(OrderDtoStatusEnum).map((item) => item)}
           />
 
           <Scrollbar>
@@ -239,13 +232,13 @@ export default function OrderList() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <UserTableRow
+                      <OrderTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
-                        onSelectRow={() => onSelectRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.fullName as string)}
+                        onSingleRow={() => handleSingleRow(row.id)}
                       />
                     ))}
 
@@ -292,7 +285,7 @@ function applySortFilter({
   filterStatus,
   filterRole,
 }: {
-  tableData: UserDto[];
+  tableData: OrderDto[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;
