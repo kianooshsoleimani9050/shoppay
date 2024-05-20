@@ -83,14 +83,26 @@ export default function OrderList() {
     getOrders();
   }, []);
 
-  const getOrders = () => {
-    AxiosApi.orderList({})
-    .then((res) => {
-      setTableData(res);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  const getOrders = (page?: number, take?: number) => {
+    AxiosApi.orderList({ page, take })
+      .then((res) => {
+        console.log({ res })
+        setTableData(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  const handlePageChange = (event: unknown, newPage: number) => {
+    getOrders(newPage, rowsPerPage)
+    onChangePage(event,
+      newPage)
+  }
+
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    getOrders(0, parseInt(event.target.value, 10));
+    onChangeRowsPerPage(event)
   }
 
   const [filterName, setFilterName] = useState('');
@@ -153,16 +165,16 @@ export default function OrderList() {
             { name: 'Order', href: PATH_DASHBOARD.order.root },
             { name: 'List' },
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.order.new}
-          //     startIcon={<Iconify icon={'eva:plus-fill'} />}
-          //   >
-          //     New User
-          //   </Button>
-          // }
+        // action={
+        //   <Button
+        //     variant="contained"
+        //     component={RouterLink}
+        //     to={PATH_DASHBOARD.order.new}
+        //     startIcon={<Iconify icon={'eva:plus-fill'} />}
+        //   >
+        //     New User
+        //   </Button>
+        // }
         />
 
         <Card>
@@ -260,8 +272,8 @@ export default function OrderList() {
               count={dataFiltered.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              onPageChange={onChangePage}
-              onRowsPerPageChange={onChangeRowsPerPage}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
             />
 
             <FormControlLabel
