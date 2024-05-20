@@ -81,10 +81,7 @@ type AuthProviderProps = {
 function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(JWTReducer, initialState);
 
-  console.log("render inside component")
-
   useEffect(() => {
-    console.log("render in useEffect")
     const initialize = async () => {
       try {
         const accessToken = localStorage.getItem('accessToken');
