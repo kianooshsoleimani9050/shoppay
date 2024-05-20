@@ -12,23 +12,19 @@
  * Do not edit the class manually.
  */
 
+import { PageDto } from './page-dto';
+import { PageMetaDto } from './page-meta-dto';
  /**
  * 
  *
  * @export
- * @interface AdminLoginDto
+ * @interface InlineResponse200
  */
-export interface AdminLoginDto {
+export interface InlineResponse200 extends PageDto {
 
     /**
-     * @type {string}
-     * @memberof AdminLoginDto
+     * @type {Array<PageDto>}
+     * @memberof InlineResponse200
      */
-    mobile: string;
-
-    /**
-     * @type {string}
-     * @memberof AdminLoginDto
-     */
-    password: string;
+    results?: Array<PageDto>;
 }

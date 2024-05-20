@@ -12,6 +12,15 @@
  * Do not edit the class manually.
  */
 
+import { AddressDto } from './address-dto';
+import { CategoryDto } from './category-dto';
+import { CoordinatesTypeDto } from './coordinates-type-dto';
+import { LicenseFileType } from './license-file-type';
+import { SupplierCategoryDto } from './supplier-category-dto';
+import { SupplierOrderDto } from './supplier-order-dto';
+import { SupplierRequestDto } from './supplier-request-dto';
+import { UserDto } from './user-dto';
+import { VendorSupplierDto } from './vendor-supplier-dto';
  /**
  * 
  *
@@ -39,8 +48,122 @@ export interface SupplierDto {
     updatedAt: Date;
 
     /**
+     * @type {CoordinatesTypeDto}
+     * @memberof SupplierDto
+     */
+    coordinates: CoordinatesTypeDto;
+
+    /**
+     * @type {LicenseFileType}
+     * @memberof SupplierDto
+     */
+    otherLincense: LicenseFileType;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    status: SupplierDtoStatusEnum;
+
+    /**
+     * @type {Array<AddressDto>}
+     * @memberof SupplierDto
+     */
+    addresses?: Array<AddressDto>;
+
+    /**
+     * @type {UserDto}
+     * @memberof SupplierDto
+     */
+    user: UserDto;
+
+    /**
+     * @type {Array<VendorSupplierDto>}
+     * @memberof SupplierDto
+     */
+    vendorSuppliers: Array<VendorSupplierDto>;
+
+    /**
+     * @type {Array<SupplierCategoryDto>}
+     * @memberof SupplierDto
+     */
+    supplierCategories: Array<SupplierCategoryDto>;
+
+    /**
+     * @type {CategoryDto}
+     * @memberof SupplierDto
+     */
+    category: CategoryDto;
+
+    /**
+     * @type {Array<SupplierRequestDto>}
+     * @memberof SupplierDto
+     */
+    requests: Array<SupplierRequestDto>;
+
+    /**
+     * @type {Array<SupplierOrderDto>}
+     * @memberof SupplierDto
+     */
+    supplierOrder?: Array<SupplierOrderDto>;
+
+    /**
      * @type {string}
      * @memberof SupplierDto
      */
     title: string;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    natinoalCode: string;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    telephone: string;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    mobile: string;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    idCardImage: string;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    businessLicense: string;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    userId: string;
+
+    /**
+     * @type {string}
+     * @memberof SupplierDto
+     */
+    categoryId: string;
 }
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum SupplierDtoStatusEnum {
+    Accepted = 'accepted',
+    Pending = 'pending',
+    Rejected = 'rejected',
+    Deactive = 'deactive'
+}
+

@@ -101,7 +101,7 @@ export default function VendorNewEditForm({ isEdit, currentVendor }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      await (isEdit ? handleCreateVendor(data) : handleCreateVendor(data));
+      await (isEdit ? handleCreateUser(data) : handleCreateUser(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
@@ -111,8 +111,10 @@ export default function VendorNewEditForm({ isEdit, currentVendor }: Props) {
     }
   };
 
-  const handleCreateVendor = async (data: FormValuesProps) => {
-    AxiosApi.handleCreateVendor({ ...data as any }).then(() => console.info('user has been created!'));
+  const handleCreateUser = async (data: FormValuesProps) => {
+    AxiosApi.handleCreateVendor({ ...(data as any) }).then(() =>
+      console.info('user has been created!')
+    );
   };
 
   // const handleDrop = useCallback(

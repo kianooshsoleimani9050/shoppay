@@ -21,6 +21,12 @@
 export interface UpdateCategoryDto {
 
     /**
+     * @type {Blob}
+     * @memberof UpdateCategoryDto
+     */
+    icon: Blob;
+
+    /**
      * @type {string}
      * @memberof UpdateCategoryDto
      */

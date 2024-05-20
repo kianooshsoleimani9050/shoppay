@@ -16,19 +16,25 @@
  * 
  *
  * @export
- * @interface AdminLoginDto
+ * @interface SupplierCategoryDto
  */
-export interface AdminLoginDto {
+export interface SupplierCategoryDto {
 
     /**
      * @type {string}
-     * @memberof AdminLoginDto
+     * @memberof SupplierCategoryDto
      */
-    mobile: string;
+    id: string;
 
     /**
-     * @type {string}
-     * @memberof AdminLoginDto
+     * @type {Date}
+     * @memberof SupplierCategoryDto
      */
-    password: string;
+    createdAt: Date;
+
+    /**
+     * @type {Date}
+     * @memberof SupplierCategoryDto
+     */
+    updatedAt: Date;
 }

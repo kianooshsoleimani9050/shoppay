@@ -13,9 +13,9 @@
  */
 
 import { AddressDto } from './address-dto';
-import { OrderProductTypeDto } from './order-product-type-dto';
 import { UserDto } from './user-dto';
 import { VendorOrderDto } from './vendor-order-dto';
+import { VendorProductDto } from './vendor-product-dto';
  /**
  * 
  *
@@ -49,10 +49,10 @@ export interface OrderDto {
     status: OrderDtoStatusEnum;
 
     /**
-     * @type {Array<OrderProductTypeDto>}
+     * @type {Array<VendorProductDto>}
      * @memberof OrderDto
      */
-    products: Array<OrderProductTypeDto>;
+    products: Array<VendorProductDto>;
 
     /**
      * @type {AddressDto}

@@ -16,31 +16,42 @@
  * 
  *
  * @export
- * @interface UserRegisterDto
+ * @interface CreateSliderDto
  */
-export interface UserRegisterDto {
+export interface CreateSliderDto {
 
     /**
      * @type {string}
-     * @memberof UserRegisterDto
+     * @memberof CreateSliderDto
      */
-    fullName: string;
+    title: string;
 
     /**
      * @type {string}
-     * @memberof UserRegisterDto
+     * @memberof CreateSliderDto
      */
-    mobile: string;
+    description: string;
 
     /**
      * @type {string}
-     * @memberof UserRegisterDto
+     * @memberof CreateSliderDto
      */
-    nationalCode: string;
+    alt: string;
 
     /**
      * @type {string}
-     * @memberof UserRegisterDto
+     * @memberof CreateSliderDto
      */
-    referralCode?: string;
+    type: CreateSliderDtoTypeEnum;
 }
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreateSliderDtoTypeEnum {
+    SLIDER = 'SLIDER',
+    SQUARE = 'SQUARE',
+    WIDE = 'WIDE'
+}
+

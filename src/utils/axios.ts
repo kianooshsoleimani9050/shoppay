@@ -1,3 +1,5 @@
+import { RegisterVendorDto } from '../@types/models/register-vendor-dto';
+import { SupplierDto } from '../@types/models/supplier-dto';
 import { OrderDto } from '../@types/models/order-dto';
 import { AdminLoginDto } from '../@types/models/admin-login-dto';
 import { UserDto } from '../@types/models/user-dto';
@@ -54,10 +56,8 @@ const AxiosApi = {
     axiosInstance.delete<UserDto>(`dashboards/admins/users/${id}/delete`).then((res) => res.data),
   recoverUser: (id: string) =>
     axiosInstance.post<UserDto>(`dashboards/admins/users/${id}/recover`).then((res) => res.data),
-  handleCreateVendor: (id: UserRegisterDto) =>
+  handleCreateVendor: (id: RegisterVendorDto) =>
     axiosInstance.post<void>(`dashboards/admins/users/${id}/create`).then(() => {}),
-  handleUpdateVendor: (id: UserRegisterDto) =>
-    axiosInstance.put<UserDto>(`dashboards/admins/users/${id}/update`).then((res) => res),
   // vendors api
   vendorList: (params: GetList) =>
     axiosInstance
@@ -69,6 +69,10 @@ const AxiosApi = {
     axiosInstance.post<void>(`dashboards/admins/vendors/${id}/featured`).then((res) => res.data),
   vendorUnFeatured: (id: string) =>
     axiosInstance.post<void>(`dashboards/admins/vendors/${id}/un-featured`).then((res) => res.data),
+  supplierList: (params: GetList) =>
+    axiosInstance
+      .get<ResponseList<SupplierDto[]>>('dashboards/admins/supplier', { params })
+      .then((res) => res.data),
 };
 
 export default AxiosApi;

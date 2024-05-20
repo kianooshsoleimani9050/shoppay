@@ -117,11 +117,7 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
 
 
   const handleCreateUser = async (data: FormValuesProps) => {
-    AxiosApi.handleCreateVendor({ fullName: data.fullName as string,mobile: data.mobile as string,nationalCode: data.fullName as string }).then(() => console.info('user has been created!'))
-  }
-
-  const handleUpdateUser = async (data: FormValuesProps) => {
-    AxiosApi.handleUpdateVendor({ fullName: data.fullName as string,mobile: data.mobile as string,nationalCode: data.fullName as string }).then((res) => console.info(res))
+    AxiosApi.handleCreateVendor({ ...data as any }).then(() => console.info('user has been created!'))
   }
 
   const handleDrop = useCallback(

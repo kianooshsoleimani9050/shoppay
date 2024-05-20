@@ -12,35 +12,42 @@
  * Do not edit the class manually.
  */
 
+import { CategoryListDto } from './category-list-dto';
  /**
  * 
  *
  * @export
- * @interface UserRegisterDto
+ * @interface CategoryListDto
  */
-export interface UserRegisterDto {
+export interface CategoryListDto {
 
     /**
      * @type {string}
-     * @memberof UserRegisterDto
+     * @memberof CategoryListDto
      */
-    fullName: string;
+    id: string;
 
     /**
      * @type {string}
-     * @memberof UserRegisterDto
+     * @memberof CategoryListDto
      */
-    mobile: string;
+    title: string;
 
     /**
      * @type {string}
-     * @memberof UserRegisterDto
+     * @memberof CategoryListDto
      */
-    nationalCode: string;
+    icon: string;
 
     /**
-     * @type {string}
-     * @memberof UserRegisterDto
+     * @type {Array<CategoryListDto>}
+     * @memberof CategoryListDto
      */
-    referralCode?: string;
+    children: Array<CategoryListDto>;
+
+    /**
+     * @type {CategoryListDto}
+     * @memberof CategoryListDto
+     */
+    parent: CategoryListDto;
 }

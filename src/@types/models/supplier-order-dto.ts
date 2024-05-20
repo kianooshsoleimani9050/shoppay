@@ -12,60 +12,55 @@
  * Do not edit the class manually.
  */
 
-import { CategoryDto } from './category-dto';
+import { OrderDto } from './order-dto';
+import { SupplierDto } from './supplier-dto';
  /**
  * 
  *
  * @export
- * @interface CategoryDto
+ * @interface SupplierOrderDto
  */
-export interface CategoryDto {
+export interface SupplierOrderDto {
 
     /**
      * @type {string}
-     * @memberof CategoryDto
+     * @memberof SupplierOrderDto
      */
     id: string;
 
     /**
      * @type {Date}
-     * @memberof CategoryDto
+     * @memberof SupplierOrderDto
      */
     createdAt: Date;
 
     /**
      * @type {Date}
-     * @memberof CategoryDto
+     * @memberof SupplierOrderDto
      */
     updatedAt: Date;
 
     /**
-     * @type {string}
-     * @memberof CategoryDto
+     * @type {OrderDto}
+     * @memberof SupplierOrderDto
      */
-    title: string;
+    order: OrderDto;
+
+    /**
+     * @type {SupplierDto}
+     * @memberof SupplierOrderDto
+     */
+    supplier?: SupplierDto;
 
     /**
      * @type {string}
-     * @memberof CategoryDto
+     * @memberof SupplierOrderDto
      */
-    icon: string;
+    orderId: string;
 
     /**
      * @type {string}
-     * @memberof CategoryDto
+     * @memberof SupplierOrderDto
      */
-    parentId?: string;
-
-    /**
-     * @type {Array<CategoryDto>}
-     * @memberof CategoryDto
-     */
-    children: Array<CategoryDto>;
-
-    /**
-     * @type {CategoryDto}
-     * @memberof CategoryDto
-     */
-    parent: CategoryDto;
+    supplierId?: string;
 }
