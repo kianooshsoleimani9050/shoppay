@@ -1,26 +1,24 @@
 import { useState } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Checkbox, TableRow, TableCell, Typography, MenuItem } from '@mui/material';
+import { Checkbox, TableRow, TableCell, Typography, MenuItem } from '@mui/material';
 // @types
-import { UserManager } from '../../../../@types/user';
 // components
-import Label from '../../../../components/Label';
 import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
-import { UserDto } from 'src/@types/models';
+import { ProductDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: UserDto;
+  row: ProductDto;
   selected: boolean;
   onEditRow: VoidFunction;
   onSelectRow: VoidFunction;
   onDeleteRow: VoidFunction;
 };
 
-export default function UserTableRow({
+export default function ProductTableRow({
   row,
   selected,
   onEditRow,
@@ -29,11 +27,10 @@ export default function UserTableRow({
 }: Props) {
   const theme = useTheme();
 
-  const { fullName, avatar, email, role, isActive, mobile,createdAt, deletedAt } = row;
+  const { title, status, view, saleCount, brand, productCategories, createdAt } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
   const [createdDate, setCreatedDate] = useState(new Date(createdAt));
-  const [deletedDate, setDeletedDate] = useState(new Date(deletedAt));
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpenMenuActions(event.currentTarget);
   };
@@ -51,38 +48,36 @@ export default function UserTableRow({
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
         {/* <Avatar alt={fullName} src={avatar} sx={{ mr: 2 }} /> */}
         <Typography variant="subtitle2" noWrap>
-          {fullName}
+          {title}
         </Typography>
       </TableCell>
 
-      <TableCell align="left">{email}</TableCell>
+      <TableCell align="left">{saleCount}</TableCell>
 
       <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        {role?.toLowerCase()}
+        {view}
       </TableCell>
 
       <TableCell align="center">
         <Iconify
-          icon={isActive ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
+          icon={status ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
           sx={{
             width: 20,
             height: 20,
             color: 'success.main',
-            ...(!isActive && { color: 'warning.main' }),
+            ...(!status && { color: 'warning.main' }),
           }}
         />
       </TableCell>
 
       <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        {mobile}
+        {brand?.title}
       </TableCell>
-
+      <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+        {productCategories[0].category?.title}
+      </TableCell>
       <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
         {createdDate.toDateString()}
-      </TableCell>
-
-      <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        {deletedDate.toDateString()}
       </TableCell>
 
       <TableCell align="right">

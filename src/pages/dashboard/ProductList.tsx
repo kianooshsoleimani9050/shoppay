@@ -43,7 +43,8 @@ import {
 // sections
 import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
 import AxiosApi from 'src/utils/axios';
-import { UserDto } from 'src/@types/models';
+import { ProductDto, UserDto } from 'src/@types/models';
+import ProductTableRow from 'src/sections/@dashboard/product/list/ProductTableRow';
 
 // ----------------------------------------------------------------------
 
@@ -63,17 +64,17 @@ const ROLE_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-  { id: 'fullName', label: 'Full name', align: 'left' },
-  { id: 'email', label: 'Email', align: 'left' },
-  { id: 'role', label: 'Role', align: 'left' },
-  { id: 'isActive', label: 'status', align: 'left' },
-  { id: 'mobile', label: 'Mobile', align: 'center' },
+  { id: 'title', label: 'Title', align: 'left' },
+  { id: 'sale', label: 'Sale', align: 'left' },
+  { id: 'view', label: 'View', align: 'left' },
+  { id: 'status', label: 'Status', align: 'left' },
+  { id: 'brand', label: 'Brand', align: 'center' },
+  { id: 'category', label: 'Category', align: 'left' },
   { id: 'createdAt', label: 'Created at', align: 'left' },
-  { id: 'deletedAt', label: 'Deleted at', align: 'left' },
   { id: '' },
 ];
 
-export default function UserList() {
+export default function ProductList() {
   const {
     dense,
     page,
@@ -97,10 +98,10 @@ export default function UserList() {
 
   const navigate = useNavigate();
 
-  const [tableData, setTableData] = useState<UserDto[]>([]);
+  const [tableData, setTableData] = useState<ProductDto[]>([]);
 
   useEffect(() => {
-    AxiosApi.userList({})
+    AxiosApi.productList({})
       .then((res) => {
         setTableData(res.data);
       })
@@ -247,7 +248,7 @@ export default function UserList() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <UserTableRow
+                      <ProductTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -300,7 +301,7 @@ function applySortFilter({
   filterStatus,
   filterRole,
 }: {
-  tableData: UserDto[];
+  tableData: ProductDto[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;

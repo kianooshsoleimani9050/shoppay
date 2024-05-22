@@ -70,6 +70,16 @@ export const PATH_DASHBOARD = {
     list: path(ROOTS_DASHBOARD, '/order/list'),
     single: (id: string) => path(ROOTS_DASHBOARD, `/order/${id}/single`),
   },
+  category: {
+    root: path(ROOTS_DASHBOARD, 'category'),
+    list: path(ROOTS_DASHBOARD, '/category/list'),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/category/${id}/single`),
+  },
+  product: {
+    root: path(ROOTS_DASHBOARD, 'product'),
+    list: path(ROOTS_DASHBOARD, '/product/list'),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/product/${id}/single`),
+  },
   vendor: {
     root: path(ROOTS_DASHBOARD, 'vendor'),
     list: path(ROOTS_DASHBOARD, '/vendor/list'),

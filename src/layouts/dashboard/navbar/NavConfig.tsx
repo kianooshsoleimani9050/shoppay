@@ -14,6 +14,8 @@ const getIcon = (name: string) => (
 const ICONS = {
   blog: getIcon('ic_blog'),
   order: getIcon('ic_mail'),
+  category: getIcon('ic_mail'),
+  product: getIcon('ic_mail'),
   vendor: getIcon('ic_cart'),
   cart: getIcon('ic_cart'),
   chat: getIcon('ic_chat'),
@@ -33,16 +35,16 @@ const ICONS = {
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
-  {
-    subheader: 'general',
-    items: [
-      { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
-      { title: 'ecommerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
-      { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
-      { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
-      { title: 'booking', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking },
-    ],
-  },
+  // {
+  //   subheader: 'general',
+  //   items: [
+  //     { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
+  //     { title: 'ecommerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
+  //     { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
+  //     { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
+  //     { title: 'booking', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking },
+  //   ],
+  // },
 
   // MANAGEMENT
   // ----------------------------------------------------------------------
@@ -69,6 +71,26 @@ const navConfig = [
         icon: ICONS.order,
         children: [
           { title: 'list', path: PATH_DASHBOARD.order.list },
+          { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
+        ],
+      },
+      {
+        title: 'category',
+        path: PATH_DASHBOARD.category.root,
+        icon: ICONS.category,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.category.list },
+          { title: 'single', path: PATH_DASHBOARD.user.demoEdit },
+          { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
+        ],
+      },
+      {
+        title: 'product',
+        path: PATH_DASHBOARD.product.root,
+        icon: ICONS.product,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.product.list },
+          { title: 'single', path: PATH_DASHBOARD.user.demoEdit },
           { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
         ],
       },

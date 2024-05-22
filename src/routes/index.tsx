@@ -105,12 +105,26 @@ export default function Router() {
           path: 'order',
           children: [
             { element: <Navigate to="/dashboard/order/list" replace />, index: true },
-            { path: 'profile', element: <UserProfile /> },
-            { path: 'cards', element: <UserCards /> },
             { path: 'list', element: <OrderList /> },
+            { path: ':id/single', element: <UserCreate /> },
+          ],
+        },
+        {
+          path: 'category',
+          children: [
+            { element: <Navigate to="/dashboard/category/list" replace />, index: true },
+            { path: 'list', element: <CategoryList /> },
             { path: 'new', element: <UserCreate /> },
-            { path: ':name/edit', element: <UserCreate /> },
-            { path: 'account', element: <UserAccount /> },
+            { path: ':id/edit', element: <UserCreate /> },
+          ],
+        },
+        {
+          path: 'product',
+          children: [
+            { element: <Navigate to="/dashboard/product/list" replace />, index: true },
+            { path: 'product', element: <ProductList /> },
+            { path: 'new', element: <UserCreate /> },
+            { path: ':id/edit', element: <UserCreate /> },
           ],
         },
         {
@@ -236,6 +250,12 @@ const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')))
 
 // ORDER
 const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
+
+// CATEGORY
+const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList')));
+
+// CATEGORY
+const ProductList = Loadable(lazy(() => import('../pages/dashboard/ProductList')));
 
 // VENDOR
 const VendorList = Loadable(lazy(() => import('../pages/dashboard/VendorList')))

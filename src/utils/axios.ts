@@ -1,3 +1,4 @@
+import { CategoryDto } from '../@types/models/category-dto';
 import { RegisterVendorDto } from '../@types/models/register-vendor-dto';
 import { SupplierDto } from '../@types/models/supplier-dto';
 import { OrderDto } from '../@types/models/order-dto';
@@ -8,7 +9,7 @@ import { LoginPayloadDto } from '../@types/models/login-payload-dto';
 import axios from 'axios';
 // config
 import { HOST_API } from '../config';
-import { UserRegisterDto, VendorDto } from 'src/@types/models';
+import { ProductDto, UserRegisterDto, VendorDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
@@ -73,6 +74,12 @@ const AxiosApi = {
     axiosInstance
       .get<ResponseList<SupplierDto[]>>('dashboards/admins/supplier', { params })
       .then((res) => res.data),
+  // categories api
+  categoryList: (params: GetList) =>
+    axiosInstance.get<CategoryDto[]>('categories', { params }).then((res) => res.data),
+  // products api
+  productList: (params: GetList) =>
+    axiosInstance.get<ResponseList<ProductDto[]>>('/products', { params }).then((res) => res.data),
 };
 
 export default AxiosApi;

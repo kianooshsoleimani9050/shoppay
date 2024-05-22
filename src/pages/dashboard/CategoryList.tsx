@@ -26,10 +26,6 @@ import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
 // @types
-import { UserManager } from '../../@types/user';
-// _mock_
-import { _userList } from '../../_mock';
-// components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
@@ -41,39 +37,21 @@ import {
   TableSelectedActions,
 } from '../../components/table';
 // sections
-import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
 import AxiosApi from 'src/utils/axios';
-import { UserDto } from 'src/@types/models';
+import { CategoryDto } from 'src/@types/models';
+import CategoryTableToolbar from 'src/sections/@dashboard/category/CategoryTableToolbar';
+import CategoryTableRow from 'src/sections/@dashboard/category/CategoryTableRow';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
-const ROLE_OPTIONS = [
-  'all',
-  'ux designer',
-  'full stack designer',
-  'backend developer',
-  'project manager',
-  'leader',
-  'ui designer',
-  'ui/ux designer',
-  'front end developer',
-  'full stack developer',
-];
-
 const TABLE_HEAD = [
-  { id: 'fullName', label: 'Full name', align: 'left' },
-  { id: 'email', label: 'Email', align: 'left' },
-  { id: 'role', label: 'Role', align: 'left' },
-  { id: 'isActive', label: 'status', align: 'left' },
-  { id: 'mobile', label: 'Mobile', align: 'center' },
-  { id: 'createdAt', label: 'Created at', align: 'left' },
-  { id: 'deletedAt', label: 'Deleted at', align: 'left' },
+  { id: 'icon', label: 'Icon', align: 'center' },
+  { id: 'title', label: 'Tite', align: 'center' },
+  { id: 'childrenLen', label: 'Children count', align: 'center' },
   { id: '' },
 ];
 
-export default function UserList() {
+export default function OrderList() {
   const {
     dense,
     page,
@@ -84,7 +62,6 @@ export default function UserList() {
     //
     selected,
     setSelected,
-    onSelectRow,
     onSelectAllRows,
     //
     onSort,
@@ -97,40 +74,41 @@ export default function UserList() {
 
   const navigate = useNavigate();
 
-  const [tableData, setTableData] = useState<UserDto[]>([]);
+  const [tableData, setTableData] = useState<CategoryDto[]>([]);
 
   useEffect(() => {
-    AxiosApi.userList({})
+    getCategories();
+  }, []);
+
+  const getCategories = (page?: number, take?: number) => {
+    AxiosApi.categoryList({ page, take })
       .then((res) => {
-        setTableData(res.data);
+        setTableData(res);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  };
+
+  const handlePageChange = (event: unknown, newPage: number) => {
+    getCategories(newPage, rowsPerPage);
+    onChangePage(event, newPage);
+  };
+
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    getCategories(0, parseInt(event.target.value, 10));
+    onChangeRowsPerPage(event);
+  };
 
   const [filterName, setFilterName] = useState('');
 
   const [filterRole, setFilterRole] = useState('all');
 
-  const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
+  const { currentTab: filterStatus } = useTabs('all');
 
   const handleFilterName = (filterName: string) => {
     setFilterName(filterName);
     setPage(0);
-  };
-
-  const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterRole(event.target.value);
-  };
-
-  const handleDeleteRow = (id: string) => {
-    AxiosApi.deleteUser(id)
-      .then(() => {
-        const deleteRow = tableData.filter((row) => row.id !== id);
-        setTableData(deleteRow);
-      })
-      .catch((err) => console.info(err));
   };
 
   const handleDeleteRows = (selected: string[]) => {
@@ -139,16 +117,14 @@ export default function UserList() {
     setTableData(deleteRows);
   };
 
-  const handleEditRow = (id: string) => {
-    navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
+  const handleSingleRow = (id: string) => {
+    navigate(PATH_DASHBOARD.order.single(paramCase(id)));
   };
 
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
     filterName,
-    filterRole,
-    filterStatus,
   });
 
   const denseHeight = dense ? 52 : 72;
@@ -159,49 +135,23 @@ export default function UserList() {
     (!dataFiltered.length && !!filterStatus);
 
   return (
-    <Page title="User: List">
+    <Page title="Category: List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="User List"
+          heading="Category List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
+            { name: 'Category', href: PATH_DASHBOARD.category.root },
             { name: 'List' },
           ]}
-          action={
-            <Button
-              variant="contained"
-              component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-            >
-              New User
-            </Button>
-          }
         />
 
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: 'background.neutral' }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
 
-          <UserTableToolbar
-            filterName={filterName}
-            filterRole={filterRole}
-            onFilterName={handleFilterName}
-            onFilterRole={handleFilterRole}
-            optionsRole={ROLE_OPTIONS}
+          <CategoryTableToolbar
+            filterString={filterName}
+            onFilterString={handleFilterName}
           />
 
           <Scrollbar>
@@ -247,13 +197,11 @@ export default function UserList() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <UserTableRow
+                      <CategoryTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
-                        onSelectRow={() => onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id as string)}
+                        onSingleRow={() => handleSingleRow(row.id)}
                       />
                     ))}
 
@@ -275,8 +223,8 @@ export default function UserList() {
               count={dataFiltered.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              onPageChange={onChangePage}
-              onRowsPerPageChange={onChangeRowsPerPage}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
             />
 
             <FormControlLabel
@@ -297,14 +245,10 @@ function applySortFilter({
   tableData,
   comparator,
   filterName,
-  filterStatus,
-  filterRole,
 }: {
-  tableData: UserDto[];
+  tableData: CategoryDto[];
   comparator: (a: any, b: any) => number;
   filterName: string;
-  filterStatus: string;
-  filterRole: string;
 }) {
   const stabilizedThis = tableData.map((el, index) => [el, index] as const);
 
@@ -321,14 +265,6 @@ function applySortFilter({
       (item: Record<string, any>) =>
         item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
-  }
-
-  if (filterStatus !== 'all') {
-    tableData = tableData.filter((item: Record<string, any>) => item.status === filterStatus);
-  }
-
-  if (filterRole !== 'all') {
-    tableData = tableData.filter((item: Record<string, any>) => item.role === filterRole);
   }
 
   return tableData;
