@@ -73,7 +73,7 @@ const AxiosApi = {
   // supplier api
   supplierList: (params: GetList) =>
     axiosInstance
-      .get<ResponseList<SupplierDto[]>>('dashboards/admins/supplier', { params })
+      .get<ResponseList<SupplierDto[]>>('dashboards/admins/suppliers', { params })
       .then((res) => res.data),
   // categories api
   categoryList: (params: GetList) =>

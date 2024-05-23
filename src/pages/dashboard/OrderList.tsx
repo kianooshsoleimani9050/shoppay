@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {
   Card,
   Container,
+  Typography
 } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
@@ -14,6 +15,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { useGetOrderList } from 'src/hooks/query/order/useGetOrderList';
+import { OrderDto } from 'src/@types/models';
 
 export default function OrderList() {
   const { themeStretch } = useSettings();
@@ -63,11 +65,21 @@ export default function OrderList() {
                 field: "address",
                 headerName: "Address",
                 flex: 1,
+                renderCell: ({ row }: { row: OrderDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {row?.address?.address || ''}
+                  </Typography>
+                ),
               },
               {
                 field: "userName",
                 headerName: "User Full Name",
                 flex: 1,
+                renderCell: ({ row }: { row: OrderDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {row?.user?.fullName || ''}
+                  </Typography>
+                ),
               },
               {
                 field: "createdAt",

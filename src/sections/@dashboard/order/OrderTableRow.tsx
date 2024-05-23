@@ -65,6 +65,8 @@ export default function OrderTableRow({
     }
   };
 
+  console.info(address)
+
   return (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
