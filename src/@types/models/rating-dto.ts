@@ -69,6 +69,12 @@ export interface RatingDto {
      * @memberof RatingDto
      */
     user: UserDto;
+
+    /**
+     * @type {Date}
+     * @memberof RatingDto
+     */
+    deletedAt?: Date;
 }
 
 /**

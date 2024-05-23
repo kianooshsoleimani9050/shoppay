@@ -63,4 +63,10 @@ export interface VendorOrderDto {
      * @memberof VendorOrderDto
      */
     vendorId?: string;
+
+    /**
+     * @type {Date}
+     * @memberof VendorOrderDto
+     */
+    deletedAt?: Date;
 }

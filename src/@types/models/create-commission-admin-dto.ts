@@ -12,24 +12,29 @@
  * Do not edit the class manually.
  */
 
-import { PageMetaDto } from './page-meta-dto';
  /**
  * 
  *
  * @export
- * @interface PageDto
+ * @interface CreateCommissionAdminDto
  */
-export interface PageDto {
+export interface CreateCommissionAdminDto {
 
     /**
-     * @type {Array<Array>}
-     * @memberof PageDto
+     * @type {number}
+     * @memberof CreateCommissionAdminDto
      */
-    data: Array<Array>;
+    percentage: number;
 
     /**
-     * @type {PageMetaDto}
-     * @memberof PageDto
+     * @type {number}
+     * @memberof CreateCommissionAdminDto
      */
-    meta: PageMetaDto;
+    lessThan: number;
+
+    /**
+     * @type {number}
+     * @memberof CreateCommissionAdminDto
+     */
+    moreThan: number;
 }

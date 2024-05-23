@@ -75,4 +75,10 @@ export interface TicketChatDto {
      * @memberof TicketChatDto
      */
     ticket: TicketEntity;
+
+    /**
+     * @type {Date}
+     * @memberof TicketChatDto
+     */
+    deletedAt?: Date;
 }

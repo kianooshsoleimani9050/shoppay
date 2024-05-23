@@ -57,4 +57,10 @@ export interface BasketDto {
      * @memberof BasketDto
      */
     userId: string;
+
+    /**
+     * @type {Date}
+     * @memberof BasketDto
+     */
+    deletedAt?: Date;
 }

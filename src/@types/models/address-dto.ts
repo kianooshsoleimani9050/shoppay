@@ -95,4 +95,10 @@ export interface AddressDto {
      * @memberof AddressDto
      */
     city?: CityDto;
+
+    /**
+     * @type {Date}
+     * @memberof AddressDto
+     */
+    deletedAt?: Date;
 }

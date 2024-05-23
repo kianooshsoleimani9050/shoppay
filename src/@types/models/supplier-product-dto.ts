@@ -105,4 +105,10 @@ export interface SupplierProductDto {
      * @memberof SupplierProductDto
      */
     color: string;
+
+    /**
+     * @type {Date}
+     * @memberof SupplierProductDto
+     */
+    deletedAt?: Date;
 }

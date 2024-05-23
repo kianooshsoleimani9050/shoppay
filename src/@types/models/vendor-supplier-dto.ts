@@ -37,4 +37,10 @@ export interface VendorSupplierDto {
      * @memberof VendorSupplierDto
      */
     updatedAt: Date;
+
+    /**
+     * @type {Date}
+     * @memberof VendorSupplierDto
+     */
+    deletedAt?: Date;
 }

@@ -12,56 +12,56 @@
  * Do not edit the class manually.
  */
 
-import { CategoryDto } from './category-dto';
-import { SupplierDto } from './supplier-dto';
-import { VendorDto } from './vendor-dto';
  /**
  * 
  *
  * @export
- * @interface SupplierRequestDto
+ * @interface SettingDto
  */
-export interface SupplierRequestDto {
+export interface SettingDto {
 
     /**
      * @type {string}
-     * @memberof SupplierRequestDto
+     * @memberof SettingDto
      */
     id: string;
 
     /**
      * @type {Date}
-     * @memberof SupplierRequestDto
+     * @memberof SettingDto
      */
     createdAt: Date;
 
     /**
      * @type {Date}
-     * @memberof SupplierRequestDto
+     * @memberof SettingDto
      */
     updatedAt: Date;
 
     /**
-     * @type {SupplierDto}
-     * @memberof SupplierRequestDto
+     * @type {string}
+     * @memberof SettingDto
      */
-    supplier: SupplierDto;
+    key: SettingDtoKeyEnum;
 
     /**
-     * @type {VendorDto}
-     * @memberof SupplierRequestDto
+     * @type {any}
+     * @memberof SettingDto
      */
-    vendor: VendorDto;
-
-    /**
-     * @type {Array<CategoryDto>}
-     * @memberof SupplierRequestDto
-     */
-    categories: Array<CategoryDto>;
+    value: any;
 
     /**
      * @type {Date}
-     * @memberof SupplierRequestDto
+     * @memberof SettingDto
      */
     deletedAt?: Date;
 }
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum SettingDtoKeyEnum {
+    SHIPPING = 'SHIPPING'
+}
+

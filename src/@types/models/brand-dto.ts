@@ -49,4 +49,10 @@ export interface BrandDto {
      * @memberof BrandDto
      */
     title: string;
+
+    /**
+     * @type {Date}
+     * @memberof BrandDto
+     */
+    deletedAt?: Date;
 }
