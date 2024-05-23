@@ -1,8 +1,6 @@
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import Label from '../../../components/Label';
-import Iconify from '../../../components/Iconify';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
@@ -33,36 +31,24 @@ const ICONS = {
 };
 
 const navConfig = [
-  // GENERAL
-  // ----------------------------------------------------------------------
-  // {
-  //   subheader: 'general',
-  //   items: [
-  //     { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
-  //     { title: 'ecommerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
-  //     { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
-  //     { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
-  //     { title: 'booking', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking },
-  //   ],
-  // },
-
-  // MANAGEMENT
-  // ----------------------------------------------------------------------
   {
-    subheader: 'management',
+    subheader: "",
     items: [
-      // USER
+      {
+        title: 'vendor',
+        path: PATH_DASHBOARD.vendor.root,
+        icon: ICONS.vendor,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.vendor.list },
+        ],
+      },
       {
         title: 'user',
         path: PATH_DASHBOARD.user.root,
         icon: ICONS.user,
         children: [
-          { title: 'profile', path: PATH_DASHBOARD.user.profile },
-          { title: 'cards', path: PATH_DASHBOARD.user.cards },
           { title: 'list', path: PATH_DASHBOARD.user.list },
           { title: 'create', path: PATH_DASHBOARD.user.new },
-          { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
-          { title: 'account', path: PATH_DASHBOARD.user.account },
         ],
       },
       {
@@ -71,55 +57,17 @@ const navConfig = [
         icon: ICONS.order,
         children: [
           { title: 'list', path: PATH_DASHBOARD.order.list },
-          { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
         ],
       },
       {
-        title: 'category',
-        path: PATH_DASHBOARD.category.root,
-        icon: ICONS.category,
-        children: [
-          { title: 'list', path: PATH_DASHBOARD.category.list },
-          { title: 'single', path: PATH_DASHBOARD.user.demoEdit },
-          { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
-        ],
-      },
-      {
-        title: 'product',
-        path: PATH_DASHBOARD.product.root,
+        title: 'supplier',
+        path: PATH_DASHBOARD.supplier.root,
         icon: ICONS.product,
         children: [
-          { title: 'list', path: PATH_DASHBOARD.product.list },
-          { title: 'single', path: PATH_DASHBOARD.user.demoEdit },
-          { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
+          { title: 'list', path: PATH_DASHBOARD.supplier.list },
         ],
       },
-      {
-        title: 'vendor',
-        path: PATH_DASHBOARD.vendor.root,
-        icon: ICONS.vendor,
-        children: [
-          { title: 'list', path: PATH_DASHBOARD.vendor.list },
-          { title: 'edit', path: PATH_DASHBOARD.user.demoEdit },
-        ],
-      },
-    ],
-  },
 
-  // APP
-  // ----------------------------------------------------------------------
-  {
-    subheader: 'app',
-    items: [
-      // {
-      //   title: 'mail',
-      //   path: PATH_DASHBOARD.mail.root,
-      //   icon: ICONS.mail,
-      //   info: <Label color="error">+32</Label>,
-      // },
-      { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat },
-      { title: 'calendar', path: PATH_DASHBOARD.calendar, icon: ICONS.calendar },
-      // { title: 'kanban', path: PATH_DASHBOARD.kanban, icon: ICONS.kanban },
     ],
   },
 ];

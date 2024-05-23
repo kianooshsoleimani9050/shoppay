@@ -9,11 +9,11 @@ import { LoginPayloadDto } from '../@types/models/login-payload-dto';
 import axios from 'axios';
 // config
 import { HOST_API } from '../config';
-import { ProductDto, UserRegisterDto, VendorDto } from 'src/@types/models';
+import { ProductDto, VendorDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-type GetList = {
+export type GetList = {
   q?: string;
   order?: string;
   take?: number;
@@ -41,7 +41,7 @@ const AxiosApi = {
     axiosInstance.post<LoginPayloadDto>('/admins/login', data).then((res) => res.data),
   // orders api
   orderList: (params: GetList) =>
-    axiosInstance.get<OrderDto[]>('orders', { params }).then((res) => res.data),
+    axiosInstance.get<ResponseList<OrderDto[]>>('orders', { params }).then((res) => res.data),
   singleOrder: (id: string) => axiosInstance.get(`orders/${id}`).then((res) => res.data),
   // users api
   userList: (params: GetList) =>
@@ -58,7 +58,7 @@ const AxiosApi = {
   recoverUser: (id: string) =>
     axiosInstance.post<UserDto>(`dashboards/admins/users/${id}/recover`).then((res) => res.data),
   handleCreateVendor: (id: RegisterVendorDto) =>
-    axiosInstance.post<void>(`dashboards/admins/users/${id}/create`).then(() => {}),
+    axiosInstance.post(`dashboards/admins/users/${id}/create`).then(() => {}),
   // vendors api
   vendorList: (params: GetList) =>
     axiosInstance
@@ -67,9 +67,10 @@ const AxiosApi = {
   singleVendor: (id: string) =>
     axiosInstance.get<VendorDto>(`dashboards/admins/vendors/${id}`).then((res) => res.data),
   vendorFeatured: (id: string) =>
-    axiosInstance.post<void>(`dashboards/admins/vendors/${id}/featured`).then((res) => res.data),
+    axiosInstance.post(`dashboards/admins/vendors/${id}/featured`).then((res) => res.data),
   vendorUnFeatured: (id: string) =>
-    axiosInstance.post<void>(`dashboards/admins/vendors/${id}/un-featured`).then((res) => res.data),
+    axiosInstance.post(`dashboards/admins/vendors/${id}/un-featured`).then((res) => res.data),
+  // supplier api
   supplierList: (params: GetList) =>
     axiosInstance
       .get<ResponseList<SupplierDto[]>>('dashboards/admins/supplier', { params })

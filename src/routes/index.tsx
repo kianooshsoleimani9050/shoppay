@@ -76,26 +76,22 @@ export default function Router() {
         { path: 'analytics', element: <GeneralAnalytics /> },
         { path: 'banking', element: <GeneralBanking /> },
         { path: 'booking', element: <GeneralBooking /> },
-
         {
-          path: 'e-commerce',
+          path: 'vendor',
           children: [
-            { element: <Navigate to="/dashboard/e-commerce/shop" replace />, index: true },
-            { path: 'shop', element: <EcommerceShop /> },
-            { path: 'product/:name', element: <EcommerceProductDetails /> },
-            { path: 'list', element: <EcommerceProductList /> },
-            { path: 'product/new', element: <EcommerceProductCreate /> },
-            { path: 'product/:name/edit', element: <EcommerceProductEdit /> },
-            { path: 'checkout', element: <EcommerceCheckout /> },
+            { element: <Navigate to="/dashboard/vendor/list" replace />, index: true },
+            { path: 'list', element: <VendorList /> },
+            { path: 'new', element: <VendorCreate /> },
+            { path: ':id/edit', element: <UserCreate /> },
           ],
         },
         {
           path: 'user',
           children: [
             { element: <Navigate to="/dashboard/user/profile" replace />, index: true },
+            { path: 'list', element: <UserList /> },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
-            { path: 'list', element: <UserList /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':name/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> },
@@ -107,6 +103,26 @@ export default function Router() {
             { element: <Navigate to="/dashboard/order/list" replace />, index: true },
             { path: 'list', element: <OrderList /> },
             { path: ':id/single', element: <UserCreate /> },
+          ],
+        },
+        {
+          path: 'supplier',
+          children: [
+            { element: <Navigate to="/dashboard/supplier/list" replace />, index: true },
+            { path: 'list', element: <SupplierList /> },
+            { path: ':id/single', element: <UserCreate /> },
+          ],
+        },
+        {
+          path: 'e-commerce',
+          children: [
+            { element: <Navigate to="/dashboard/e-commerce/shop" replace />, index: true },
+            { path: 'shop', element: <EcommerceShop /> },
+            { path: 'product/:name', element: <EcommerceProductDetails /> },
+            { path: 'list', element: <EcommerceProductList /> },
+            { path: 'product/new', element: <EcommerceProductCreate /> },
+            { path: 'product/:name/edit', element: <EcommerceProductEdit /> },
+            { path: 'checkout', element: <EcommerceCheckout /> },
           ],
         },
         {
@@ -124,15 +140,6 @@ export default function Router() {
             { element: <Navigate to="/dashboard/product/list" replace />, index: true },
             { path: 'product', element: <ProductList /> },
             { path: 'new', element: <UserCreate /> },
-            { path: ':id/edit', element: <UserCreate /> },
-          ],
-        },
-        {
-          path: 'vendor',
-          children: [
-            { element: <Navigate to="/dashboard/vendor/list" replace />, index: true },
-            { path: 'list', element: <VendorList /> },
-            { path: 'new', element: <VendorCreate /> },
             { path: ':id/edit', element: <UserCreate /> },
           ],
         },
@@ -250,6 +257,9 @@ const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')))
 
 // ORDER
 const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
+
+// SUPPLIER
+const SupplierList = Loadable(lazy(() => import('../pages/dashboard/SupplierList')));
 
 // CATEGORY
 const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList')));

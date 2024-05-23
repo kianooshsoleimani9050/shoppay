@@ -43,18 +43,13 @@ export const PATH_DASHBOARD = {
     banking: path(ROOTS_DASHBOARD, '/banking'),
     booking: path(ROOTS_DASHBOARD, '/booking'),
   },
-  mail: {
-    root: path(ROOTS_DASHBOARD, '/mail'),
-    all: path(ROOTS_DASHBOARD, '/mail/all'),
+  vendor: {
+    root: path(ROOTS_DASHBOARD, 'vendor'),
+    list: path(ROOTS_DASHBOARD, '/vendor/list'),
+    new: path(ROOTS_DASHBOARD, '/vendor/new'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/edit`),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/single`),
   },
-  chat: {
-    root: path(ROOTS_DASHBOARD, '/chat'),
-    new: path(ROOTS_DASHBOARD, '/chat/new'),
-    view: (name: string) => path(ROOTS_DASHBOARD, `/chat/${name}`),
-  },
-  calendar: path(ROOTS_DASHBOARD, '/calendar'),
-  kanban: path(ROOTS_DASHBOARD, '/kanban'),
-  permissionDenied: path(ROOTS_DASHBOARD, '/permission-denied'),
   user: {
     root: path(ROOTS_DASHBOARD, '/user'),
     new: path(ROOTS_DASHBOARD, '/user/new'),
@@ -70,6 +65,23 @@ export const PATH_DASHBOARD = {
     list: path(ROOTS_DASHBOARD, '/order/list'),
     single: (id: string) => path(ROOTS_DASHBOARD, `/order/${id}/single`),
   },
+  supplier: {
+    root: path(ROOTS_DASHBOARD, 'supplier'),
+    list: path(ROOTS_DASHBOARD, '/supplier/list'),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/supplier/${id}/single`),
+  },
+  mail: {
+    root: path(ROOTS_DASHBOARD, '/mail'),
+    all: path(ROOTS_DASHBOARD, '/mail/all'),
+  },
+  chat: {
+    root: path(ROOTS_DASHBOARD, '/chat'),
+    new: path(ROOTS_DASHBOARD, '/chat/new'),
+    view: (name: string) => path(ROOTS_DASHBOARD, `/chat/${name}`),
+  },
+  calendar: path(ROOTS_DASHBOARD, '/calendar'),
+  kanban: path(ROOTS_DASHBOARD, '/kanban'),
+  permissionDenied: path(ROOTS_DASHBOARD, '/permission-denied'),
   category: {
     root: path(ROOTS_DASHBOARD, 'category'),
     list: path(ROOTS_DASHBOARD, '/category/list'),
@@ -79,12 +91,6 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, 'product'),
     list: path(ROOTS_DASHBOARD, '/product/list'),
     single: (id: string) => path(ROOTS_DASHBOARD, `/product/${id}/single`),
-  },
-  vendor: {
-    root: path(ROOTS_DASHBOARD, 'vendor'),
-    list: path(ROOTS_DASHBOARD, '/vendor/list'),
-    new: path(ROOTS_DASHBOARD, '/vendor/new'),
-    single: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/single`),
   },
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),
