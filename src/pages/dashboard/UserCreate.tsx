@@ -26,14 +26,14 @@ export default function UserCreate() {
 
   const { name = '' } = useParams();
 
-  const [users, setUsers ] = useState<UserDto[]>([])
+  const [users, setUsers] = useState<UserDto[]>([])
   const isEdit = pathname.includes('edit');
   useEffect(() => {
     AxiosApi.userList({}).then((res) => {
       setUsers(res.data)
-    }).catch((err) => {console.error(err)});
+    }).catch((err) => { console.error(err) });
   }, [])
-  const currentUser = users.find((user) => paramCase(user.fullName as string) === name);
+  const currentUser = users.find((user) => paramCase(user.fullName || "") === name);
 
   return (
     <Page title="User: Create a new user">
