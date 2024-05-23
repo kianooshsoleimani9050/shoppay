@@ -1,3 +1,4 @@
+import { SettingDto } from '../@types/models/setting-dto';
 import { CategoryDto } from '../@types/models/category-dto';
 import { RegisterVendorDto } from '../@types/models/register-vendor-dto';
 import { SupplierDto } from '../@types/models/supplier-dto';
@@ -81,6 +82,8 @@ const AxiosApi = {
   // products api
   productList: (params: GetList) =>
     axiosInstance.get<ResponseList<ProductDto[]>>('/products', { params }).then((res) => res.data),
+  settingList: (params: GetList) =>
+    axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),
 };
 
 export default AxiosApi;
