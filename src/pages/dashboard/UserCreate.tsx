@@ -22,7 +22,7 @@ export default function UserCreate() {
 
   const { pathname } = useLocation();
 
-  const { name = '' } = useParams();
+  const { id = '' } = useParams();
 
   const [users, setUsers] = useState<UserDto[]>([])
   const isEdit = pathname.includes('edit');
@@ -31,7 +31,7 @@ export default function UserCreate() {
       setUsers(res.data)
     }).catch((err) => { console.error(err) });
   }, [])
-  const currentUser = users.find((user) => paramCase(user.fullName || "") === name);
+  const currentUser = users.find((user) => paramCase(user.fullName || "") === id);
 
   return (
     <Page title="User: Create a new user">
@@ -41,7 +41,7 @@ export default function UserCreate() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'User', href: PATH_DASHBOARD.user.list },
-            { name: !isEdit ? 'New user' : capitalCase(name) },
+            { name: !isEdit ? 'New user' : capitalCase(id) },
           ]}
         />
 

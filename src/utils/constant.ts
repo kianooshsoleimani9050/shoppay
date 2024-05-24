@@ -5,6 +5,7 @@ export const QUERY_KEYS = {
   },
   USER: {
     LIST: 'user-list',
+    SINGLE: 'user-single',
   },
   SUPPLIER: {
     LIST: 'supplier-list',

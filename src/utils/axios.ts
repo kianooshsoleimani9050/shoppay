@@ -57,7 +57,7 @@ const AxiosApi = {
     axiosInstance
       .get<ResponseList<UserDto[]>>('/dashboards/admins/users', { params })
       .then((res) => res.data),
-  singleUser: (data: string) => axiosInstance.get<UserDto>(`users/${data}`).then((res) => res.data),
+  singleUser: (id: string) => axiosInstance.get<UserDto>(`users/${id}`).then((res) => res.data),
   activeUser: (id: string) =>
     axiosInstance.get<UserDto>(`dashboards/admins/users/activate/${id}`).then((res) => res.data),
   deActiveUser: (id: string) =>

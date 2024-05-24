@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Card,
@@ -20,6 +20,7 @@ import { useGetUserList } from 'src/hooks/query/user/useGetUserList';
 
 export default function UserList() {
   const { themeStretch } = useSettings();
+  const navigate = useNavigate()
 
   const [tableState, setTableState] = useState<QueryType>();
   const { data, isLoading } = useGetUserList(
@@ -29,6 +30,10 @@ export default function UserList() {
     },
     !!tableState,
   );
+
+  const handleRowClick = (rowId: string | number) => {
+    navigate(PATH_DASHBOARD.user.single(`${rowId}`))
+  }
 
   return (
     <Page title="User: List" sx={{ height: "100%" }}>
@@ -95,6 +100,9 @@ export default function UserList() {
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);
+            }}
+            onRowClick={(row) => {
+              handleRowClick(row.id)
             }}
           />
         </Card>
