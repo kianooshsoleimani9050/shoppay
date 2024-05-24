@@ -7,8 +7,6 @@ import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
 import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
-// _mock_
-import { _userAbout, _userFeeds } from '../../_mock';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
@@ -50,28 +48,29 @@ export default function UserProfile() {
   const { currentTab, onChangeTab } = useTabs('profile');
 
   const { id = '' } = useParams();
+
   const { data: user } = useGetUserSingle(id);
 
   const PROFILE_TABS = [
     {
       value: 'profile',
       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-      component: <Logins myProfile={_userAbout} posts={_userFeeds} id={id} />,
+      component: <Logins profile={user} />,
     },
     {
       value: 'orders',
       icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
-      component: <UserOrders id={id} />,
+      component: <UserOrders profile={user} id={id} />,
     },
     {
       value: 'addresses',
       icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
-      component: <UserAddresses id={id} />,
+      component: <UserAddresses profile={user} id={id} />,
     },
     {
       value: 'logins',
       icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
-      component: <UserLogins id={id} />,
+      component: <UserLogins profile={user} id={id} />,
     },
   ];
 
@@ -93,7 +92,8 @@ export default function UserProfile() {
             position: 'relative',
           }}
         >
-          <ProfileCover myProfile={_userAbout} id={id} />
+          <ProfileCover profile={user} id={id} />
+
 
           <TabsWrapperStyle>
             <Tabs

@@ -89,10 +89,9 @@ export default function Router() {
         {
           path: 'user',
           children: [
-            { element: <Navigate to="/dashboard/user/profile" replace />, index: true },
+            { element: <Navigate to="/dashboard/user/list" replace />, index: true },
             { path: 'list', element: <UserList /> },
-            { path: ':id/single', element: <UserSingle /> },
-            { path: ':id/profile', element: <UserProfile /> },
+            { path: ':id/single', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':id/edit', element: <UserCreate /> },
@@ -249,7 +248,6 @@ const InvoiceEdit = Loadable(lazy(() => import('../pages/dashboard/InvoiceEdit')
 
 // USER
 const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')));
-const UserSingle = Loadable(lazy(() => import('../pages/dashboard/UserSingle')));
 const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
 const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));

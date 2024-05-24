@@ -1,18 +1,13 @@
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
-// @types
-import { Profile } from '../../../../@types/user';
 // utils
 import cssStyles from '../../../../utils/cssStyles';
-// hooks
-import useAuth from '../../../../hooks/useAuth';
 // components
 import MyAvatar from '../../../../components/MyAvatar';
 import Image from '../../../../components/Image';
+// @types
 import { UserDto } from 'src/@types/models';
-import { useGetUserSingle } from 'src/hooks/query/user/UserGetSingle';
-import { useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -46,23 +41,11 @@ const InfoStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 type Props = {
-  myProfile: Profile;
+  profile: UserDto | undefined;
   id: string;
 };
 
-export default function ProfileCover({ myProfile, id }: Props) {
-  const { position, cover } = myProfile;
-
-  const [user, setUser] = useState<UserDto>();
-
-  useEffect(
-    () => () => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { data } = useGetUserSingle(id);
-      setUser(data);
-    },
-    [id]
-  );
+export default function ProfileCover({ profile, id }: Props) {
 
   return (
     <RootStyle>
@@ -85,15 +68,15 @@ export default function ProfileCover({ myProfile, id }: Props) {
             textAlign: { xs: 'center', md: 'left' },
           }}
         >
-          <Typography variant="h4">{user?.fullName}</Typography>
-          <Typography sx={{ opacity: 0.72 }}>{user?.role}</Typography>
+          <Typography variant="h4">{profile?.fullName}</Typography>
+          <Typography sx={{ opacity: 0.72 }}>{profile?.role}</Typography>
         </Box>
       </InfoStyle>
-      <Image
+      {/* <Image
         alt="profile cover"
         src={cover}
         sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-      />
+      /> */}
     </RootStyle>
   );
 }

@@ -32,7 +32,7 @@ export default function UserList() {
   );
 
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.user.profile(`${rowId}`))
+    navigate(PATH_DASHBOARD.user.single(`${rowId}`))
   }
 
   return (
