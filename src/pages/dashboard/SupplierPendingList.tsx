@@ -13,16 +13,16 @@ import useSettings from '../../hooks/useSettings';
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { CustomDataGrid, QueryType } from '../../components/custom/CustomDataGrid';
-import { VendorDto } from 'src/@types/models';
-import { useGetPendingVendorList } from 'src/hooks/query/vendor/useGetPendingVendorList';
+import { SupplierDto } from 'src/@types/models';
+import { useGetPendingSupplierList } from 'src/hooks/query/supplier/useGetPendingSupplierList';
 
 // ----------------------------------------------------------------------
 
-export default function PendingVendorList() {
+export default function PendingSupplierList() {
   const { themeStretch } = useSettings();
 
   const [tableState, setTableState] = useState<QueryType>();
-  const { data, isLoading } = useGetPendingVendorList(
+  const { data, isLoading } = useGetPendingSupplierList(
     {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
@@ -31,13 +31,13 @@ export default function PendingVendorList() {
   );
 
   return (
-    <Page title="Pending Vendor: List" sx={{ height: "100%" }}>
+    <Page title="Pending Supplier: List" sx={{ height: "100%" }}>
       <Container maxWidth={themeStretch ? false : 'lg'} sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <HeaderBreadcrumbs
-          heading="Pending Vendor List"
+          heading="Pending Supplier List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Pending Vendor', href: PATH_DASHBOARD.vendor.pending },
+            { name: 'Pending Supplier', href: PATH_DASHBOARD.supplier.pending },
             { name: 'List' },
           ]}
         />
@@ -56,7 +56,7 @@ export default function PendingVendorList() {
                 field: "user",
                 headerName: "User",
                 flex: 1,
-                renderCell: ({ row }: { row: VendorDto }) => (
+                renderCell: ({ row }: { row: SupplierDto }) => (
                   <Typography variant="body2" noWrap>
                     {row?.user?.fullName}
                   </Typography>
@@ -66,7 +66,7 @@ export default function PendingVendorList() {
                 field: "category",
                 headerName: "Category",
                 flex: 1,
-                renderCell: ({ row }: { row: VendorDto }) => (
+                renderCell: ({ row }: { row: SupplierDto }) => (
                   <Typography variant="body2" noWrap>
                     {row?.category?.title}
                   </Typography>
