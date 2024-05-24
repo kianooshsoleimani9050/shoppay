@@ -60,6 +60,12 @@ export const PATH_DASHBOARD = {
     edit: (name: string) => path(ROOTS_DASHBOARD, `/user/${name}/edit`),
     demoEdit: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
   },
+  setting: {
+    root: path(ROOTS_DASHBOARD, '/setting'),
+    new: path(ROOTS_DASHBOARD, '/setting/new'),
+    list: path(ROOTS_DASHBOARD, '/setting/list'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/setting/${id}/edit`),
+  },
   order: {
     root: path(ROOTS_DASHBOARD, 'order'),
     list: path(ROOTS_DASHBOARD, '/order/list'),

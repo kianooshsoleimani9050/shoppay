@@ -106,6 +106,16 @@ export default function Router() {
           ],
         },
         {
+          path: 'setting',
+          children: [
+            { element: <Navigate to="/dashboard/setting/list" replace />, index: true },
+            { path: 'list', element: <SettingList /> },
+            { path: ':id/single', element: <SettingCreate /> },
+            { path: ':id/create', element: <SettingCreate /> },
+            { path: ':id/edit', element: <SettingCreate /> },
+          ],
+        },
+        {
           path: 'supplier',
           children: [
             { element: <Navigate to="/dashboard/supplier/list" replace />, index: true },
@@ -260,6 +270,10 @@ const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
 
 // SUPPLIER
 const SupplierList = Loadable(lazy(() => import('../pages/dashboard/SupplierList')));
+
+// SETTING
+const SettingList = Loadable(lazy(() => import('../pages/dashboard/SettingList')));
+const SettingCreate = Loadable(lazy(() => import('../pages/dashboard/SettingCreate')));
 
 // PRODUCT
 const ProductList = Loadable(lazy(() => import('../pages/dashboard/ProductList')));

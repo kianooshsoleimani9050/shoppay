@@ -14,6 +14,7 @@ const ICONS = {
   order: getIcon('ic_mail'),
   category: getIcon('ic_mail'),
   product: getIcon('ic_mail'),
+  setting: getIcon('ic_mail'),
   vendor: getIcon('ic_cart'),
   cart: getIcon('ic_cart'),
   chat: getIcon('ic_chat'),
@@ -65,6 +66,17 @@ const navConfig = [
         icon: ICONS.product,
         children: [
           { title: 'list', path: PATH_DASHBOARD.supplier.list },
+        ],
+      },
+      {
+        title: 'setting',
+        path: PATH_DASHBOARD.setting.root,
+        icon: ICONS.setting,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.setting.list },
+          // @TODO kio
+          // { title: 'edit', path: PATH_DASHBOARD.setting.edit() },
+          { title: 'create', path: PATH_DASHBOARD.setting.new },
         ],
       },
       {

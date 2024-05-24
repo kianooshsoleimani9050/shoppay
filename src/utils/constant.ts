@@ -8,6 +8,9 @@ export const QUERY_KEYS = {
   SUPPLIER: {
     LIST: 'supplier-list',
   },
+  SETTING: {
+    LIST: 'setting -list',
+  },
   ORDER: {
     LIST: 'order-list',
   },
