@@ -1,10 +1,13 @@
 import { useState } from 'react';
 // @mui
 import {
+  Button,
   Card,
   Container,
   Typography,
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -15,6 +18,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { useGetSettingList } from 'src/hooks/query/setting/useGetSettingList';
+import Iconify from 'src/components/Iconify';
 
 export default function SettingList() {
   const { themeStretch } = useSettings();
@@ -38,6 +42,16 @@ export default function SettingList() {
             { name: 'Setting', href: PATH_DASHBOARD.setting.root },
             { name: 'List' },
           ]}
+          action={
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to={PATH_DASHBOARD.setting.new}
+              startIcon={<Iconify icon={'eva:plus-fill'} />}
+            >
+              New Setting
+            </Button>
+          }
         />
         <Card sx={{ flexGrow: 1 }}>
           <CustomDataGrid

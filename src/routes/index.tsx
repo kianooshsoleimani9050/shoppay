@@ -111,7 +111,7 @@ export default function Router() {
             { element: <Navigate to="/dashboard/setting/list" replace />, index: true },
             { path: 'list', element: <SettingList /> },
             { path: ':id/single', element: <SettingCreate /> },
-            { path: ':id/create', element: <SettingCreate /> },
+            { path: 'new', element: <SettingCreate /> },
             { path: ':id/edit', element: <SettingCreate /> },
           ],
         },
@@ -161,25 +161,6 @@ export default function Router() {
             { path: ':id', element: <InvoiceDetails /> },
             { path: ':id/edit', element: <InvoiceEdit /> },
             { path: 'new', element: <InvoiceCreate /> },
-          ],
-        },
-        {
-          path: 'blog',
-          children: [
-            { element: <Navigate to="/dashboard/blog/posts" replace />, index: true },
-            { path: 'posts', element: <BlogPosts /> },
-            { path: 'post/:title', element: <BlogPost /> },
-            { path: 'new', element: <BlogNewPost /> },
-          ],
-        },
-        {
-          path: 'mail',
-          children: [
-            { element: <Navigate to="/dashboard/mail/all" replace />, index: true },
-            { path: 'label/:customLabel', element: <Mail /> },
-            { path: 'label/:customLabel/:mailId', element: <Mail /> },
-            { path: ':systemLabel', element: <Mail /> },
-            { path: ':systemLabel/:mailId', element: <Mail /> },
           ],
         },
         {

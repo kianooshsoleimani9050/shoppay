@@ -1,34 +1,26 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Card, Grid, Stack, MenuItem, TextField } from '@mui/material'
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
-// utils
-import { fData } from '../../../utils/formatNumber';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import Label from '../../../components/Label';
-import { CustomFile } from '../../../components/upload';
 import {
   FormProvider,
-  RHFCheckbox,
-  RHFSelect,
-  RHFSwitch,
   RHFTextField,
-  RHFUploadAvatar,
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
 import { SettingDto, SettingDtoKeyEnum } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends SettingDto {}
+interface FormValuesProps extends SettingDto { }
 
 type Props = {
   isEdit: boolean;
@@ -61,14 +53,10 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
 
   const {
     reset,
-    watch,
-    control,
-    setValue,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = methods;
 
-  const values = watch();
 
   useEffect(() => {
     if (isEdit && currentSetting) {
@@ -82,8 +70,8 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      console.info(data);
-      await (isEdit ? handleCreateUser(data) : handleCreateUser(data));
+      
+      await (isEdit ? handleUpdateSetting(currentSetting?.id || '', data) : handleCreateSetting(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
@@ -94,33 +82,17 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
   };
 
 
-  const handleCreateUser = async (data: FormValuesProps) => {
-    AxiosApi.handleCreateVendor({ ...data as any }).then(() => console.info('user has been created!'))
+  const handleCreateSetting = async (data: FormValuesProps) => {
+    AxiosApi.settingCreate({ ...data as any }).then(() => console.info('setting has been created!'))
+  }
+
+  const handleUpdateSetting= async (id: string, data:FormValuesProps) => {
+    AxiosApi.settingUpdate(id, data).then(() => console.info('successfull'))
   }
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Card sx={{ py: 10, px: 3 }}>
-            <RHFSwitch
-              name="isVerified"
-              labelPlacement="start"
-              label={
-                <>
-                  <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                    Email Verified
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Disabling this will automatically send the user a verification email
-                  </Typography>
-                </>
-              }
-              sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-            />
-          </Card>
-        </Grid>
-
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Box
@@ -131,7 +103,37 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <RHFTextField name="key" label="Key" />
+              <TextField
+                fullWidth
+                select
+                defaultValue={SettingDtoKeyEnum.SHIPPING}
+                label="Key"
+                SelectProps={{
+                  MenuProps: {
+                    sx: { '& .MuiPaper-root': { maxHeight: 260 } },
+                  },
+                }}
+                sx={{
+                  maxWidth: { sm: 240 },
+                  textTransform: 'capitalize',
+                }}
+              >
+                {Object.keys(SettingDtoKeyEnum).map((key) => (
+                  <MenuItem
+                    key={key}
+                    value={key}
+                    sx={{
+                      mx: 1,
+                      my: 0.5,
+                      borderRadius: 0.75,
+                      typography: 'body2',
+                      textTransform: 'capitalize',
+                    }}
+                  >
+                    {key}
+                  </MenuItem>
+                ))}
+              </TextField>
               <RHFTextField name="value" label="Value" />
             </Box>
 

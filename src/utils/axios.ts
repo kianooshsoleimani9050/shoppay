@@ -10,7 +10,12 @@ import { LoginPayloadDto } from '../@types/models/login-payload-dto';
 import axios from 'axios';
 // config
 import { HOST_API } from '../config';
-import { ProductDto, VendorDto } from 'src/@types/models';
+import {
+  CreateSettingAdminDto,
+  ProductDto,
+  UpdateSettingAdminDto,
+  VendorDto,
+} from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
@@ -82,8 +87,13 @@ const AxiosApi = {
   // products api
   productList: (params: GetList) =>
     axiosInstance.get<ResponseList<ProductDto[]>>('/products', { params }).then((res) => res.data),
+  // setting api
   settingList: (params: GetList) =>
     axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),
+  settingCreate: (data: CreateSettingAdminDto) =>
+    axiosInstance.post(`settings`, data).then(() => {}),
+  settingUpdate: (id: string, data: UpdateSettingAdminDto) =>
+    axiosInstance.put(`${id}/settings`, data).then(() => {}),
 };
 
 export default AxiosApi;
