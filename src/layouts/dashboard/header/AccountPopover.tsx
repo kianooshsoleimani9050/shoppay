@@ -117,7 +117,7 @@ export default function AccountPopover() {
           {MENU_OPTIONS.map((option) => (
             <MenuItem
               key={option.label}
-              to={option.linkTo}
+              to={option.label}
               component={RouterLink}
               onClick={handleClose}
             >

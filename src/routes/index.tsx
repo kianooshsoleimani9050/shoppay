@@ -92,7 +92,7 @@ export default function Router() {
             { element: <Navigate to="/dashboard/user/profile" replace />, index: true },
             { path: 'list', element: <UserList /> },
             { path: ':id/single', element: <UserSingle /> },
-            { path: 'profile', element: <UserProfile /> },
+            { path: ':id/profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':id/edit', element: <UserCreate /> },

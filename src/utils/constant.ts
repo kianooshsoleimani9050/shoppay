@@ -6,6 +6,9 @@ export const QUERY_KEYS = {
   USER: {
     LIST: 'user-list',
     SINGLE: 'user-single',
+    ORDERS: 'user-orders',
+    ADDRESSES: 'user-addresses',
+    LOGINS: 'user-logins',
   },
   SUPPLIER: {
     LIST: 'supplier-list',

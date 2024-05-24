@@ -14,9 +14,19 @@ import ProfileSocialInfo from './ProfileSocialInfo';
 type Props = {
   myProfile: UserProfile;
   posts: UserPost[];
+  id: string,
 };
 
-export default function Profile({ myProfile, posts }: Props) {
+export default function Logins({ myProfile, posts }: Props) {
+
+  //   const { data, isLoading } = useGetUserOrders(
+  //   id,
+  //   {
+  //     page: 1,
+  //     take: 10,
+  //   },
+  //   !!tableState
+  // );
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
@@ -27,14 +37,14 @@ export default function Profile({ myProfile, posts }: Props) {
         </Stack>
       </Grid>
 
-      <Grid item xs={12} md={8}>
+      {/* <Grid item xs={12} md={8}>
         <Stack spacing={3}>
           <ProfilePostInput />
           {posts.map((post) => (
             <ProfilePostCard key={post.id} post={post} />
           ))}
         </Stack>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

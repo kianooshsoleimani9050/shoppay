@@ -12,8 +12,10 @@ import axios from 'axios';
 // config
 import { HOST_API } from '../config';
 import {
+  AddressDto,
   CreateCommissionAdminDto,
   CreateSettingAdminDto,
+  LogDto,
   ProductDto,
   SupplierRequestDto,
   UpdateSettingAdminDto,
@@ -58,6 +60,18 @@ const AxiosApi = {
       .get<ResponseList<UserDto[]>>('/dashboards/admins/users', { params })
       .then((res) => res.data),
   singleUser: (id: string) => axiosInstance.get<UserDto>(`users/${id}`).then((res) => res.data),
+  userOrders: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<OrderDto[]>>(`users/${id}/orders`, { params })
+      .then((res) => res.data),
+  userAddresses: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<AddressDto[]>>(`users/${id}/addresses`, { params })
+      .then((res) => res.data),
+  userLogins: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<LogDto[]>>(`users/${id}/logins`, { params })
+      .then((res) => res.data),
   activeUser: (id: string) =>
     axiosInstance.get<UserDto>(`dashboards/admins/users/activate/${id}`).then((res) => res.data),
   deActiveUser: (id: string) =>

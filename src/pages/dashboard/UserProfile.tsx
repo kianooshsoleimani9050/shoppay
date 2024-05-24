@@ -6,7 +6,6 @@ import { Tab, Box, Card, Tabs, Container } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
-import useAuth from '../../hooks/useAuth';
 import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
 // _mock_
@@ -23,6 +22,12 @@ import {
   ProfileGallery,
   ProfileFollowers,
 } from '../../sections/@dashboard/user/profile';
+import { useGetUserSingle } from 'src/hooks/query/user/UserGetSingle';
+import { useParams } from 'react-router';
+import UserOrders from 'src/sections/@dashboard/user/profile/UserOrders';
+import UserAddresses from 'src/sections/@dashboard/user/profile/UserAddresses';
+import Logins from 'src/sections/@dashboard/user/profile/Logins';
+import UserLogins from 'src/sections/@dashboard/user/profile/UserLogins';
 
 // ----------------------------------------------------------------------
 
@@ -47,8 +52,6 @@ const TabsWrapperStyle = styled('div')(({ theme }) => ({
 export default function UserProfile() {
   const { themeStretch } = useSettings();
 
-  const { user } = useAuth();
-
   const { currentTab, onChangeTab } = useTabs('profile');
 
   const [findFriends, setFindFriends] = useState('');
@@ -56,33 +59,29 @@ export default function UserProfile() {
   const handleFindFriends = (value: string) => {
     setFindFriends(value);
   };
+  const { id = '' } = useParams();
+  const { data: user } = useGetUserSingle(id);
 
   const PROFILE_TABS = [
     {
       value: 'profile',
       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
+      component: <Logins myProfile={_userAbout} posts={_userFeeds} id={id} />,
     },
     {
-      value: 'followers',
+      value: 'orders',
       icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
-      component: <ProfileFollowers followers={_userFollowers} />,
+      component: <UserOrders id={id} />,
     },
     {
-      value: 'friends',
-      icon: <Iconify icon={'eva:people-fill'} width={20} height={20} />,
-      component: (
-        <ProfileFriends
-          friends={_userFriends}
-          findFriends={findFriends}
-          onFindFriends={handleFindFriends}
-        />
-      ),
+      value: 'addresses',
+      icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
+      component: <UserAddresses id={id} />,
     },
     {
-      value: 'gallery',
-      icon: <Iconify icon={'ic:round-perm-media'} width={20} height={20} />,
-      component: <ProfileGallery gallery={_userGallery} />,
+      value: 'logins',
+      icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
+      component: <UserLogins id={id} />,
     },
   ];
 
@@ -104,7 +103,7 @@ export default function UserProfile() {
             position: 'relative',
           }}
         >
-          <ProfileCover myProfile={_userAbout} />
+          <ProfileCover myProfile={_userAbout} id={id} />
 
           <TabsWrapperStyle>
             <Tabs

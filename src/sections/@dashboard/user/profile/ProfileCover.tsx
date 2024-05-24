@@ -10,6 +10,9 @@ import useAuth from '../../../../hooks/useAuth';
 // components
 import MyAvatar from '../../../../components/MyAvatar';
 import Image from '../../../../components/Image';
+import { UserDto } from 'src/@types/models';
+import { useGetUserSingle } from 'src/hooks/query/user/UserGetSingle';
+import { useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -44,11 +47,22 @@ const InfoStyle = styled('div')(({ theme }) => ({
 
 type Props = {
   myProfile: Profile;
+  id: string;
 };
 
-export default function ProfileCover({ myProfile }: Props) {
-  const { user } = useAuth();
+export default function ProfileCover({ myProfile, id }: Props) {
   const { position, cover } = myProfile;
+
+  const [user, setUser] = useState<UserDto>();
+
+  useEffect(
+    () => () => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { data } = useGetUserSingle(id);
+      setUser(data);
+    },
+    [id]
+  );
 
   return (
     <RootStyle>
@@ -71,8 +85,8 @@ export default function ProfileCover({ myProfile }: Props) {
             textAlign: { xs: 'center', md: 'left' },
           }}
         >
-          <Typography variant="h4">{user?.displayName}</Typography>
-          <Typography sx={{ opacity: 0.72 }}>{position}</Typography>
+          <Typography variant="h4">{user?.fullName}</Typography>
+          <Typography sx={{ opacity: 0.72 }}>{user?.role}</Typography>
         </Box>
       </InfoStyle>
       <Image

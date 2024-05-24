@@ -5,27 +5,73 @@ import { Box, Grid, Card, Button, Avatar, Typography } from '@mui/material'; // 
 import { Follower } from '../../../../@types/user';
 // components
 import Iconify from '../../../../components/Iconify';
+import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
+import { useGetUserOrders } from 'src/hooks/query/user/UserGetUserOrders';
+import { AddressDto, OrderDto } from 'src/@types/models';
+import { useGetUserAddresses } from 'src/hooks/query/user/UserGetUserAddresses';
+import { useGetUserLogins } from 'src/hooks/query/user/UserGetUserLogins';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  followers: Follower[];
+  id: string;
 };
 
-export default function ProfileFollowers({ followers }: Props) {
+export default function UserLogins({ id }: Props) {
+  const [tableState, setTableState] = useState<QueryType>();
+
+  const { data, isLoading } = useGetUserLogins(
+    id,
+    {
+      page: 1,
+      take: 10,
+    },
+    !!tableState
+  );
+
   return (
     <Box sx={{ mt: 5 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Followers
+        Logins
       </Typography>
 
-      <Grid container spacing={3}>
-        {followers.map((follower) => (
-          <Grid key={follower.id} item xs={12} md={4}>
-            <FollowerCard follower={follower} />
-          </Grid>
-        ))}
-      </Grid>
+      <Card sx={{ flexGrow: 1 }}>
+        <CustomDataGrid
+          loading={isLoading}
+          rows={data?.data || []}
+          rowCount={data?.meta?.itemCount || 0}
+          columns={[
+            {
+              field: 'method',
+              headerName: 'Method',
+              flex: 1,
+            },
+            {
+              field: 'path',
+              headerName: 'Path',
+              flex: 1,
+            },
+            {
+              field: 'action',
+              headerName: 'Action',
+              flex: 1,
+            },
+            {
+              field: 'userAgent',
+              headerName: 'UserAgent',
+              flex: 1,
+            },
+            {
+              field: 'ip',
+              headerName: 'Ip',
+              flex: 1,
+            },
+          ]}
+          onQueryChange={(tableState) => {
+            setTableState(tableState);
+          }}
+        />
+      </Card>
     </Box>
   );
 }
