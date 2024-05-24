@@ -16,9 +16,12 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { ProductDto } from 'src/@types/models';
 import { useGetProductList } from 'src/hooks/query/product/useGetProductList';
+import { useNavigate } from 'react-router';
 
 export default function ProductList() {
   const { themeStretch } = useSettings();
+
+  const navigate = useNavigate()
 
   const [tableState, setTableState] = useState<QueryType>();
   const { data, isLoading } = useGetProductList(
@@ -28,6 +31,10 @@ export default function ProductList() {
     },
     !!tableState,
   );
+
+  const handleRowClick = (rowId: string | number) => {
+    navigate(PATH_DASHBOARD.product.single(`${rowId}`))
+  }
 
   return (
     <Page title="Product: List" sx={{ height: "100%" }}>
@@ -84,6 +91,9 @@ export default function ProductList() {
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);
+            }}
+            onRowClick={(row) => {
+              handleRowClick(row.id)
             }}
           />
         </Card>
