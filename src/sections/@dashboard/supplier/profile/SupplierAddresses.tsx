@@ -1,21 +1,21 @@
 import { useState } from 'react';
 // @mui
 import { Box, Card, Typography } from '@mui/material';
+// components
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
-import { OrderDto, VendorDto } from 'src/@types/models';
-import { useGetVendorOrders } from 'src/hooks/query/vendor/GetVendorOrders';
+import { AddressDto } from 'src/@types/models';
+import { useGetSupplierAddresses } from 'src/hooks/query/supplier/GetSupplierAddresses';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  vendor: VendorDto | undefined;
   id: string;
 };
 
-export default function VendorOrders({ vendor, id }: Props) {
+export default function SupplierAddresses({ id }: Props) {
   const [tableState, setTableState] = useState<QueryType>();
 
-  const { data, isLoading } = useGetVendorOrders(
+  const { data, isLoading } = useGetSupplierAddresses(
     id,
     {
       page: 1,
@@ -27,7 +27,7 @@ export default function VendorOrders({ vendor, id }: Props) {
   return (
     <Box sx={{ mt: 5 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Orders
+        Addresses
       </Typography>
 
       <Card sx={{ flexGrow: 1 }}>
@@ -37,44 +37,49 @@ export default function VendorOrders({ vendor, id }: Props) {
           rowCount={data?.meta?.itemCount || 0}
           columns={[
             {
-              field: 'code',
-              headerName: 'Code',
-              flex: 1,
-            },
-            {
-              field: 'totalPrice',
-              headerName: 'Total price',
-              flex: 1,
-            },
-            {
-              field: 'status',
-              headerName: 'Status',
+              field: 'title',
+              headerName: 'Title',
               flex: 1,
             },
             {
               field: 'address',
               headerName: 'Address',
               flex: 1,
-              renderCell: ({ row }: { row: OrderDto }) => (
+            },
+            {
+              field: 'floor',
+              headerName: 'Floor',
+              flex: 1,
+            },
+            {
+              field: 'plaque',
+              headerName: 'Plaque',
+              flex: 1,
+            },
+            {
+              field: 'postalCode',
+              headerName: 'Postal code',
+              flex: 1,
+            },
+            {
+              field: 'city',
+              headerName: 'City',
+              flex: 1,
+              renderCell: ({ row }: { row: AddressDto }) => (
                 <Typography variant="body2" noWrap>
-                  {row?.address?.address || ''}
+                  {row?.city?.title || ''}
                 </Typography>
               ),
             },
             {
-              field: 'userName',
-              headerName: 'User Full Name',
+              field: 'province',
+              headerName: 'Province',
               flex: 1,
-              renderCell: ({ row }: { row: OrderDto }) => (
+              renderCell: ({ row }: { row: AddressDto }) => (
                 <Typography variant="body2" noWrap>
-                  {row?.user?.fullName || ''}
+                  {row?.city?.province?.title || ''}
                 </Typography>
               ),
-            },
-            {
-              field: 'createdAt',
-              headerName: 'CreatedAt',
-              flex: 1,
             },
           ]}
           onQueryChange={(tableState) => {

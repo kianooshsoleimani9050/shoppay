@@ -16,6 +16,10 @@ export const QUERY_KEYS = {
   SUPPLIER: {
     LIST: 'supplier-list',
     PENDING_LIST: 'pending-supplier-list',
+    ADDRESSES: 'supplier-addresses',
+    ORDERS: 'vendor-orders',
+    VENDORS: 'supplier-vendors',
+    SINGLE: 'supplier-single',
   },
   SETTING: {
     LIST: 'setting-list',

@@ -118,6 +118,21 @@ const AxiosApi = {
     axiosInstance
       .get<ResponseList<SupplierDto[]>>('suppliers/pendings', { params })
       .then((res) => res.data),
+  singleSupplier: (id: string) =>
+    axiosInstance.get<SupplierDto>(`dashboards/admins/suppliers/${id}`).then((res) => res.data),
+  supplierAddresses: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<AddressDto[]>>(`suppliers/${id}/addresses`, { params })
+      .then((res) => res.data),
+  supplierOrders: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<OrderDto[]>>(`suppliers/${id}/orders`, { params })
+      .then((res) => res.data),
+
+  supplierVendor: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<OrderDto[]>>(`suppliers/${id}/vendors`, { params })
+      .then((res) => res.data),
   // categories api
   categoryList: (params: GetList) =>
     axiosInstance.get<CategoryDto[]>('categories', { params }).then((res) => res.data),

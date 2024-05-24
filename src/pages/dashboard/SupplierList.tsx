@@ -16,6 +16,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { useGetSupplierList } from 'src/hooks/query/supplier/useGetSupplierList';
 import { SupplierDto } from 'src/@types/models';
+import { useNavigate } from 'react-router';
 
 export default function SupplierList() {
   const { themeStretch } = useSettings();
@@ -28,6 +29,11 @@ export default function SupplierList() {
     },
     !!tableState,
   );
+
+  const navigate = useNavigate()
+  const handleRowClick = (rowId: string | number) => {
+    navigate(PATH_DASHBOARD.supplier.profile(`${rowId}`))
+  }
 
   return (
     <Page title="Supplier: List" sx={{ height: "100%" }}>
@@ -99,6 +105,9 @@ export default function SupplierList() {
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);
+            }}
+            onRowClick={(row) => {
+              handleRowClick(row.id)
             }}
           />
         </Card>

@@ -84,6 +84,7 @@ export const PATH_DASHBOARD = {
     list: path(ROOTS_DASHBOARD, '/supplier/list'),
     pending: path(ROOTS_DASHBOARD, '/supplier/pending/list'),
     single: (id: string) => path(ROOTS_DASHBOARD, `/supplier/${id}/single`),
+    profile: (id: string) => path(ROOTS_DASHBOARD, `/supplier/${id}/profile`),
   },
   product: {
     root: path(ROOTS_DASHBOARD, 'product'),

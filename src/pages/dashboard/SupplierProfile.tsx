@@ -13,11 +13,12 @@ import Iconify from '../../components/Iconify';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { useParams } from 'react-router';
-import { useGetVendorSingle } from 'src/hooks/query/vendor/GetVendorSingle';
-import VendorInformation from 'src/sections/@dashboard/vendor/profile/VendorInformation';
-import VendorOrders from 'src/sections/@dashboard/vendor/profile/VendorOrders';
-import VendorAddresses from 'src/sections/@dashboard/vendor/profile/VendorAddresses';
-import VendorProfileCover from 'src/sections/@dashboard/vendor/profile/VendorProfileCover';
+import SupplierInformation from 'src/sections/@dashboard/supplier/profile/VendorInformation';
+import { useGetSupplierSingle } from 'src/hooks/query/supplier/GetSupplierSingle';
+import SupplierOrders from 'src/sections/@dashboard/supplier/profile/SupplierOrders';
+import SupplierAddresses from 'src/sections/@dashboard/supplier/profile/SupplierAddresses';
+import SupplierVendors from 'src/sections/@dashboard/supplier/profile/SupplierVendors';
+import SupplierProfileCover from 'src/sections/@dashboard/supplier/profile/SupplierProfileCover';
 
 // ----------------------------------------------------------------------
 
@@ -39,36 +40,36 @@ const TabsWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function VendorProfile() {
+export default function SupplierProfile() {
   const { themeStretch } = useSettings();
 
   const { currentTab, onChangeTab } = useTabs('profile');
 
   const { id = '' } = useParams();
 
-  const { data: vendor } = useGetVendorSingle(id);
+  const { data: supplier } = useGetSupplierSingle(id);
 
   const PROFILE_TABS = [
     {
       value: 'profile',
       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-      component: <VendorInformation vendor={vendor} />,
+      component: <SupplierInformation supplier={supplier} />,
     },
     {
       value: 'orders',
       icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
-      component: <VendorOrders vendor={vendor} id={id} />,
+      component: <SupplierOrders id={id} />,
     },
     {
       value: 'addresses',
       icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
-      component: <VendorAddresses profile={vendor} id={id} />,
+      component: <SupplierAddresses id={id} />,
     },
-    // {
-    //   value: 'logins',
-    //   icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
-    //   component: <UserLogins profile={user} id={id} />,
-    // },
+    {
+      value: 'vendors',
+      icon: <Iconify icon={'eva:heart-fill'} width={20} height={20} />,
+      component: <SupplierVendors id={id} />,
+    },
   ];
 
   return (
@@ -79,7 +80,7 @@ export default function VendorProfile() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'Vendor', href: PATH_DASHBOARD.vendor.root },
-            { name: vendor?.title || '' },
+            { name: supplier?.title || '' },
           ]}
         />
         <Card
@@ -89,7 +90,7 @@ export default function VendorProfile() {
             position: 'relative',
           }}
         >
-          <VendorProfileCover profile={vendor} />
+          <SupplierProfileCover profile={supplier} />
 
 
           <TabsWrapperStyle>

@@ -2,20 +2,19 @@ import { useState } from 'react';
 // @mui
 import { Box, Card, Typography } from '@mui/material';
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
-import { OrderDto, VendorDto } from 'src/@types/models';
-import { useGetVendorOrders } from 'src/hooks/query/vendor/GetVendorOrders';
+import { OrderDto } from 'src/@types/models';
+import { useGetSupplierOrders } from 'src/hooks/query/supplier/GetSupplierOrders';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  vendor: VendorDto | undefined;
   id: string;
 };
 
-export default function VendorOrders({ vendor, id }: Props) {
+export default function SupplierOrders({ id }: Props) {
   const [tableState, setTableState] = useState<QueryType>();
 
-  const { data, isLoading } = useGetVendorOrders(
+  const { data, isLoading } = useGetSupplierOrders(
     id,
     {
       page: 1,

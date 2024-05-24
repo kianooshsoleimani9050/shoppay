@@ -4,7 +4,7 @@ import { Box, Card, Typography } from '@mui/material';
 // components
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { AddressDto, VendorDto } from 'src/@types/models';
-import { useGetVendorAddresses } from 'src/hooks/query/vendor/VendorGetUserAddresses';
+import { useGetVendorAddresses } from 'src/hooks/query/vendor/GetVendorAddresses';
 
 // ----------------------------------------------------------------------
 
