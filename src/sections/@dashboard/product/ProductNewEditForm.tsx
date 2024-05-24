@@ -28,52 +28,56 @@ import {
   RHFUploadAvatar,
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
-import { RoleType, UserDto } from 'src/@types/models';
+import { ProductDto, RoleType } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends Omit<User, 'avatar'> {
+interface FormValuesProps extends Omit<Product, 'avatar'> {
   avatar: CustomFile | string | null;
 }
 
-interface User {
-  fullName: string;
-  mobile: string;
-  email: string;
-  role: RoleType;
-  isActive: boolean;
+interface Product {
+  title: string
+  summery: string
+  description: string
+  categoryId: string
+  brandId: string
+  attributes: any[]
+  files: any[]
 }
 
 type Props = {
   isEdit: boolean;
-  currentUser?: UserDto;
+  currentProduct?: ProductDto;
 };
 
-export default function UserNewEditForm({ isEdit, currentUser }: Props) {
+export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    fullName: Yup.string().required('full name is required'),
-    email: Yup.string().required('Email is required').email(),
-    mobile: Yup.string().required('Phone number is required'),
-    isActive: Yup.string().required('status is required'),
-    role: Yup.string().required('role is required'),
-    avatar:Yup.mixed(),
+    title: Yup.string().required('Title is required'),
+    summery: Yup.string().required('Summery is required').email(),
+    description: Yup.string().required('Description is required'),
+    categoryId: Yup.string().required('Category is required'),
+    brandId: Yup.string().required('Brand is required'),
+    attributes: Yup.array(Yup.mixed()).min(1),
+    files: Yup.array(Yup.mixed()).min(1),
   });
 
   const defaultValues = useMemo(
     () => ({
-      fullName: currentUser?.fullName || '',
-      email: currentUser?.email || '',
-      mobile: currentUser?.mobile || '',
-      isActive: currentUser?.isActive || true,
-      role: currentUser?.role || RoleType.USER,
-      avatar: "",
+      title: "",
+      summery: "",
+      description: "",
+      categoryId: "",
+      brandId: "",
+      attributes: [],
+      files: [],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentUser]
+    [currentProduct]
   );
 
   const methods = useForm<FormValuesProps>({
@@ -93,14 +97,14 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && currentUser) {
+    if (isEdit && currentProduct) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentUser]);
+  }, [isEdit, currentProduct]);
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
@@ -126,9 +130,9 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
 
       if (file) {
         setValue('avatar',
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }) || "");
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          }) || "");
       }
     },
     [setValue]
@@ -139,15 +143,6 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <Card sx={{ py: 10, px: 3 }}>
-            {isEdit && (
-              <Label
-                color={values.isActive !== true ? 'error' : 'success'}
-                sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
-              >
-                {values.isActive}
-              </Label>
-            )}
-
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
                 name="avatarUrl"
@@ -170,38 +165,6 @@ export default function UserNewEditForm({ isEdit, currentUser }: Props) {
                 }
               />
             </Box>
-
-            {isEdit && (
-              <FormControlLabel
-                labelPlacement="start"
-                control={
-                  <Controller
-                    name="isActive"
-                    control={control}
-                    render={({ field }) => (
-                      <Switch
-                        {...field}
-                        checked={field.value !== true}
-                        onChange={(event) =>
-                          field.onChange(event.target.checked ? 'banned' : 'active')
-                        }
-                      />
-                    )}
-                  />
-                }
-                label={
-                  <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Banned
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Apply disable account
-                    </Typography>
-                  </>
-                }
-                sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-              />
-            )}
 
             <RHFSwitch
               name="isVerified"

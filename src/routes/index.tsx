@@ -114,6 +114,15 @@ export default function Router() {
           ],
         },
         {
+          path: 'product',
+          children: [
+            { element: <Navigate to="/dashboard/product/list" replace />, index: true },
+            { path: 'list', element: <ProductList /> },
+            { path: 'new', element: <ProductCreate /> },
+            { path: ':id/edit', element: <UserCreate /> },
+          ],
+        },
+        {
           path: 'e-commerce',
           children: [
             { element: <Navigate to="/dashboard/e-commerce/shop" replace />, index: true },
@@ -130,15 +139,6 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/category/list" replace />, index: true },
             { path: 'list', element: <CategoryList /> },
-            { path: 'new', element: <UserCreate /> },
-            { path: ':id/edit', element: <UserCreate /> },
-          ],
-        },
-        {
-          path: 'product',
-          children: [
-            { element: <Navigate to="/dashboard/product/list" replace />, index: true },
-            { path: 'product', element: <ProductList /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':id/edit', element: <UserCreate /> },
           ],
@@ -261,11 +261,12 @@ const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
 // SUPPLIER
 const SupplierList = Loadable(lazy(() => import('../pages/dashboard/SupplierList')));
 
-// CATEGORY
-const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList')));
+// PRODUCT
+const ProductList = Loadable(lazy(() => import('../pages/dashboard/ProductList')));
+const ProductCreate = Loadable(lazy(() => import('../pages/dashboard/ProductCreate')));
 
 // CATEGORY
-const ProductList = Loadable(lazy(() => import('../pages/dashboard/ProductList')));
+const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList')));
 
 // VENDOR
 const VendorList = Loadable(lazy(() => import('../pages/dashboard/VendorList')))

@@ -67,7 +67,15 @@ const navConfig = [
           { title: 'list', path: PATH_DASHBOARD.supplier.list },
         ],
       },
-
+      {
+        title: 'product',
+        path: PATH_DASHBOARD.product.root,
+        icon: ICONS.product,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.product.list },
+          { title: 'create', path: PATH_DASHBOARD.product.create },
+        ],
+      },
     ],
   },
 ];

@@ -11,4 +11,7 @@ export const QUERY_KEYS = {
   ORDER: {
     LIST: 'order-list',
   },
+  PRODUCT: {
+    LIST: 'product-list',
+  },
 };
