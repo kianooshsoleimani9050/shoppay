@@ -5,7 +5,7 @@ import {
   Card,
   Container,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
@@ -30,6 +30,12 @@ export default function SettingList() {
     },
     !!tableState,
   );
+
+  const navigate = useNavigate()
+
+  const handleRowClick = (rowId: string | number) => {
+    navigate(PATH_DASHBOARD.setting.edit(`${rowId}`))
+  }
 
   return (
     <Page title="Setting: List" sx={{ height: "100%" }}>
@@ -76,6 +82,9 @@ export default function SettingList() {
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);
+            }}
+            onRowClick={(row) => {
+              handleRowClick(row.id)
             }}
           />
         </Card>

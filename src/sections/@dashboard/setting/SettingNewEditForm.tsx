@@ -70,12 +70,12 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      
+
       await (isEdit ? handleUpdateSetting(currentSetting?.id || '', data) : handleCreateSetting(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.user.list);
+      navigate(PATH_DASHBOARD.setting.list);
     } catch (error) {
       console.error(error);
     }
@@ -86,7 +86,8 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
     AxiosApi.settingCreate({ ...data as any }).then(() => console.info('setting has been created!'))
   }
 
-  const handleUpdateSetting= async (id: string, data:FormValuesProps) => {
+  const handleUpdateSetting = async (id: string, data: FormValuesProps) => {
+    console.info('ok here it comes', id, data)
     AxiosApi.settingUpdate(id, data).then(() => console.info('successfull'))
   }
 
@@ -103,37 +104,7 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <TextField
-                fullWidth
-                select
-                defaultValue={SettingDtoKeyEnum.SHIPPING}
-                label="Key"
-                SelectProps={{
-                  MenuProps: {
-                    sx: { '& .MuiPaper-root': { maxHeight: 260 } },
-                  },
-                }}
-                sx={{
-                  maxWidth: { sm: 240 },
-                  textTransform: 'capitalize',
-                }}
-              >
-                {Object.keys(SettingDtoKeyEnum).map((key) => (
-                  <MenuItem
-                    key={key}
-                    value={key}
-                    sx={{
-                      mx: 1,
-                      my: 0.5,
-                      borderRadius: 0.75,
-                      typography: 'body2',
-                      textTransform: 'capitalize',
-                    }}
-                  >
-                    {key}
-                  </MenuItem>
-                ))}
-              </TextField>
+              <RHFTextField name="key" label="Key" />
               <RHFTextField name="value" label="Value" />
             </Box>
 

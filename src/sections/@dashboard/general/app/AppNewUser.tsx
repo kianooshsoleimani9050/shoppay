@@ -24,8 +24,6 @@ import Iconify from '../../../../components/Iconify';
 import Scrollbar from '../../../../components/Scrollbar';
 import { TableMoreMenu, TableHeadCustom } from '../../../../components/table';
 import { OrderDto, OrderDtoStatusEnum } from 'src/@types/models';
-import { useNavigate } from 'react-router';
-import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -50,13 +48,6 @@ export default function AppNewInvoice({
   tableLabels,
   ...other
 }: Props) {
-
-  const navigation = useNavigate()
-
-  const handleAllOrders = () => {
-    navigation(PATH_DASHBOARD.order.list)
-  }
-
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} sx={{ mb: 3 }} />
@@ -82,7 +73,6 @@ export default function AppNewInvoice({
           size="small"
           color="inherit"
           endIcon={<Iconify icon={'eva:arrow-ios-forward-fill'} />}
-          onClick={handleAllOrders}
         >
           View All
         </Button>

@@ -1,3 +1,4 @@
+import { StatsDto } from '../@types/models/status.dto';
 import { CommissionDto } from '../@types/models/commission-dto';
 import { SettingDto } from '../@types/models/setting-dto';
 import { CategoryDto } from '../@types/models/category-dto';
@@ -17,7 +18,6 @@ import {
   CreateSettingAdminDto,
   LogDto,
   ProductDto,
-  SupplierRequestDto,
   UpdateSettingAdminDto,
   VendorDto,
 } from 'src/@types/models';
@@ -47,6 +47,10 @@ axiosInstance.interceptors.response.use(
 
 const AxiosApi = {
   axiosInstance,
+  // main
+  stats: () => axiosInstance.get<StatsDto>('/generals/stats').then((res) => res.data),
+  lastestOrders: () =>
+    axiosInstance.get<OrderDto[]>('/generals/latest-orders').then((res) => res.data),
   // auth
   adminLogin: (data: AdminLoginDto) =>
     axiosInstance.post<LoginPayloadDto>('/admins/login', data).then((res) => res.data),
@@ -124,7 +128,7 @@ const AxiosApi = {
   settingCreate: (data: CreateSettingAdminDto) =>
     axiosInstance.post(`settings`, data).then(() => {}),
   settingUpdate: (id: string, data: UpdateSettingAdminDto) =>
-    axiosInstance.put(`${id}/settings`, data).then(() => {}),
+    axiosInstance.put(`/settings/${id}`, data).then(() => {}),
 };
 
 export default AxiosApi;

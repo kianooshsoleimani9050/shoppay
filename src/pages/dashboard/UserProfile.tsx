@@ -1,5 +1,4 @@
 import { capitalCase } from 'change-case';
-import { useState } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Tab, Box, Card, Tabs, Container } from '@mui/material';
@@ -9,18 +8,14 @@ import { PATH_DASHBOARD } from '../../routes/paths';
 import useTabs from '../../hooks/useTabs';
 import useSettings from '../../hooks/useSettings';
 // _mock_
-import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from '../../_mock';
+import { _userAbout, _userFeeds } from '../../_mock';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import {
-  Profile,
   ProfileCover,
-  ProfileFriends,
-  ProfileGallery,
-  ProfileFollowers,
 } from '../../sections/@dashboard/user/profile';
 import { useGetUserSingle } from 'src/hooks/query/user/UserGetSingle';
 import { useParams } from 'react-router';
@@ -54,11 +49,6 @@ export default function UserProfile() {
 
   const { currentTab, onChangeTab } = useTabs('profile');
 
-  const [findFriends, setFindFriends] = useState('');
-
-  const handleFindFriends = (value: string) => {
-    setFindFriends(value);
-  };
   const { id = '' } = useParams();
   const { data: user } = useGetUserSingle(id);
 

@@ -23,6 +23,9 @@ export const QUERY_KEYS = {
   ORDER: {
     LIST: 'order-list',
   },
+  GENERAL: {
+    STATS: 'general-stats',
+  },
   PRODUCT: {
     LIST: 'product-list',
   },

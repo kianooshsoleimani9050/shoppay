@@ -33,7 +33,7 @@ export default function CommissionList() {
   );
 
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.product.single(`${rowId}`))
+    navigate(PATH_DASHBOARD.commission.edit(`${rowId}`))
   }
 
   return (

@@ -72,7 +72,7 @@ export default function CommissionNewEditForm({ isEdit, currentCommission }: Pro
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.user.list);
+      navigate(PATH_DASHBOARD.commission.list);
     } catch (error) {
       console.error(error);
     }
