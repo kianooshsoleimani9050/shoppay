@@ -93,6 +93,7 @@ export default function GeneralApp() {
                 { id: 'id', label: 'Invoice ID' },
                 { id: 'commission', label: 'Commission' },
                 { id: 'totalPrice', label: 'Total price' },
+                { id: 'user', label: 'User full name' },
                 { id: 'status', label: 'Status' },
                 { id: '' },
               ]}

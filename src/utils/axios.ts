@@ -101,6 +101,14 @@ const AxiosApi = {
     axiosInstance.post(`dashboards/admins/vendors/${id}/featured`).then((res) => res.data),
   vendorUnFeatured: (id: string) =>
     axiosInstance.post(`dashboards/admins/vendors/${id}/un-featured`).then((res) => res.data),
+  vendorOrders: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<OrderDto[]>>(`vendors/${id}/orders`, { params })
+      .then((res) => res.data),
+  vendorAddresses: (id: string, params: GetList) =>
+    axiosInstance
+      .get<ResponseList<AddressDto[]>>(`vendors/${id}/addresses`, { params })
+      .then((res) => res.data),
   // supplier api
   supplierList: (params: GetList) =>
     axiosInstance

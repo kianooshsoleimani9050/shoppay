@@ -1,7 +1,10 @@
 export const QUERY_KEYS = {
   VENDOR: {
     LIST: 'vendor-list',
+    SINGLE: 'vendor-single',
+    ORDERS: 'vendor-orders',
     PENDING_LIST: 'pending-vendor-list',
+    ADDRESSES: 'vendor-addresses',
   },
   USER: {
     LIST: 'user-list',

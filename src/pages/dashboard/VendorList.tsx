@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Card,
@@ -32,6 +32,11 @@ export default function VendorList() {
     },
     !!tableState,
   );
+
+  const navigate = useNavigate()
+  const handleRowClick = (rowId: string | number) => {
+    navigate(PATH_DASHBOARD.vendor.profile(`${rowId}`))
+  }
 
   return (
     <Page title="Vendor: List" sx={{ height: "100%" }}>
@@ -113,6 +118,9 @@ export default function VendorList() {
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);
+            }}
+            onRowClick={(row) => {
+              handleRowClick(row.id)
             }}
           />
         </Card>

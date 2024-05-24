@@ -49,7 +49,7 @@ export const PATH_DASHBOARD = {
     pending: path(ROOTS_DASHBOARD, '/vendor/pending/list'),
     new: path(ROOTS_DASHBOARD, '/vendor/new'),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/edit`),
-    single: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/single`),
+    profile: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/profile`),
   },
   user: {
     root: path(ROOTS_DASHBOARD, '/user'),

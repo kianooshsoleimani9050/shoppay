@@ -84,6 +84,7 @@ export default function Router() {
             { path: 'pending/list', element: <PendingVendorList /> },
             { path: 'new', element: <VendorCreate /> },
             { path: ':id/edit', element: <UserCreate /> },
+            { path: ':id/profile', element: <VendorProfile /> }
           ],
         },
         {
@@ -279,6 +280,8 @@ const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList
 const VendorList = Loadable(lazy(() => import('../pages/dashboard/VendorList')))
 const VendorCreate = Loadable(lazy(() => import('../pages/dashboard/VendorCreate')))
 const PendingVendorList = Loadable(lazy(() => import('../pages/dashboard/VendorPendingList')))
+const VendorProfile = Loadable(lazy(() => import('../pages/dashboard/VendorProfile')));
+
 
 // APP
 const Chat = Loadable(lazy(() => import('../pages/dashboard/Chat')));

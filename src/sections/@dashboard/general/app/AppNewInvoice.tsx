@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { sentenceCase } from 'change-case';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -8,7 +6,6 @@ import {
   Table,
   Button,
   Divider,
-  MenuItem,
   TableRow,
   TableBody,
   TableCell,
@@ -17,24 +14,16 @@ import {
   TableContainer,
 } from '@mui/material';
 // utils
-import { fCurrency } from '../../../../utils/formatNumber';
 // components
 import Label from '../../../../components/Label';
 import Iconify from '../../../../components/Iconify';
 import Scrollbar from '../../../../components/Scrollbar';
-import { TableMoreMenu, TableHeadCustom } from '../../../../components/table';
+import { TableHeadCustom } from '../../../../components/table';
 import { OrderDto, OrderDtoStatusEnum } from 'src/@types/models';
 import { useNavigate } from 'react-router';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
-
-type RowProps = {
-  id: string;
-  category: string;
-  price: number;
-  status: string;
-};
 
 interface Props extends CardProps {
   title?: string;
@@ -50,12 +39,11 @@ export default function AppNewInvoice({
   tableLabels,
   ...other
 }: Props) {
-
-  const navigation = useNavigate()
+  const navigation = useNavigate();
 
   const handleAllOrders = () => {
-    navigation(PATH_DASHBOARD.order.list)
-  }
+    navigation(PATH_DASHBOARD.order.list);
+  };
 
   return (
     <Card {...other}>
@@ -100,12 +88,6 @@ type AppNewInvoiceRowProps = {
 function AppNewInvoiceRow({ row }: AppNewInvoiceRowProps) {
   const theme = useTheme();
 
-  const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setOpenMenuActions(event.currentTarget);
-  };
-
   return (
     <TableRow>
       <TableCell>{row.code}</TableCell>
@@ -113,6 +95,8 @@ function AppNewInvoiceRow({ row }: AppNewInvoiceRowProps) {
       <TableCell>{row.commission}</TableCell>
 
       <TableCell>{row.totalPrice}</TableCell>
+
+      <TableCell>{row.user?.fullName}</TableCell>
 
       <TableCell>
         <Label
