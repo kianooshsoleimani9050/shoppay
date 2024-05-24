@@ -13,6 +13,7 @@ import { HOST_API } from '../config';
 import {
   CreateSettingAdminDto,
   ProductDto,
+  SupplierRequestDto,
   UpdateSettingAdminDto,
   VendorDto,
 } from 'src/@types/models';
@@ -69,6 +70,10 @@ const AxiosApi = {
   vendorList: (params: GetList) =>
     axiosInstance
       .get<ResponseList<VendorDto[]>>('dashboards/admins/vendors', { params })
+      .then((res) => res.data),
+  pendingVendorList: (params: GetList) =>
+    axiosInstance
+      .get<ResponseList<VendorDto[]>>('vendors/pendings', { params })
       .then((res) => res.data),
   singleVendor: (id: string) =>
     axiosInstance.get<VendorDto>(`dashboards/admins/vendors/${id}`).then((res) => res.data),

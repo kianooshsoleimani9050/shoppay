@@ -44,8 +44,9 @@ export const PATH_DASHBOARD = {
     booking: path(ROOTS_DASHBOARD, '/booking'),
   },
   vendor: {
-    root: path(ROOTS_DASHBOARD, 'vendor'),
+    root: path(ROOTS_DASHBOARD, '/vendor'),
     list: path(ROOTS_DASHBOARD, '/vendor/list'),
+    pending: path(ROOTS_DASHBOARD, '/vendor/pending/list'),
     new: path(ROOTS_DASHBOARD, '/vendor/new'),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/edit`),
     single: (id: string) => path(ROOTS_DASHBOARD, `/vendor/${id}/single`),

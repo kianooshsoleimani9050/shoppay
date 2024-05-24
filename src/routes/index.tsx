@@ -81,6 +81,7 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/vendor/list" replace />, index: true },
             { path: 'list', element: <VendorList /> },
+            { path: 'pending', element: <PendingVendorList /> },
             { path: 'new', element: <VendorCreate /> },
             { path: ':id/edit', element: <UserCreate /> },
           ],
@@ -234,11 +235,6 @@ const InvoiceDetails = Loadable(lazy(() => import('../pages/dashboard/InvoiceDet
 const InvoiceCreate = Loadable(lazy(() => import('../pages/dashboard/InvoiceCreate')));
 const InvoiceEdit = Loadable(lazy(() => import('../pages/dashboard/InvoiceEdit')));
 
-// BLOG
-const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/BlogPosts')));
-const BlogPost = Loadable(lazy(() => import('../pages/dashboard/BlogPost')));
-const BlogNewPost = Loadable(lazy(() => import('../pages/dashboard/BlogNewPost')));
-
 // USER
 const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')));
 const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
@@ -266,6 +262,7 @@ const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList
 // VENDOR
 const VendorList = Loadable(lazy(() => import('../pages/dashboard/VendorList')))
 const VendorCreate = Loadable(lazy(() => import('../pages/dashboard/VendorCreate')))
+const PendingVendorList = Loadable(lazy(() => import('../pages/dashboard/VendorPendingList')))
 
 // APP
 const Chat = Loadable(lazy(() => import('../pages/dashboard/Chat')));

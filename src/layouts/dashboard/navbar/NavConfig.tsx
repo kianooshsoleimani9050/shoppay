@@ -41,6 +41,7 @@ const navConfig = [
         icon: ICONS.vendor,
         children: [
           { title: 'list', path: PATH_DASHBOARD.vendor.list },
+          { title: 'pendings', path: PATH_DASHBOARD.vendor.pending },
         ],
       },
       {
