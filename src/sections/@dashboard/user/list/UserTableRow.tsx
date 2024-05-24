@@ -33,7 +33,7 @@ export default function UserTableRow({
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
   const [createdDate, setCreatedDate] = useState(new Date(createdAt));
-  const [deletedDate, setDeletedDate] = useState(new Date(deletedAt));
+  const [deletedDate, setDeletedDate] = useState(deletedAt && new Date(deletedAt));
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpenMenuActions(event.currentTarget);
   };
