@@ -81,7 +81,7 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/vendor/list" replace />, index: true },
             { path: 'list', element: <VendorList /> },
-            { path: 'pending', element: <PendingVendorList /> },
+            { path: 'pending/list', element: <PendingVendorList /> },
             { path: 'new', element: <VendorCreate /> },
             { path: ':id/edit', element: <UserCreate /> },
           ],
@@ -117,11 +117,22 @@ export default function Router() {
           ],
         },
         {
+          path: 'commission',
+          children: [
+            { element: <Navigate to="/dashboard/commission/list" replace />, index: true },
+            { path: 'list', element: <CommissionList /> },
+            { path: ':id/single', element: <CommissionCreate /> },
+            { path: 'new', element: <CommissionCreate /> },
+            { path: ':id/edit', element: <CommissionCreate /> },
+          ],
+        },
+        {
           path: 'supplier',
           children: [
             { element: <Navigate to="/dashboard/supplier/list" replace />, index: true },
             { path: 'list', element: <SupplierList /> },
             { path: ':id/single', element: <UserCreate /> },
+            { path: 'pending/list', element: <PendingSupplierList /> },
           ],
         },
         {
@@ -247,10 +258,15 @@ const OrderList = Loadable(lazy(() => import('../pages/dashboard/OrderList')));
 
 // SUPPLIER
 const SupplierList = Loadable(lazy(() => import('../pages/dashboard/SupplierList')));
+const PendingSupplierList = Loadable(lazy(() => import('../pages/dashboard/SupplierPendingList')))
 
 // SETTING
 const SettingList = Loadable(lazy(() => import('../pages/dashboard/SettingList')));
 const SettingCreate = Loadable(lazy(() => import('../pages/dashboard/SettingCreate')));
+
+// COMMISSION
+const CommissionList = Loadable(lazy(() => import('../pages/dashboard/CommissionList')));
+const CommissionCreate = Loadable(lazy(() => import('../pages/dashboard/CommissionCreate')));
 
 // PRODUCT
 const ProductList = Loadable(lazy(() => import('../pages/dashboard/ProductList')));

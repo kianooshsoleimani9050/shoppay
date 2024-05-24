@@ -33,7 +33,7 @@ const ICONS = {
 
 const navConfig = [
   {
-    subheader: "",
+    subheader: '',
     items: [
       {
         title: 'vendor',
@@ -57,9 +57,7 @@ const navConfig = [
         title: 'order',
         path: PATH_DASHBOARD.order.root,
         icon: ICONS.order,
-        children: [
-          { title: 'list', path: PATH_DASHBOARD.order.list },
-        ],
+        children: [{ title: 'list', path: PATH_DASHBOARD.order.list }],
       },
       {
         title: 'supplier',
@@ -67,6 +65,7 @@ const navConfig = [
         icon: ICONS.product,
         children: [
           { title: 'list', path: PATH_DASHBOARD.supplier.list },
+          { title: 'pendings', path: PATH_DASHBOARD.supplier.pending },
         ],
       },
       {
@@ -78,6 +77,15 @@ const navConfig = [
           // @TODO kio
           // { title: 'edit', path: PATH_DASHBOARD.setting.edit() },
           { title: 'create', path: PATH_DASHBOARD.setting.new },
+        ],
+      },
+      {
+        title: 'commission',
+        path: PATH_DASHBOARD.commission.root,
+        icon: ICONS.setting,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.commission.list },
+          { title: 'create', path: PATH_DASHBOARD.commission.new },
         ],
       },
       {

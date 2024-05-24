@@ -1,3 +1,4 @@
+import { CommissionDto } from '../@types/models/commission-dto';
 import { SettingDto } from '../@types/models/setting-dto';
 import { CategoryDto } from '../@types/models/category-dto';
 import { RegisterVendorDto } from '../@types/models/register-vendor-dto';
@@ -11,6 +12,7 @@ import axios from 'axios';
 // config
 import { HOST_API } from '../config';
 import {
+  CreateCommissionAdminDto,
   CreateSettingAdminDto,
   ProductDto,
   SupplierRequestDto,
@@ -86,6 +88,10 @@ const AxiosApi = {
     axiosInstance
       .get<ResponseList<SupplierDto[]>>('dashboards/admins/suppliers', { params })
       .then((res) => res.data),
+  pendingSupplierList: (params: GetList) =>
+    axiosInstance
+      .get<ResponseList<SupplierDto[]>>('suppliers/pendings', { params })
+      .then((res) => res.data),
   // categories api
   categoryList: (params: GetList) =>
     axiosInstance.get<CategoryDto[]>('categories', { params }).then((res) => res.data),
@@ -95,6 +101,12 @@ const AxiosApi = {
   // setting api
   settingList: (params: GetList) =>
     axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),
+  commissionList: (params: GetList) =>
+    axiosInstance
+      .get<ResponseList<CommissionDto[]>>('/settings/commissions', { params })
+      .then((res) => res.data),
+  createOrUpdateCommission: (data: CreateCommissionAdminDto) =>
+    axiosInstance.post('/settings/commissions', data).then(() => {}),
   settingCreate: (data: CreateSettingAdminDto) =>
     axiosInstance.post(`settings`, data).then(() => {}),
   settingUpdate: (id: string, data: UpdateSettingAdminDto) =>

@@ -67,6 +67,12 @@ export const PATH_DASHBOARD = {
     list: path(ROOTS_DASHBOARD, '/setting/list'),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/setting/${id}/edit`),
   },
+  commission: {
+    root: path(ROOTS_DASHBOARD, '/commission'),
+    new: path(ROOTS_DASHBOARD, '/commission/new'),
+    list: path(ROOTS_DASHBOARD, '/commission/list'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/commission/${id}/edit`),
+  },
   order: {
     root: path(ROOTS_DASHBOARD, 'order'),
     list: path(ROOTS_DASHBOARD, '/order/list'),
@@ -75,6 +81,7 @@ export const PATH_DASHBOARD = {
   supplier: {
     root: path(ROOTS_DASHBOARD, 'supplier'),
     list: path(ROOTS_DASHBOARD, '/supplier/list'),
+    pending: path(ROOTS_DASHBOARD, '/supplier/pending/list'),
     single: (id: string) => path(ROOTS_DASHBOARD, `/supplier/${id}/single`),
   },
   product: {
