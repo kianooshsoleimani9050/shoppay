@@ -73,4 +73,10 @@ export interface LogDto {
      * @memberof LogDto
      */
     ip?: string;
+
+    /**
+     * @type {Date}
+     * @memberof LogDto
+     */
+    deletedAt?: Date;
 }

@@ -74,4 +74,10 @@ export interface ProductAttributeDto {
      * @memberof ProductAttributeDto
      */
     colors: Array<string>;
+
+    /**
+     * @type {Date}
+     * @memberof ProductAttributeDto
+     */
+    deletedAt?: Date;
 }

@@ -12,56 +12,69 @@
  * Do not edit the class manually.
  */
 
-import { CategoryDto } from './category-dto';
-import { SupplierDto } from './supplier-dto';
-import { VendorDto } from './vendor-dto';
  /**
  * 
  *
  * @export
- * @interface SupplierRequestDto
+ * @interface CommissionDto
  */
-export interface SupplierRequestDto {
+export interface CommissionDto {
 
     /**
      * @type {string}
-     * @memberof SupplierRequestDto
+     * @memberof CommissionDto
      */
     id: string;
 
     /**
      * @type {Date}
-     * @memberof SupplierRequestDto
+     * @memberof CommissionDto
      */
     createdAt: Date;
 
     /**
      * @type {Date}
-     * @memberof SupplierRequestDto
+     * @memberof CommissionDto
      */
     updatedAt: Date;
 
     /**
-     * @type {SupplierDto}
-     * @memberof SupplierRequestDto
+     * @type {string}
+     * @memberof CommissionDto
      */
-    supplier: SupplierDto;
+    key: CommissionDtoKeyEnum;
 
     /**
-     * @type {VendorDto}
-     * @memberof SupplierRequestDto
+     * @type {number}
+     * @memberof CommissionDto
      */
-    vendor: VendorDto;
+    percentage: number;
 
     /**
-     * @type {Array<CategoryDto>}
-     * @memberof SupplierRequestDto
+     * @type {number}
+     * @memberof CommissionDto
      */
-    categories: Array<CategoryDto>;
+    lessThan: number;
+
+    /**
+     * @type {number}
+     * @memberof CommissionDto
+     */
+    moreThan: number;
 
     /**
      * @type {Date}
-     * @memberof SupplierRequestDto
+     * @memberof CommissionDto
      */
     deletedAt?: Date;
 }
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CommissionDtoKeyEnum {
+    PERCENTAGE = 'PERCENTAGE',
+    AMOUNT = 'AMOUNT'
+}
+

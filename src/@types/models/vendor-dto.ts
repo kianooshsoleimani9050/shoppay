@@ -90,6 +90,12 @@ export interface VendorDto {
     businessLicense: string;
 
     /**
+     * @type {boolean}
+     * @memberof VendorDto
+     */
+    featured: boolean;
+
+    /**
      * @type {LicenseFileType}
      * @memberof VendorDto
      */
@@ -166,6 +172,12 @@ export interface VendorDto {
      * @memberof VendorDto
      */
     categoryId: string;
+
+    /**
+     * @type {Date}
+     * @memberof VendorDto
+     */
+    deletedAt?: Date;
 }
 
 /**

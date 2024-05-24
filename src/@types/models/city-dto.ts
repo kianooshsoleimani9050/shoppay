@@ -68,4 +68,10 @@ export interface CityDto {
      * @memberof CityDto
      */
     province: ProvinceDto;
+
+    /**
+     * @type {Date}
+     * @memberof CityDto
+     */
+    deletedAt?: Date;
 }

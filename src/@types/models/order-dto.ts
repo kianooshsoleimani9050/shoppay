@@ -113,6 +113,12 @@ export interface OrderDto {
      * @memberof OrderDto
      */
     postTrackingNumber: string;
+
+    /**
+     * @type {Date}
+     * @memberof OrderDto
+     */
+    deletedAt?: Date;
 }
 
 /**

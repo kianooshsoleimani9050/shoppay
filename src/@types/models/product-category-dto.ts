@@ -63,4 +63,10 @@ export interface ProductCategoryDto {
      * @memberof ProductCategoryDto
      */
     categoryId: string;
+
+    /**
+     * @type {Date}
+     * @memberof ProductCategoryDto
+     */
+    deletedAt?: Date;
 }

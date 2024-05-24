@@ -154,6 +154,12 @@ export interface SupplierDto {
      * @memberof SupplierDto
      */
     categoryId: string;
+
+    /**
+     * @type {Date}
+     * @memberof SupplierDto
+     */
+    deletedAt?: Date;
 }
 
 /**

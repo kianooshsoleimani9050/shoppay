@@ -43,4 +43,10 @@ export interface MediaDto {
      * @memberof MediaDto
      */
     title: string;
+
+    /**
+     * @type {Date}
+     * @memberof MediaDto
+     */
+    deletedAt?: Date;
 }

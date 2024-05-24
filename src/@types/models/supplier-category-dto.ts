@@ -37,4 +37,10 @@ export interface SupplierCategoryDto {
      * @memberof SupplierCategoryDto
      */
     updatedAt: Date;
+
+    /**
+     * @type {Date}
+     * @memberof SupplierCategoryDto
+     */
+    deletedAt?: Date;
 }

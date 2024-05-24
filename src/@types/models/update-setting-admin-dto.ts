@@ -12,24 +12,11 @@
  * Do not edit the class manually.
  */
 
-import { PageMetaDto } from './page-meta-dto';
  /**
  * 
  *
  * @export
- * @interface PageDto
+ * @interface UpdateSettingAdminDto
  */
-export interface PageDto {
-
-    /**
-     * @type {Array<Array>}
-     * @memberof PageDto
-     */
-    data: Array<Array>;
-
-    /**
-     * @type {PageMetaDto}
-     * @memberof PageDto
-     */
-    meta: PageMetaDto;
+export interface UpdateSettingAdminDto {
 }

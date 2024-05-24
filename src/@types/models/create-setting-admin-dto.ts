@@ -12,24 +12,32 @@
  * Do not edit the class manually.
  */
 
-import { PageMetaDto } from './page-meta-dto';
  /**
  * 
  *
  * @export
- * @interface PageDto
+ * @interface CreateSettingAdminDto
  */
-export interface PageDto {
+export interface CreateSettingAdminDto {
 
     /**
-     * @type {Array<Array>}
-     * @memberof PageDto
+     * @type {string}
+     * @memberof CreateSettingAdminDto
      */
-    data: Array<Array>;
+    key: CreateSettingAdminDtoKeyEnum;
 
     /**
-     * @type {PageMetaDto}
-     * @memberof PageDto
+     * @type {any}
+     * @memberof CreateSettingAdminDto
      */
-    meta: PageMetaDto;
+    value: any;
 }
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreateSettingAdminDtoKeyEnum {
+    SHIPPING = 'SHIPPING'
+}
+

@@ -149,6 +149,12 @@ export interface VendorProductDto {
      * @memberof VendorProductDto
      */
     isActive: string;
+
+    /**
+     * @type {Date}
+     * @memberof VendorProductDto
+     */
+    deletedAt?: Date;
 }
 
 /**

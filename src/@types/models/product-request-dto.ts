@@ -68,4 +68,10 @@ export interface ProductRequestDto {
      * @memberof ProductRequestDto
      */
     categoryId: string;
+
+    /**
+     * @type {Date}
+     * @memberof ProductRequestDto
+     */
+    deletedAt?: Date;
 }

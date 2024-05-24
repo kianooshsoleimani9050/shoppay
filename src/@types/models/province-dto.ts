@@ -50,4 +50,10 @@ export interface ProvinceDto {
      * @memberof ProvinceDto
      */
     cities?: Array<CityDto>;
+
+    /**
+     * @type {Date}
+     * @memberof ProvinceDto
+     */
+    deletedAt?: Date;
 }

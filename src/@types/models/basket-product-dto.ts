@@ -63,4 +63,10 @@ export interface BasketProductDto {
      * @memberof BasketProductDto
      */
     quantity: number;
+
+    /**
+     * @type {Date}
+     * @memberof BasketProductDto
+     */
+    deletedAt?: Date;
 }

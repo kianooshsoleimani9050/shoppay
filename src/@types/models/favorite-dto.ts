@@ -88,4 +88,10 @@ export interface FavoriteDto {
      * @memberof FavoriteDto
      */
     supplier?: SupplierDto;
+
+    /**
+     * @type {Date}
+     * @memberof FavoriteDto
+     */
+    deletedAt?: Date;
 }

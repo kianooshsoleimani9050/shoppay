@@ -63,4 +63,10 @@ export interface SupplierOrderDto {
      * @memberof SupplierOrderDto
      */
     supplierId?: string;
+
+    /**
+     * @type {Date}
+     * @memberof SupplierOrderDto
+     */
+    deletedAt?: Date;
 }
