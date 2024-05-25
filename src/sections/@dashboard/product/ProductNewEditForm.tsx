@@ -26,6 +26,7 @@ import {
   RHFSwitch,
   RHFTextField,
   RHFUploadAvatar,
+  RHFUploadMultiFile,
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
 import { ProductDto, RoleType } from 'src/@types/models';
@@ -42,7 +43,7 @@ interface Product {
   description: string
   categoryId: string
   brandId: string
-  attributes: any[]
+  attributes: Record<string, any>
   files: any[]
 }
 
@@ -62,7 +63,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
     description: Yup.string().required('Description is required'),
     categoryId: Yup.string().required('Category is required'),
     brandId: Yup.string().required('Brand is required'),
-    attributes: Yup.array(Yup.mixed()).min(1),
+    attributes: Yup.mixed().required("Attributes is required"),
     files: Yup.array(Yup.mixed()).min(1),
   });
 
@@ -73,7 +74,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
       description: "",
       categoryId: "",
       brandId: "",
-      attributes: [],
+      attributes: {},
       files: [],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,100 +122,68 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
 
 
   const handleCreateUser = async (data: FormValuesProps) => {
-    AxiosApi.handleCreateVendor({ ...data as any }).then(() => console.info('user has been created!'))
+    AxiosApi.postProduct({ ...data as any });
   }
 
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
+      const files = values.files || [];
 
-      if (file) {
-        setValue('avatar',
+      setValue('files', [
+        ...files,
+        ...acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
-          }) || "");
-      }
+          })
+        ),
+      ]);
     },
-    [setValue]
+    [setValue, values.files]
   );
+
+  const handleRemoveAll = () => {
+    setValue('files', []);
+  };
+
+  const handleRemove = (file: File | string) => {
+    const filteredItems = values.files && values.files?.filter((_file) => _file !== file);
+
+    setValue('files', filteredItems);
+  };
+
+
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Card sx={{ py: 10, px: 3 }}>
-            <Box sx={{ mb: 5 }}>
-              <RHFUploadAvatar
-                name="avatarUrl"
-                maxSize={3145728}
-                onDrop={handleDrop}
-                helperText={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 2,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary',
-                    }}
-                  >
-                    Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of {fData(3145728)}
-                  </Typography>
-                }
-              />
-            </Box>
+      <Card sx={{ p: 3 }}>
+        <Box
+          sx={{
+            display: 'grid',
+            columnGap: 2,
+            rowGap: 3,
+            gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+          }}
+        >
+          <RHFTextField name="title" label="Title" />
+          <RHFTextField name="summery" label="Summery" />
+          <RHFTextField name="description" label="Description" />
+          <RHFTextField name="categoryId" label="Category" />
+          <RHFTextField name="brandId" label="Category" />
+          <Box />
+          <RHFUploadMultiFile
+            name='files'
+            onDrop={handleDrop}
+            onRemove={handleRemove}
+            onRemoveAll={handleRemoveAll}
+          />
+        </Box>
 
-            <RHFSwitch
-              name="isVerified"
-              labelPlacement="start"
-              label={
-                <>
-                  <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                    Email Verified
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Disabling this will automatically send the user a verification email
-                  </Typography>
-                </>
-              }
-              sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-            />
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3 }}>
-            <Box
-              sx={{
-                display: 'grid',
-                columnGap: 2,
-                rowGap: 3,
-                gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
-              }}
-            >
-              <RHFTextField name="fullName" label="Full Name" />
-              <RHFTextField name="email" label="Email Address" />
-              <RHFTextField name="mobile" label="Phone Number" />
-              <RHFSelect name="role" label="Role" placeholder="Role">
-                {Object.keys(RoleType).map((option) => (
-                  <option key={option} value={option.toLowerCase()}>
-                    {option}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFCheckbox name="isActive" label="status" />
-            </Box>
-
-            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create User' : 'Save Changes'}
-              </LoadingButton>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
+        <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+            {!isEdit ? 'Create User' : 'Save Changes'}
+          </LoadingButton>
+        </Stack>
+      </Card>
     </FormProvider>
   );
 }

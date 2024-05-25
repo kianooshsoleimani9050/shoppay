@@ -200,7 +200,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
                   onDrop={handleDrop}
                   onRemove={handleRemove}
                   onRemoveAll={handleRemoveAll}
-                  onUpload={() => console.log('ON UPLOAD')}
                 />
               </div>
             </Stack>

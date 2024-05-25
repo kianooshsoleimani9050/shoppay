@@ -147,6 +147,19 @@ const AxiosApi = {
   // products api
   productList: (params: GetList) =>
     axiosInstance.get<ResponseList<ProductDto[]>>('/products', { params }).then((res) => res.data),
+  postProduct: ({ data }: { data: Record<string, any> }) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((val) => {
+          formData.append(key, val);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+    return axiosInstance.post<any>(`/products`, formData).then((res) => res.data);
+  },
   // setting api
   settingList: (params: GetList) =>
     axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),
