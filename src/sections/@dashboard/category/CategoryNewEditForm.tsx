@@ -17,7 +17,7 @@ import { CategoryDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends CategoryDto {}
+interface FormValuesProps extends CategoryDto { }
 
 type Props = {
   isEdit: boolean;
@@ -95,7 +95,7 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
 
   const handleUpdateCategory = async (id: string, data: FormValuesProps) => {
     console.info('ok here it comes', id, data);
-    AxiosApi.updateCategory({ ...data, id }).then(() => console.info('successfull'));
+    AxiosApi.updateCategory({ ...data, id } as any).then(() => console.info('successfull'));
   };
 
   return (

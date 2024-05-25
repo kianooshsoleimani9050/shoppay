@@ -1,4 +1,3 @@
-import { StatsDto } from '../@types/models/status.dto';
 import { CommissionDto } from '../@types/models/commission-dto';
 import { SettingDto } from '../@types/models/setting-dto';
 import { CategoryDto } from '../@types/models/category-dto';
@@ -50,7 +49,7 @@ axiosInstance.interceptors.response.use(
 const AxiosApi = {
   axiosInstance,
   // main
-  stats: () => axiosInstance.get<StatsDto>('/generals/stats').then((res) => res.data),
+  stats: () => axiosInstance.get<any>('/generals/stats').then((res) => res.data),
   lastestOrders: () =>
     axiosInstance.get<OrderDto[]>('/generals/latest-orders').then((res) => res.data),
   // auth

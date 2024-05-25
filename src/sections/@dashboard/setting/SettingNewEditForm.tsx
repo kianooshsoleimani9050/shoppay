@@ -16,7 +16,7 @@ import {
   RHFTextField,
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
-import { SettingDto, SettingDtoKeyEnum } from 'src/@types/models';
+import { SettingDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ export default function SettingNewEditForm({ isEdit, currentSetting }: Props) {
 
   const defaultValues = useMemo(
     () => ({
-      key: currentSetting?.key || SettingDtoKeyEnum.SHIPPING,
+      key: currentSetting?.key || "",
       value: currentSetting?.value || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps

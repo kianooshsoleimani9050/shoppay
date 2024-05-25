@@ -18,7 +18,6 @@ import {
 } from '../../sections/@dashboard/general/app';
 // assets
 import { useEffect, useState } from 'react';
-import { StatsDto } from 'src/@types/models/status.dto';
 import AxiosApi from 'src/utils/axios';
 import { OrderDto } from 'src/@types/models';
 
@@ -30,7 +29,7 @@ export default function GeneralApp() {
 
   const { themeStretch } = useSettings();
 
-  const [data, setData] = useState<StatsDto>({
+  const [data, setData] = useState<any>({
     supplier: {
       count: 0,
       percentage: 0,
@@ -111,7 +110,7 @@ export default function GeneralApp() {
           <Grid item xs={12} md={6} lg={4}>
             <AppTopAuthors title="Top Authors" list={_appAuthors} />
           </Grid> */}
-{/* 
+          {/* 
           <Grid item xs={12} md={6} lg={4}>
             <Stack spacing={3}>
               <AppWidget title="Conversion" total={38566} icon={'eva:person-fill'} chartData={48} />

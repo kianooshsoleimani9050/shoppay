@@ -29,7 +29,7 @@ export default function UserTableRow({
 }: Props) {
   const theme = useTheme();
 
-  const { fullName, avatar, email, role, isActive, mobile,createdAt, deletedAt } = row;
+  const { fullName, avatar, email, role, isActive, mobile, createdAt, deletedAt } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
   const [createdDate, setCreatedDate] = useState(new Date(createdAt));
@@ -82,7 +82,7 @@ export default function UserTableRow({
       </TableCell>
 
       <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        {deletedDate.toDateString()}
+        {deletedDate?.toDateString()}
       </TableCell>
 
       <TableCell align="right">
