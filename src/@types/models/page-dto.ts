@@ -24,7 +24,7 @@ export interface PageDto {
    * @type {Array<Array>}
    * @memberof PageDto
    */
-  data: Array<unknown>;
+  data: Array<any>;
 
   /**
    * @type {PageMetaDto}

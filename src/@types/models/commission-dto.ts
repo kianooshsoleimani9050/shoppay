@@ -39,12 +39,6 @@ export interface CommissionDto {
     updatedAt: Date;
 
     /**
-     * @type {string}
-     * @memberof CommissionDto
-     */
-    key: CommissionDtoKeyEnum;
-
-    /**
      * @type {number}
      * @memberof CommissionDto
      */
@@ -68,13 +62,3 @@ export interface CommissionDto {
      */
     deletedAt?: Date;
 }
-
-/**
- * @export
- * @enum {string}
- */
-export enum CommissionDtoKeyEnum {
-    PERCENTAGE = 'PERCENTAGE',
-    AMOUNT = 'AMOUNT'
-}
-

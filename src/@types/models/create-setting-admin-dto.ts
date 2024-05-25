@@ -24,7 +24,7 @@ export interface CreateSettingAdminDto {
      * @type {string}
      * @memberof CreateSettingAdminDto
      */
-    key: CreateSettingAdminDtoKeyEnum;
+    key: string;
 
     /**
      * @type {any}
@@ -32,12 +32,3 @@ export interface CreateSettingAdminDto {
      */
     value: any;
 }
-
-/**
- * @export
- * @enum {string}
- */
-export enum CreateSettingAdminDtoKeyEnum {
-    SHIPPING = 'SHIPPING'
-}
-

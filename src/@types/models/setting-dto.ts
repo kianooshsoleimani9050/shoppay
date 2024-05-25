@@ -42,7 +42,7 @@ export interface SettingDto {
      * @type {string}
      * @memberof SettingDto
      */
-    key: SettingDtoKeyEnum;
+    key: string;
 
     /**
      * @type {any}
@@ -56,12 +56,3 @@ export interface SettingDto {
      */
     deletedAt?: Date;
 }
-
-/**
- * @export
- * @enum {string}
- */
-export enum SettingDtoKeyEnum {
-    SHIPPING = 'SHIPPING'
-}
-
