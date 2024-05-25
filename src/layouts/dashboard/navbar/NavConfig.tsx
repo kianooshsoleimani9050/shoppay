@@ -97,6 +97,15 @@ const navConfig = [
           { title: 'create', path: PATH_DASHBOARD.product.create },
         ],
       },
+      {
+        title: 'category',
+        path: PATH_DASHBOARD.category.root,
+        icon: ICONS.category,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.category.list },
+          { title: 'create', path: PATH_DASHBOARD.category.new },
+        ],
+      },
     ],
   },
 ];

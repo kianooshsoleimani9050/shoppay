@@ -108,6 +108,8 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, 'category'),
     list: path(ROOTS_DASHBOARD, '/category/list'),
     single: (id: string) => path(ROOTS_DASHBOARD, `/category/${id}/single`),
+    new: path(ROOTS_DASHBOARD, '/category/new'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/category/${id}/edit`),
   },
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),

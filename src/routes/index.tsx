@@ -163,8 +163,8 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/category/list" replace />, index: true },
             { path: 'list', element: <CategoryList /> },
-            { path: 'new', element: <UserCreate /> },
-            { path: ':id/edit', element: <UserCreate /> },
+            { path: 'new', element: <CategoryCreate /> },
+            { path: ':id/edit', element: <CategoryCreate /> },
           ],
         },
         {
@@ -277,6 +277,7 @@ const ProductCreate = Loadable(lazy(() => import('../pages/dashboard/ProductCrea
 
 // CATEGORY
 const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList')));
+const CategoryCreate = Loadable(lazy(() => import('../pages/dashboard/CategoryCreate')));
 
 // VENDOR
 const VendorList = Loadable(lazy(() => import('../pages/dashboard/VendorList')))

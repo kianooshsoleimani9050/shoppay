@@ -14,10 +14,12 @@ import axios from 'axios';
 import { HOST_API } from '../config';
 import {
   AddressDto,
+  CreateCategoryDto,
   CreateCommissionAdminDto,
   CreateSettingAdminDto,
   LogDto,
   ProductDto,
+  UpdateCategoryDto,
   UpdateSettingAdminDto,
   VendorDto,
 } from 'src/@types/models';
@@ -135,7 +137,14 @@ const AxiosApi = {
       .then((res) => res.data),
   // categories api
   categoryList: (params: GetList) =>
-    axiosInstance.get<CategoryDto[]>('categories', { params }).then((res) => res.data),
+    axiosInstance
+      .get<ResponseList<CategoryDto[]>>('dashboards/admins/categories', { params })
+      .then((res) => res.data),
+  createCategory: (data: CreateCategoryDto) =>
+    axiosInstance.post('/categories', data).then(() => {}),
+  updateCategory: (data: UpdateCategoryDto) =>
+    axiosInstance.patch('/categories', data).then(() => {}),
+  deleteCategory: (id: string) => axiosInstance.delete(`/categories/${id}`).then(() => {}),
   // products api
   productList: (params: GetList) =>
     axiosInstance.get<ResponseList<ProductDto[]>>('/products', { params }).then((res) => res.data),

@@ -10,28 +10,28 @@ import useSettings from '../../hooks/useSettings';
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import UserNewEditForm from '../../sections/@dashboard/user/UserNewEditForm';
 import AxiosApi from 'src/utils/axios';
 import { useEffect, useState } from 'react';
-import { UserDto } from 'src/@types/models';
+import { CategoryDto } from 'src/@types/models';
+import CategoryNewEditForm from 'src/sections/@dashboard/category/CategoryNewEditForm';
 
 // ----------------------------------------------------------------------
 
-export default function UserCreate() {
+export default function CategoryCreate() {
   const { themeStretch } = useSettings();
 
   const { pathname } = useLocation();
 
   const { id = '' } = useParams();
 
-  const [users, setUsers] = useState<UserDto[]>([])
+  const [categories, setCategories] = useState<CategoryDto[]>([])
   const isEdit = pathname.includes('edit');
   useEffect(() => {
-    AxiosApi.userList({}).then((res) => {
-      setUsers(res.data)
+    AxiosApi.categoryList({}).then((res) => {
+      setCategories(res.data)
     }).catch((err) => { console.error(err) });
   }, [])
-  const currentUser = users.find((user) => paramCase(user.id || "") === id);
+  const currentCategory = categories.find((user) => paramCase(user.id || "") === id);
 
   return (
     <Page title="User: Create a new user">
@@ -45,7 +45,7 @@ export default function UserCreate() {
           ]}
         />
 
-        <UserNewEditForm isEdit={isEdit} currentUser={currentUser} />
+        <CategoryNewEditForm isEdit={isEdit} currentCategory={currentCategory} />
       </Container>
     </Page>
   );

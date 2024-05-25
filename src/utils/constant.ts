@@ -30,6 +30,9 @@ export const QUERY_KEYS = {
   ORDER: {
     LIST: 'order-list',
   },
+  CATEGORY: {
+    LIST: 'category-list',
+  },
   GENERAL: {
     STATS: 'general-stats',
   },
