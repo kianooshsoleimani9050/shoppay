@@ -112,14 +112,20 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
       });
   }, []);
 
-  const [features, setFeatures] = useState<string[]>([]);
+  const [features, setFeatures] = useState<{
+    key: string;
+    value: string;
+  }[]>([]);
 
-  const handleAddFeature = (feature: string) => {
+  const handleAddFeature = (feature: {
+    key: string;
+    value: string;
+  }) => {
     setFeatures((prev) => ([...prev, feature]))
   }
 
-  const handleRemoveFeature = (selectedFeature: string) => {
-    setFeatures((prev) => prev.filter((feature) => feature !== selectedFeature))
+  const handleRemoveFeature = (selectedFeatureKey: string) => {
+    setFeatures((prev) => prev.filter((feature) => feature.key !== selectedFeatureKey))
   }
 
   const methods = useForm<FormValuesProps>({
@@ -247,13 +253,13 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
                 Features
               </FormLabel>
               {features.map((feature) => (
-                <Stack key={feature} direction="row" alignItems="center" justifyContent="space-between">
+                <Stack key={feature.key} direction="row" alignItems="center" justifyContent="space-between">
                   <Typography variant='body1' flexGrow={1} noWrap>
-                    {feature}
+                    {feature.key} - {feature.value}
                   </Typography>
                   <IconButton color="error">
                     <Iconify icon="eva:trash-2-outline" width={24} height={24} onClick={() => {
-                      handleRemoveFeature(feature);
+                      handleRemoveFeature(feature.key);
                     }} />
                   </IconButton>
                 </Stack>
