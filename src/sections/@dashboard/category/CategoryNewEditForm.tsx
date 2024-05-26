@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -11,13 +11,18 @@ import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-form';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+  RHFUploadMultiFile,
+} from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
-import { CategoryDto } from 'src/@types/models';
+import { CategoryDto, CreateCategoryDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends CategoryDto { }
+interface FormValuesProps extends CreateCategoryDto {}
 
 type Props = {
   isEdit: boolean;
@@ -45,7 +50,7 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
 
   const defaultValues = useMemo(
     () => ({
-      parentId: currentCategory?.parentId || '',
+      parentId: currentCategory?.parentId || undefined,
       title: currentCategory?.title || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,8 +65,13 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
   const {
     reset,
     handleSubmit,
+    watch,
+    control,
+    setValue,
     formState: { isSubmitting, errors },
   } = methods;
+
+  const values = watch();
 
   useEffect(() => {
     if (isEdit && currentCategory) {
@@ -81,21 +91,42 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.setting.list);
+      navigate(PATH_DASHBOARD.category.list);
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleCreateCategory = async (data: FormValuesProps) => {
-    AxiosApi.createCategory({ ...(data as any) }).then(() =>
+    AxiosApi.createCategory({ ...data , icon: data?.icon }).then(() =>
       console.info('setting has been created!')
     );
   };
 
   const handleUpdateCategory = async (id: string, data: FormValuesProps) => {
-    console.info('ok here it comes', id, data);
     AxiosApi.updateCategory({ ...data, id } as any).then(() => console.info('successfull'));
+  };
+
+  const handleDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const icon = values.icon || [];
+
+      setValue('icon', [
+        ...icon,
+        ...acceptedFiles
+      ]);
+    },
+    [setValue, values.icon]
+  );
+
+  const handleRemoveAll = () => {
+    setValue('icon', []);
+  };
+
+  const handleRemove = (icon: File | string) => {
+    const filteredItems = values.icon && values.icon?.filter((_icon) => _icon !== icon);
+
+    setValue('icon', filteredItems);
   };
 
   return (
@@ -119,6 +150,12 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
                   </option>
                 ))}
               </RHFSelect>
+              <RHFUploadMultiFile
+                name="icon"
+                onDrop={handleDrop}
+                onRemove={handleRemove}
+                onRemoveAll={handleRemoveAll}
+              />
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>

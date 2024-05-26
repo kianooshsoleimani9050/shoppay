@@ -13,11 +13,13 @@ import axios from 'axios';
 import { HOST_API } from '../config';
 import {
   AddressDto,
+  BrandDto,
   CreateCategoryDto,
   CreateCommissionAdminDto,
   CreateSettingAdminDto,
   LogDto,
   ProductDto,
+  ProductRequestDto,
   UpdateCategoryDto,
   UpdateSettingAdminDto,
   VendorDto,
@@ -139,14 +141,29 @@ const AxiosApi = {
     axiosInstance
       .get<ResponseList<CategoryDto[]>>('dashboards/admins/categories', { params })
       .then((res) => res.data),
-  createCategory: (data: CreateCategoryDto) =>
-    axiosInstance.post('/categories', data).then(() => {}),
+  createCategory: ({ data }: { data: CreateCategoryDto }) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((val) => {
+          formData.append(key, val);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+    return axiosInstance.post<any>(`/categories`, formData).then((res) => res.data);
+  },
   updateCategory: (data: UpdateCategoryDto) =>
     axiosInstance.patch('/categories', data).then(() => {}),
   deleteCategory: (id: string) => axiosInstance.delete(`/categories/${id}`).then(() => {}),
   // products api
   productList: (params: GetList) =>
     axiosInstance.get<ResponseList<ProductDto[]>>('/products', { params }).then((res) => res.data),
+  productRequestList: (params: GetList) =>
+    axiosInstance
+      .get<ResponseList<ProductRequestDto[]>>('/products/requests', { params })
+      .then((res) => res.data),
   postProduct: ({ data }: { data: Record<string, any> }) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
@@ -160,6 +177,8 @@ const AxiosApi = {
     });
     return axiosInstance.post<any>(`/products`, formData).then((res) => res.data);
   },
+  brandList: () =>
+    axiosInstance.get<BrandDto[]>('dashboards/products/brands/flat').then((res) => res.data),
   // setting api
   settingList: (params: GetList) =>
     axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),

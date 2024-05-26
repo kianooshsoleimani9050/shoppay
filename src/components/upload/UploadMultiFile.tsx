@@ -55,11 +55,11 @@ export default function UploadMultiFile({
         <BlockContent />
       </DropZoneStyle>
 
-      {fileRejections.length > 0 && <RejectionFiles fileRejections={fileRejections} />}
+      {fileRejections?.length > 0 && <RejectionFiles fileRejections={fileRejections} />}
 
       <MultiFilePreview files={files} showPreview={showPreview} onRemove={onRemove} />
 
-      {files.length > 0 && (
+      {files?.length > 0 && (
         <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
           <Button color="inherit" size="small" onClick={onRemoveAll}>
             Remove all

@@ -29,7 +29,7 @@ import {
   RHFUploadMultiFile,
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
-import { ProductDto, RoleType } from 'src/@types/models';
+import { BrandDto, CategoryDto, ProductDto, RoleType } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
@@ -38,13 +38,13 @@ interface FormValuesProps extends Omit<Product, 'avatar'> {
 }
 
 interface Product {
-  title: string
-  summery: string
-  description: string
-  categoryId: string
-  brandId: string
-  attributes: Record<string, any>
-  files: any[]
+  title: string;
+  summery: string;
+  description: string;
+  categoryId: string;
+  brandId: string;
+  attributes: Record<string, any>;
+  files: any[];
 }
 
 type Props = {
@@ -63,23 +63,45 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
     description: Yup.string().required('Description is required'),
     categoryId: Yup.string().required('Category is required'),
     brandId: Yup.string().required('Brand is required'),
-    attributes: Yup.mixed().required("Attributes is required"),
+    attributes: Yup.mixed().required('Attributes is required'),
     files: Yup.array(Yup.mixed()).min(1),
   });
 
   const defaultValues = useMemo(
     () => ({
-      title: "",
-      summery: "",
-      description: "",
-      categoryId: "",
-      brandId: "",
+      title: '',
+      summery: '',
+      description: '',
+      categoryId: '',
+      brandId: '',
       attributes: {},
       files: [],
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentProduct]
   );
+
+  const [brands, setBrands] = useState<BrandDto[]>([]);
+  const [categories, setCategories] = useState<CategoryDto[]>([]);
+  useEffect(() => {
+    AxiosApi.categoryList({})
+      .then((res) => {
+        setCategories(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    AxiosApi.brandList()
+      .then((res) => {
+        setBrands(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewUserSchema),
@@ -109,7 +131,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      console.info(data);
       await (isEdit ? handleCreateUser(data) : handleCreateUser(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
@@ -120,10 +141,9 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
     }
   };
 
-
   const handleCreateUser = async (data: FormValuesProps) => {
-    AxiosApi.postProduct({ ...data as any });
-  }
+    AxiosApi.postProduct({ ...(data as any) });
+  };
 
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -151,8 +171,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
     setValue('files', filteredItems);
   };
 
-
-
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card sx={{ p: 3 }}>
@@ -169,9 +187,23 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
           <RHFTextField name="description" label="Description" />
           <RHFTextField name="categoryId" label="Category" />
           <RHFTextField name="brandId" label="Category" />
+          <RHFSelect name="categoryId" label="Category">
+            {categories.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.title}
+              </option>
+            ))}
+          </RHFSelect>
+          <RHFSelect name="brandId" label="Brand">
+            {brands.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.title}
+              </option>
+            ))}
+          </RHFSelect>
           <Box />
           <RHFUploadMultiFile
-            name='files'
+            name="files"
             onDrop={handleDrop}
             onRemove={handleRemove}
             onRemoveAll={handleRemoveAll}

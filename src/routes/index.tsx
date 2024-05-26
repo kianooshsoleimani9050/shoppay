@@ -142,6 +142,7 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/product/list" replace />, index: true },
             { path: 'list', element: <ProductList /> },
+            { path: 'list/requests', element: <ProductRequestList /> },
             { path: 'new', element: <ProductCreate /> },
             { path: ':id/edit', element: <UserCreate /> },
           ],
@@ -274,6 +275,7 @@ const CommissionCreate = Loadable(lazy(() => import('../pages/dashboard/Commissi
 // PRODUCT
 const ProductList = Loadable(lazy(() => import('../pages/dashboard/ProductList')));
 const ProductCreate = Loadable(lazy(() => import('../pages/dashboard/ProductCreate')));
+const ProductRequestList = Loadable(lazy(() => import('../pages/dashboard/ProductRequestList')));
 
 // CATEGORY
 const CategoryList = Loadable(lazy(() => import('../pages/dashboard/CategoryList')));

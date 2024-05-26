@@ -38,5 +38,6 @@ export const QUERY_KEYS = {
   },
   PRODUCT: {
     LIST: 'product-list',
+    REQUEST: 'product-request-list',
   },
 };
