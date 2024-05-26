@@ -90,7 +90,7 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, 'product'),
     list: path(ROOTS_DASHBOARD, '/product/list'),
     create: path(ROOTS_DASHBOARD, '/product/new'),
-    single: (id: string) => path(ROOTS_DASHBOARD, `/product/${id}/single`),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/product/${id}/edit`),
   },
   mail: {
     root: path(ROOTS_DASHBOARD, '/mail'),
@@ -110,6 +110,13 @@ export const PATH_DASHBOARD = {
     single: (id: string) => path(ROOTS_DASHBOARD, `/category/${id}/single`),
     new: path(ROOTS_DASHBOARD, '/category/new'),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/category/${id}/edit`),
+  },
+  productRequest: {
+    root: path(ROOTS_DASHBOARD, 'product-request'),
+    list: path(ROOTS_DASHBOARD, '/product-request/list'),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/product-request/${id}/single`),
+    new: path(ROOTS_DASHBOARD, '/product-request/new'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/product-request/${id}/edit`),
   },
   brand: {
     root: path(ROOTS_DASHBOARD, 'brand'),

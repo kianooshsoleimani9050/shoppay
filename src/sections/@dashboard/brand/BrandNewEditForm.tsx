@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
@@ -11,55 +11,39 @@ import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import {
-  FormProvider,
-  RHFSelect,
-  RHFTextField,
-  RHFUploadMultiFile,
-} from '../../../components/hook-form';
+import { FormProvider, RHFTextField, RHFUploadMultiFile } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
-import { CategoryDto, CreateCategoryDto } from 'src/@types/models';
 import _ from 'lodash';
+import { CreateBrandDto } from 'src/@types/models/create-brand-dto';
+import { BrandDto } from 'src/@types/models';
 
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends CreateCategoryDto {}
+interface FormValuesProps extends CreateBrandDto {}
 
 type Props = {
   isEdit: boolean;
-  currentCategory?: CategoryDto;
+  currentBrand?: BrandDto;
 };
 
-export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) {
+export default function BrandNewEditForm({ isEdit, currentBrand }: Props) {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<CategoryDto[]>([]);
-  useEffect(() => {
-    AxiosApi.categoryList({})
-      .then((res) => {
-        setCategories(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewCategorySchema = Yup.object().shape({
-    parentId: Yup.string().optional(),
+  const NewBrandSchema = Yup.object().shape({
     title: Yup.string().required('full name is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
-      parentId: currentCategory?.parentId || undefined,
-      title: currentCategory?.title || '',
+      title: currentBrand?.title || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentCategory]
+    [currentBrand]
   );
 
   const methods = useForm<FormValuesProps>({
-    resolver: yupResolver(NewCategorySchema),
+    resolver: yupResolver(NewBrandSchema),
     defaultValues,
   });
 
@@ -67,47 +51,41 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
     reset,
     handleSubmit,
     watch,
+    control,
     setValue,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = methods;
 
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && currentCategory) {
+    if (isEdit && currentBrand) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentCategory]);
+  }, [isEdit, currentBrand]);
 
   const onSubmit = async (data: FormValuesProps) => {
-    if (data.parentId === undefined) {
-      delete data.parentId;
-    }
-
     try {
-      await (isEdit
-        ? handleUpdateCategory(currentCategory?.id || '', data)
-        : handleCreateCategory(data));
+      await (isEdit ? handleUpdateBrand(currentBrand?.id || '', data) : handleCreateBrand(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.category.list);
+      navigate(PATH_DASHBOARD.brand.list);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleCreateCategory = async (data: FormValuesProps) => {
-    console.info(data, 'wtfffff is goin onnnn');
-    AxiosApi.createCategory({ data }).then(() => console.info('setting has been created!'));
+  const handleCreateBrand = async (data: FormValuesProps) => {
+    AxiosApi.createBrand({ data }).then(() => console.info('setting has been created!'));
   };
 
-  const handleUpdateCategory = async (id: string, data: FormValuesProps) => {
-    AxiosApi.updateCategory({ ...data, id } as any).then(() => console.info('successfull'));
+  const handleUpdateBrand = async (id: string, data: FormValuesProps) => {
+    AxiosApi.updateBrand({ data }, id).then(() => console.info('successfull'));
   };
 
   const handleDrop = useCallback(
@@ -124,7 +102,8 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
   };
 
   const handleRemove = (icon: File | string) => {
-    const filteredItems = values.icon && values.icon?.filter((_icon) => _icon !== icon);
+    const filteredItems =
+      values.icon && values.icon?.filter((_icon: string | File) => _icon !== icon);
 
     setValue('icon', filteredItems);
   };
@@ -143,14 +122,6 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
               }}
             >
               <RHFTextField name="title" label="Title" />
-              <RHFSelect name="parentId" label="Parent">
-                {undefined}
-                {categories.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.title}
-                  </option>
-                ))}
-              </RHFSelect>
               <RHFUploadMultiFile
                 name="icon"
                 onDrop={handleDrop}
@@ -161,7 +132,7 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create Category' : 'Save Changes'}
+                {!isEdit ? 'Create brand' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>

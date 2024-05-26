@@ -3,33 +3,34 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel, MenuItem, FormLabel, IconButton, Button } from '@mui/material';
+import {
+  Box,
+  Card,
+  Stack,
+  Typography,
+  MenuItem,
+  FormLabel,
+  IconButton,
+  Button,
+} from '@mui/material';
 // utils
-import { fData } from '../../../utils/formatNumber';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // @types
-import { UserManager } from '../../../@types/user';
-// _mock
-import { countries } from '../../../_mock';
 // components
-import Label from '../../../components/Label';
 import { CustomFile } from '../../../components/upload';
 import {
   FormProvider,
-  RHFCheckbox,
   RHFSelect,
-  RHFSwitch,
   RHFTextField,
-  RHFUploadAvatar,
   RHFUploadMultiFile,
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
-import { BrandDto, CategoryDto, ProductDto, RoleType } from 'src/@types/models';
+import { BrandDto, CategoryDto, ProductDto } from 'src/@types/models';
 import { DialogStateType } from 'src/components/custom/CustomDialog';
 import { ProductFeatureDialog } from './ProductFeatureDialog';
 import Iconify from 'src/components/Iconify';
@@ -60,7 +61,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewUserSchema = Yup.object().shape({
+  const NewProductSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     summery: Yup.string().required('Summery is required'),
     description: Yup.string().required('Description is required'),
@@ -87,9 +88,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
   const [brands, setBrands] = useState<BrandDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
 
-  // ALIREZAAAAAAA 
-  // use ReactQuery for this requests
-  // Like hooks I'm using in Lists
   useEffect(() => {
     AxiosApi.categoryList({})
       .then((res) => {
@@ -99,9 +97,6 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
         console.error(err);
       });
   }, []);
-  // ALIREZAAAAAAA 
-  // use ReactQuery for this requests
-  // Like hooks I'm using in Lists
   useEffect(() => {
     AxiosApi.brandList()
       .then((res) => {
@@ -112,24 +107,23 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
       });
   }, []);
 
-  const [features, setFeatures] = useState<{
-    key: string;
-    value: string;
-  }[]>([]);
+  const [features, setFeatures] = useState<
+    {
+      key: string;
+      value: string;
+    }[]
+  >([]);
 
-  const handleAddFeature = (feature: {
-    key: string;
-    value: string;
-  }) => {
-    setFeatures((prev) => ([...prev, feature]))
-  }
+  const handleAddFeature = (feature: { key: string; value: string }) => {
+    setFeatures((prev) => [...prev, feature]);
+  };
 
   const handleRemoveFeature = (selectedFeatureKey: string) => {
-    setFeatures((prev) => prev.filter((feature) => feature.key !== selectedFeatureKey))
-  }
+    setFeatures((prev) => prev.filter((feature) => feature.key !== selectedFeatureKey));
+  };
 
   const methods = useForm<FormValuesProps>({
-    resolver: yupResolver(NewUserSchema),
+    resolver: yupResolver(NewProductSchema),
     defaultValues,
   });
 
@@ -166,9 +160,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
     }
   };
 
-  const [openFormDialog, setOpenFormDialog] = useState<
-    DialogStateType<{}>
-  >({
+  const [openFormDialog, setOpenFormDialog] = useState<DialogStateType<{}>>({
     open: false,
   });
 
@@ -249,23 +241,36 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
             />
             <Box />
             <Stack spacing={2} mt={2}>
-              <FormLabel>
-                Features
-              </FormLabel>
+              <FormLabel>Features</FormLabel>
               {features.map((feature) => (
-                <Stack key={feature.key} direction="row" alignItems="center" justifyContent="space-between">
-                  <Typography variant='body1' flexGrow={1} noWrap>
+                <Stack
+                  key={feature.key}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Typography variant="body1" flexGrow={1} noWrap>
                     {feature.key} - {feature.value}
                   </Typography>
                   <IconButton color="error">
-                    <Iconify icon="eva:trash-2-outline" width={24} height={24} onClick={() => {
-                      handleRemoveFeature(feature.key);
-                    }} />
+                    <Iconify
+                      icon="eva:trash-2-outline"
+                      width={24}
+                      height={24}
+                      onClick={() => {
+                        handleRemoveFeature(feature.key);
+                      }}
+                    />
                   </IconButton>
                 </Stack>
               ))}
               <Box>
-                <Button variant='outlined' color='primary' startIcon={<Iconify icon="ic:round-add" width={24} height={24} />} onClick={handleOpenAddDialog}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  startIcon={<Iconify icon="ic:round-add" width={24} height={24} />}
+                  onClick={handleOpenAddDialog}
+                >
                   Add New Feature
                 </Button>
               </Box>
@@ -275,12 +280,16 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
 
           <Stack alignItems="flex-end" sx={{ mt: 3 }}>
             <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-              {!isEdit ? 'Create User' : 'Save Changes'}
+              {!isEdit ? 'Create product' : 'Save Changes'}
             </LoadingButton>
           </Stack>
         </Card>
       </FormProvider>
-      <ProductFeatureDialog dialogState={openFormDialog} handleCloseDialog={handleCloseDialog} onSelect={handleAddFeature} />
+      <ProductFeatureDialog
+        dialogState={openFormDialog}
+        handleCloseDialog={handleCloseDialog}
+        onSelect={handleAddFeature}
+      />
     </>
   );
 }

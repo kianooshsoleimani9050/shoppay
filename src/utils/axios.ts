@@ -1,3 +1,4 @@
+import { CreateBrandDto } from '../@types/models/create-brand-dto';
 import { CommissionDto } from '../@types/models/commission-dto';
 import { SettingDto } from '../@types/models/setting-dto';
 import { CategoryDto } from '../@types/models/category-dto';
@@ -190,7 +191,6 @@ const AxiosApi = {
       .get<ResponseList<ProductRequestDto[]>>('/products/requests', { params })
       .then((res) => res.data),
   postProduct: ({ data }: { data: Record<string, any> }) => {
-    console.info(data);
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -202,11 +202,36 @@ const AxiosApi = {
       }
     });
 
-    console.info(formData);
     return axiosInstance.post<any>(`/dashboards/products`, formData).then((res) => res.data);
   },
   brandList: () =>
     axiosInstance.get<BrandDto[]>('dashboards/products/brands/flat').then((res) => res.data),
+  createBrand: ({ data }: { data: CreateBrandDto }) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((val) => {
+          formData.append(key, val);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+    return axiosInstance.post(`/dashboards/products/brands`, formData).then((res) => res.data);
+  },
+  updateBrand: ({ data }: { data: CreateBrandDto }, id: string) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((val) => {
+          formData.append(key, val);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+    return axiosInstance.put(`dashboards/products/brands/${id}`, formData).then((res) => res.data);
+  },
   brandListWithPagination: (params: GetList) =>
     axiosInstance
       .get<ResponseList<BrandDto[]>>('products/brands/list', { params })
