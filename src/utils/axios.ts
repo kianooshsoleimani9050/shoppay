@@ -52,6 +52,30 @@ axiosInstance.interceptors.response.use(
 
 const AxiosApi = {
   axiosInstance,
+  // assets
+  getFileLocalPath: (url: string, fileName: string, returnFile?: boolean) =>
+    axiosInstance
+      .get<Buffer>(url, {
+        responseType: 'arraybuffer',
+      })
+      .then((res) => {
+        const array = new Uint8Array(res.data);
+        const blob = new Blob([array]);
+        let blobToFile: any = blob;
+        blobToFile.lastModifiedDate = new Date();
+        blobToFile.name = fileName;
+        if (blobToFile) {
+          const src = URL.createObjectURL(blobToFile);
+          if (returnFile) {
+            return {
+              src,
+              file: blobToFile as File,
+            };
+          }
+          return src;
+        }
+        return null;
+      }),
   // main
   stats: () => axiosInstance.get<any>('/generals/stats').then((res) => res.data),
   lastestOrders: () =>
@@ -226,16 +250,6 @@ const AxiosApi = {
     axiosInstance.post(`settings`, data).then(() => {}),
   settingUpdate: (id: string, data: UpdateSettingAdminDto) =>
     axiosInstance.put(`/settings/${id}`, data).then(() => {}),
-
-  // others
-  getImage: (id: string) =>
-    axiosInstance
-      .get(`media/${id}`, {
-        headers: {
-          'Content-Type': 'image/jpeg',
-        },
-      })
-      .then((res) => res.data),
 };
 
 export default AxiosApi;
