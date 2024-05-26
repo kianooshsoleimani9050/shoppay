@@ -21,15 +21,15 @@ import { GridActionsCellItem } from '@mui/x-data-grid';
 
 type CategoryIconPropsType = {
   iconId: string;
-  iconName: string
-}
+  iconName: string;
+};
 const CategoryIcon = ({ iconId, iconName }: CategoryIconPropsType) => {
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState('');
   useEffect(() => {
     if (!!iconId) {
       AxiosApi.getFileLocalPath(`media/${iconId}`, iconName).then((res) => {
-        if (typeof res === "string") {
-          setImage(res)
+        if (typeof res === 'string') {
+          setImage(res);
         }
       });
     }
@@ -38,16 +38,10 @@ const CategoryIcon = ({ iconId, iconName }: CategoryIconPropsType) => {
 
   return (
     <Card sx={{ width: 60 }}>
-      <Image
-        src={image}
-        alt={image}
-        ratio="1/1"
-        width="100%"
-        height="100%"
-      />
+      <Image src={image} alt={image} ratio="1/1" width="100%" height="100%" />
     </Card>
-  )
-}
+  );
+};
 
 export default function CategoryList() {
   const { themeStretch } = useSettings();
@@ -66,6 +60,12 @@ export default function CategoryList() {
 
   const handleRowClick = (rowId: string | number) => {
     navigate(PATH_DASHBOARD.category.edit(`${rowId}`));
+  };
+
+  const handleDeleteRow = (rowId: string) => {
+    AxiosApi.deleteCategory(rowId).then(() => {
+      navigate(PATH_DASHBOARD.category.list);
+    });
   };
 
   return (
@@ -119,25 +119,21 @@ export default function CategoryList() {
                 flex: 1,
               },
               {
-                field: "actions",
-                headerName: "Actions",
-                type: "actions",
-                getActions: ({ row }: { row: CategoryDto }) => [<GridActionsCellItem
-                  icon={
-                    <Iconify
-                      icon={"eva:trash-2-outline"}
-                      width={24}
-                      height={24}
-                    />
-                  }
-                  onClick={() => {
-                    /// do
-                  }}
-                  color="error"
-                  key="Delete"
-                  label="Delete"
-                />]
-              }
+                field: 'actions',
+                headerName: 'Actions',
+                type: 'actions',
+                getActions: ({ row }: { row: CategoryDto }) => [
+                  <GridActionsCellItem
+                    icon={<Iconify icon={'eva:trash-2-outline'} width={24} height={24} />}
+                    onClick={() => {
+                      handleDeleteRow(row.id);
+                    }}
+                    color="error"
+                    key="Delete"
+                    label="Delete"
+                  />,
+                ],
+              },
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);

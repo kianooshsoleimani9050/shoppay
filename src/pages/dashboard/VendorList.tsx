@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Card,
-  Button,
-  Container,
-  Typography,
-} from '@mui/material';
+import { Card, Button, Container, Typography } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -17,7 +12,9 @@ import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { CustomDataGrid, QueryType } from '../../components/custom/CustomDataGrid';
-import { VendorDto } from 'src/@types/models';
+import { VendorDto, VendorDtoStatusEnum } from 'src/@types/models';
+import { GridActionsCellItem } from '@mui/x-data-grid';
+import AxiosApi from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -30,17 +27,33 @@ export default function VendorList() {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
     },
-    !!tableState,
+    !!tableState
   );
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.vendor.profile(`${rowId}`))
-  }
+    navigate(PATH_DASHBOARD.vendor.profile(`${rowId}`));
+  };
+
+  const featured = (rowId: string) => {
+    AxiosApi.vendorFeatured(rowId).then(() => {
+      navigate(PATH_DASHBOARD.vendor.list);
+    });
+  };
+  const unFeatured = (rowId: string) => {
+    AxiosApi.vendorUnFeatured(rowId).then(() => {
+      navigate(PATH_DASHBOARD.vendor.list);
+    });
+  };
+  const deActivate = (rowId: string) => {};
+  const accept = (rowId: string) => {};
 
   return (
-    <Page title="Vendor: List" sx={{ height: "100%" }}>
-      <Container maxWidth={themeStretch ? false : 'lg'} sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Page title="Vendor: List" sx={{ height: '100%' }}>
+      <Container
+        maxWidth={themeStretch ? false : 'lg'}
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
         <HeaderBreadcrumbs
           heading="Vendor List"
           links={[
@@ -66,13 +79,13 @@ export default function VendorList() {
             rowCount={data?.meta.itemCount || 0}
             columns={[
               {
-                field: "title",
-                headerName: "Name",
+                field: 'title',
+                headerName: 'Name',
                 flex: 1,
               },
               {
-                field: "user",
-                headerName: "User",
+                field: 'user',
+                headerName: 'User',
                 flex: 1,
                 renderCell: ({ row }: { row: VendorDto }) => (
                   <Typography variant="body2" noWrap>
@@ -81,8 +94,8 @@ export default function VendorList() {
                 ),
               },
               {
-                field: "category",
-                headerName: "Category",
+                field: 'category',
+                headerName: 'Category',
                 flex: 1,
                 renderCell: ({ row }: { row: VendorDto }) => (
                   <Typography variant="body2" noWrap>
@@ -91,36 +104,78 @@ export default function VendorList() {
                 ),
               },
               {
-                field: "balance",
-                headerName: "Balance",
+                field: 'balance',
+                headerName: 'Balance',
                 flex: 1,
               },
               {
-                field: "mobile",
-                headerName: "Mobile",
+                field: 'mobile',
+                headerName: 'Mobile',
                 flex: 1,
               },
               {
-                field: "telephone",
-                headerName: "Telephone",
+                field: 'telephone',
+                headerName: 'Telephone',
                 flex: 1,
               },
               {
-                field: "status",
-                headerName: "Status",
+                field: 'status',
+                headerName: 'Status',
                 flex: 1,
               },
               {
-                field: "createdAt",
-                headerName: "CreatedAt",
+                field: 'createdAt',
+                headerName: 'CreatedAt',
                 flex: 1,
+              },
+              {
+                field: 'actions',
+                headerName: 'Actions',
+                type: 'actions',
+                getActions: ({ row }: { row: VendorDto }) => [
+                  <>
+                    {row.featured ? (
+                      <GridActionsCellItem
+                        icon={<Iconify icon={'eva:trash-2-outline'} width={24} height={24} />}
+                        onClick={() => {
+                          featured(row.id);
+                        }}
+                        color="success"
+                        key="Delete"
+                        label="Featured"
+                      />
+                    ) : !row.featured ? (
+                      <GridActionsCellItem
+                        icon={<Iconify icon={'eva:trash-2-outline'} width={24} height={24} />}
+                        onClick={() => {
+                          unFeatured(row.id);
+                        }}
+                        color="error"
+                        key="deActive"
+                        label="un-Featured"
+                      />
+                    ) : (
+                      row.status === VendorDtoStatusEnum.Pending && (
+                        <GridActionsCellItem
+                          icon={<Iconify icon={'eva:trash-2-outline'} width={24} height={24} />}
+                          onClick={() => {
+                            accept(row.id);
+                          }}
+                          color="success"
+                          key="accept"
+                          label="Accept"
+                        />
+                      )
+                    )}
+                  </>,
+                ],
               },
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);
             }}
             onRowClick={(row) => {
-              handleRowClick(row.id)
+              handleRowClick(row.id);
             }}
           />
         </Card>

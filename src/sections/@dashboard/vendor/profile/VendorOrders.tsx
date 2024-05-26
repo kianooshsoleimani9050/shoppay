@@ -4,6 +4,8 @@ import { Box, Card, Typography } from '@mui/material';
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { OrderDto, VendorDto } from 'src/@types/models';
 import { useGetVendorOrders } from 'src/hooks/query/vendor/GetVendorOrders';
+import { GridActionsCellItem } from '@mui/x-data-grid';
+import Iconify from 'src/components/Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +25,10 @@ export default function VendorOrders({ vendor, id }: Props) {
     },
     !!tableState && !!id
   );
+
+  const handleDeleteRow = (rowId: string) =>{
+    console.info(rowId)
+  }
 
   return (
     <Box sx={{ mt: 5 }}>
@@ -75,6 +81,22 @@ export default function VendorOrders({ vendor, id }: Props) {
               field: 'createdAt',
               headerName: 'CreatedAt',
               flex: 1,
+            },
+            {
+              field: 'actions',
+              headerName: 'Actions',
+              type: 'actions',
+              getActions: ({ row }: { row: OrderDto }) => [
+                <GridActionsCellItem
+                  icon={<Iconify icon={'eva:trash-2-outline'} width={24} height={24} />}
+                  onClick={() => {
+                    handleDeleteRow(row.id);
+                  }}
+                  color="error"
+                  key="Delete"
+                  label="Delete"
+                />,
+              ],
             },
           ]}
           onQueryChange={(tableState) => {

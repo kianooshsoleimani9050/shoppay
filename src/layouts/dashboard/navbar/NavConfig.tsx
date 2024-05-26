@@ -75,8 +75,6 @@ const navConfig = [
         icon: ICONS.setting,
         children: [
           { title: 'list', path: PATH_DASHBOARD.setting.list },
-          // @TODO kio
-          // { title: 'edit', path: PATH_DASHBOARD.setting.edit() },
           { title: 'create', path: PATH_DASHBOARD.setting.new },
         ],
       },
@@ -96,6 +94,7 @@ const navConfig = [
         children: [
           { title: 'list', path: PATH_DASHBOARD.product.list },
           { title: 'create', path: PATH_DASHBOARD.product.create },
+          { title: 'requests', path: PATH_DASHBOARD.product.requests },
         ],
       },
       {
