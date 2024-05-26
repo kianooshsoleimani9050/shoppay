@@ -12,40 +12,40 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import AxiosApi from 'src/utils/axios';
 import { useEffect, useState } from 'react';
-import { CategoryDto } from 'src/@types/models';
-import CategoryNewEditForm from 'src/sections/@dashboard/category/CategoryNewEditForm';
+import { BrandDto } from 'src/@types/models';
+import BrandNewEditForm from 'src/sections/@dashboard/brand/BrandNewEditForm';
 
 // ----------------------------------------------------------------------
 
-export default function CategoryCreate() {
+export default function BrandCreate() {
   const { themeStretch } = useSettings();
 
   const { pathname } = useLocation();
 
   const { id = '' } = useParams();
 
-  const [categories, setCategories] = useState<CategoryDto[]>([])
+  const [brands, setBrands] = useState<BrandDto[]>([])
   const isEdit = pathname.includes('edit');
   useEffect(() => {
-    AxiosApi.categoryList({}).then((res) => {
-      setCategories(res.data)
+    AxiosApi.brandList().then((res) => {
+      setBrands(res)
     }).catch((err) => { console.error(err) });
   }, [])
-  const currentCategory = categories.find((user) => paramCase(user.id || "") === id);
+  const currentBrand = brands.find((user) => paramCase(user.id || "") === id);
 
   return (
-    <Page title="Category: Create a new category">
+    <Page title="Brand: Create a new brand">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new category' : 'Edit category'}
+          heading={!isEdit ? 'Create a new brand' : 'Edit brand'}
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Category', href: PATH_DASHBOARD.category.list },
-            { name: !isEdit ? 'New category' : capitalCase(id) },
+            { name: 'Brand', href: PATH_DASHBOARD.brand.list },
+            { name: !isEdit ? 'New brand' : capitalCase(id) },
           ]}
         />
 
-        <CategoryNewEditForm isEdit={isEdit} currentCategory={currentCategory} />
+        <BrandNewEditForm isEdit={isEdit} currentBrand={currentBrand} />
       </Container>
     </Page>
   );

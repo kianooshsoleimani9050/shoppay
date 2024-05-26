@@ -33,7 +33,7 @@ export default function BrandList() {
   const navigate = useNavigate();
 
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.category.edit(`${rowId}`));
+    navigate(PATH_DASHBOARD.brand.edit(`${rowId}`));
   };
 
   return (

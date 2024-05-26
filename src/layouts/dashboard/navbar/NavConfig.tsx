@@ -13,6 +13,7 @@ const ICONS = {
   blog: getIcon('ic_blog'),
   order: getIcon('ic_mail'),
   category: getIcon('ic_mail'),
+  brand: getIcon('ic_mail'),
   product: getIcon('ic_mail'),
   setting: getIcon('ic_mail'),
   vendor: getIcon('ic_cart'),
@@ -104,6 +105,15 @@ const navConfig = [
         children: [
           { title: 'list', path: PATH_DASHBOARD.category.list },
           { title: 'create', path: PATH_DASHBOARD.category.new },
+        ],
+      },
+      {
+        title: 'brand',
+        path: PATH_DASHBOARD.brand.root,
+        icon: ICONS.brand,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.brand.list },
+          { title: 'create', path: PATH_DASHBOARD.brand.new },
         ],
       },
     ],

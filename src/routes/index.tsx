@@ -169,12 +169,21 @@ export default function Router() {
           ],
         },
         {
+          path: 'product-request',
+          children: [
+            { element: <Navigate to="/dashboard/product-request/list" replace />, index: true },
+            { path: 'list', element: <CategoryList /> },
+            { path: 'new', element: <BrandCreate /> },
+            { path: ':id/edit', element: <BrandCreate /> },
+          ],
+        },
+        {
           path: 'brand',
           children: [
             { element: <Navigate to="/dashboard/brand/list" replace />, index: true },
             { path: 'list', element: <BrandList /> },
-            { path: 'new', element: <CategoryCreate /> },
-            { path: ':id/edit', element: <CategoryCreate /> },
+            { path: 'new', element: <BrandCreate /> },
+            { path: ':id/edit', element: <BrandCreate /> },
           ],
         },
         {
@@ -292,7 +301,7 @@ const CategoryCreate = Loadable(lazy(() => import('../pages/dashboard/CategoryCr
 
 // BRAND
 const BrandList = Loadable(lazy(() => import('../pages/dashboard/BrandList')));
-const BrandCreate = Loadable(lazy(() => import('../pages/dashboard/CategoryCreate')));
+const BrandCreate = Loadable(lazy(() => import('../pages/dashboard/BrandCreate')));
 
 // VENDOR
 const VendorList = Loadable(lazy(() => import('../pages/dashboard/VendorList')))
