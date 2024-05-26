@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Card, Container, Button } from '@mui/material';
+import { Card, Container, Button, Box } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -14,8 +14,39 @@ import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid'
 import { useGetCategoryList } from 'src/hooks/query/category/useGetCategoryList';
 import Iconify from 'src/components/Iconify';
 import { CategoryDto } from 'src/@types/models';
-import ImageField from 'src/components/custom/ImageField';
+import AxiosApi from 'src/utils/axios';
+import Image from 'src/components/Image';
 // ----------------------------------------------------------------------
+
+type CategoryIconPropsType = {
+  iconId: string;
+  iconName: string
+}
+const CategoryIcon = ({ iconId, iconName }: CategoryIconPropsType) => {
+  const [image, setImage] = useState("");
+  useEffect(() => {
+    if (!!iconId) {
+      AxiosApi.getFileLocalPath(`media/${iconId}`, iconName).then((res) => {
+        if (typeof res === "string") {
+          setImage(res)
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <Card sx={{ width: 60 }}>
+      <Image
+        src={image}
+        alt={image}
+        ratio="1/1"
+        width="100%"
+        height="100%"
+      />
+    </Card>
+  )
+}
 
 export default function CategoryList() {
   const { themeStretch } = useSettings();
@@ -65,19 +96,21 @@ export default function CategoryList() {
             loading={isLoading}
             rows={data?.data || []}
             rowCount={data?.meta?.itemCount || 0}
+            rowHeight={80}
             columns={[
+              {
+                field: 'icon',
+                headerName: 'icon',
+                renderCell: ({ row }: { row: CategoryDto }) => (
+                  <Box display="flex" alignItems="center">
+                    <CategoryIcon iconId={row.icon} iconName={row.icon} />
+                  </Box>
+                ),
+              },
               {
                 field: 'title',
                 headerName: 'Title',
                 flex: 1,
-              },
-              {
-                field: 'icon',
-                headerName: 'icon',
-                flex: 1,
-                renderCell: ({ row }: { row: CategoryDto }) => (
-                  <ImageField imageId={row.icon} />
-                ),
               },
               {
                 field: 'createdAt',
