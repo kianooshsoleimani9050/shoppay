@@ -5,11 +5,14 @@ import { CustomDialog, DialogStateType } from "src/components/custom/CustomDialo
 type ProductFeatureDialogPropsType = {
   dialogState: DialogStateType<{}>;
   handleCloseDialog: () => void;
-  onSelect: (feature: string) => void;
+  onSelect: (feature: {
+    key: string;
+    value: string;
+  }) => void;
 }
 
 export const ProductFeatureDialog = ({ dialogState, handleCloseDialog, onSelect }: ProductFeatureDialogPropsType) => {
-  const [feature, setFeature] = useState("");
+  const [feature, setFeature] = useState({ key: "", value: "" });
   const { open } = dialogState;
 
   const handleSubmit = () => {
@@ -22,8 +25,11 @@ export const ProductFeatureDialog = ({ dialogState, handleCloseDialog, onSelect 
       handleSubmitDialog={handleSubmit}>
       <Box mt={2}>
         <TextField fullWidth onChange={(e) => {
-          setFeature(e.target.value);
-        }} placeholder="Feature name" />
+          setFeature((prev) => ({ key: e.target.value, value: prev.value }));
+        }} placeholder="Feature Key" />
+        <TextField fullWidth onChange={(e) => {
+          setFeature((prev) => ({ value: e.target.value, key: prev.key }));
+        }} placeholder="Feature Value" sx={{ mt: 2 }} />
       </Box>
     </CustomDialog>
   )
