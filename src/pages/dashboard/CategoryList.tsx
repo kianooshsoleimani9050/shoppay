@@ -16,6 +16,7 @@ import Iconify from 'src/components/Iconify';
 import { CategoryDto } from 'src/@types/models';
 import AxiosApi from 'src/utils/axios';
 import Image from 'src/components/Image';
+import { GridActionsCellItem } from '@mui/x-data-grid';
 // ----------------------------------------------------------------------
 
 type CategoryIconPropsType = {
@@ -117,6 +118,26 @@ export default function CategoryList() {
                 headerName: 'CreatedAt',
                 flex: 1,
               },
+              {
+                field: "actions",
+                headerName: "Actions",
+                type: "actions",
+                getActions: ({ row }: { row: CategoryDto }) => [<GridActionsCellItem
+                  icon={
+                    <Iconify
+                      icon={"eva:trash-2-outline"}
+                      width={24}
+                      height={24}
+                    />
+                  }
+                  onClick={() => {
+                    /// do
+                  }}
+                  color="error"
+                  key="Delete"
+                  label="Delete"
+                />]
+              }
             ]}
             onQueryChange={(tableState) => {
               setTableState(tableState);
