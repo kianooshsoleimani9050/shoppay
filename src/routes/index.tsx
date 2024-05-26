@@ -144,7 +144,7 @@ export default function Router() {
             { path: 'list', element: <ProductList /> },
             { path: 'list/requests', element: <ProductRequestList /> },
             { path: 'new', element: <ProductCreate /> },
-            { path: ':id/edit', element: <UserCreate /> },
+            { path: ':id/edit', element: <ProductCreate /> },
           ],
         },
         {

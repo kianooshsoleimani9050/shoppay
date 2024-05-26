@@ -90,7 +90,7 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, 'product'),
     list: path(ROOTS_DASHBOARD, '/product/list'),
     create: path(ROOTS_DASHBOARD, '/product/new'),
-    single: (id: string) => path(ROOTS_DASHBOARD, `/product/${id}/single`),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/product/${id}/edit`),
   },
   mail: {
     root: path(ROOTS_DASHBOARD, '/mail'),
