@@ -1,4 +1,3 @@
-import { UpdateBrandDto } from '../@types/models/update-brand-dto';
 import { CreateBrandDto } from '../@types/models/create-brand-dto';
 import { CommissionDto } from '../@types/models/commission-dto';
 import { SettingDto } from '../@types/models/setting-dto';

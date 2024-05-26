@@ -67,9 +67,8 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
     reset,
     handleSubmit,
     watch,
-    control,
     setValue,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = methods;
 
   const values = watch();
