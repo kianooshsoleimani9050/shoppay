@@ -1,62 +1,62 @@
 import { useState } from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // @mui
-import {
-  Button,
-  Card,
-  Container,
-  Typography,
-} from '@mui/material';
+import { Card, Container, Button } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-
 // hooks
 import useSettings from '../../hooks/useSettings';
-// components
+// @types
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
-import { ProductDto } from 'src/@types/models';
-import { useGetProductList } from 'src/hooks/query/product/useGetProductList';
 import Iconify from 'src/components/Iconify';
+import { CategoryDto } from 'src/@types/models';
+import ImageField from 'src/components/custom/ImageField';
+import { useGetBrandList } from 'src/hooks/query/brand/useGetBrandList';
+// ----------------------------------------------------------------------
 
-export default function ProductList() {
+export default function BrandList() {
   const { themeStretch } = useSettings();
 
-  const navigate = useNavigate()
-
   const [tableState, setTableState] = useState<QueryType>();
-  const { data, isLoading } = useGetProductList(
+
+  const { data, isLoading } = useGetBrandList(
     {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
     },
-    !!tableState,
+    !!tableState
   );
 
+  const navigate = useNavigate();
+
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.product.single(`${rowId}`))
-  }
+    navigate(PATH_DASHBOARD.category.edit(`${rowId}`));
+  };
 
   return (
-    <Page title="Product: List" sx={{ height: "100%" }}>
-      <Container maxWidth={themeStretch ? false : 'lg'} sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Page title="Brand: List" sx={{ height: '100%' }}>
+      <Container
+        maxWidth={themeStretch ? false : 'lg'}
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
         <HeaderBreadcrumbs
-          heading="Product List"
+          heading="Brand List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Product', href: PATH_DASHBOARD.product.root },
+            { name: 'Brand', href: PATH_DASHBOARD.brand.root },
             { name: 'List' },
           ]}
           action={
             <Button
               variant="contained"
               component={RouterLink}
-              to={PATH_DASHBOARD.product.create}
+              to={PATH_DASHBOARD.brand.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New Product
+              New Brand
             </Button>
           }
         />
@@ -67,38 +67,21 @@ export default function ProductList() {
             rowCount={data?.meta?.itemCount || 0}
             columns={[
               {
-                field: "title",
-                headerName: "Title",
+                field: 'title',
+                headerName: 'Title',
                 flex: 1,
               },
               {
-                field: "brand",
-                headerName: "Brand",
+                field: 'icon',
+                headerName: 'icon',
                 flex: 1,
-                renderCell: ({ row }: { row: ProductDto }) => (
-                  <Typography variant="body2" noWrap>
-                    {row?.brand?.title}
-                  </Typography>
+                renderCell: ({ row }: { row: CategoryDto }) => (
+                  <ImageField imageId={row.icon} />
                 ),
               },
               {
-                field: "sale",
-                headerName: "Sale",
-                flex: 1,
-              },
-              {
-                field: "view",
-                headerName: "View",
-                flex: 1,
-              },
-              {
-                field: "status",
-                headerName: "Status",
-                flex: 1,
-              },
-              {
-                field: "createdAt",
-                headerName: "CreatedAt",
+                field: 'createdAt',
+                headerName: 'CreatedAt',
                 flex: 1,
               },
             ]}
@@ -106,7 +89,7 @@ export default function ProductList() {
               setTableState(tableState);
             }}
             onRowClick={(row) => {
-              handleRowClick(row.id)
+              handleRowClick(row.id);
             }}
           />
         </Card>

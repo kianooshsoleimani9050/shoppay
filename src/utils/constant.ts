@@ -33,6 +33,9 @@ export const QUERY_KEYS = {
   CATEGORY: {
     LIST: 'category-list',
   },
+  BRAND: {
+    LIST: 'brand-list',
+  },
   GENERAL: {
     STATS: 'general-stats',
   },

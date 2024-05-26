@@ -142,6 +142,7 @@ const AxiosApi = {
       .get<ResponseList<CategoryDto[]>>('dashboards/admins/categories', { params })
       .then((res) => res.data),
   createCategory: ({ data }: { data: CreateCategoryDto }) => {
+    console.info(data);
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -165,6 +166,7 @@ const AxiosApi = {
       .get<ResponseList<ProductRequestDto[]>>('/products/requests', { params })
       .then((res) => res.data),
   postProduct: ({ data }: { data: Record<string, any> }) => {
+    console.info(data);
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -175,10 +177,16 @@ const AxiosApi = {
         formData.append(key, value);
       }
     });
-    return axiosInstance.post<any>(`/products`, formData).then((res) => res.data);
+
+    console.info(formData);
+    return axiosInstance.post<any>(`/dashboards/products`, formData).then((res) => res.data);
   },
   brandList: () =>
     axiosInstance.get<BrandDto[]>('dashboards/products/brands/flat').then((res) => res.data),
+  brandListWithPagination: (params: GetList) =>
+    axiosInstance
+      .get<ResponseList<BrandDto[]>>('products/brands/list', { params })
+      .then((res) => res.data),
   // setting api
   settingList: (params: GetList) =>
     axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),
@@ -192,6 +200,16 @@ const AxiosApi = {
     axiosInstance.post(`settings`, data).then(() => {}),
   settingUpdate: (id: string, data: UpdateSettingAdminDto) =>
     axiosInstance.put(`/settings/${id}`, data).then(() => {}),
+
+  // others
+  getImage: (id: string) =>
+    axiosInstance
+      .get(`media/${id}`, {
+        headers: {
+          'Content-Type': 'image/jpeg',
+        },
+      })
+      .then((res) => res.data),
 };
 
 export default AxiosApi;

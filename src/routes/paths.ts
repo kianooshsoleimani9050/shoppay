@@ -111,6 +111,13 @@ export const PATH_DASHBOARD = {
     new: path(ROOTS_DASHBOARD, '/category/new'),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/category/${id}/edit`),
   },
+  brand: {
+    root: path(ROOTS_DASHBOARD, 'brand'),
+    list: path(ROOTS_DASHBOARD, '/brand/list'),
+    single: (id: string) => path(ROOTS_DASHBOARD, `/brand/${id}/single`),
+    new: path(ROOTS_DASHBOARD, '/brand/new'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/brand/${id}/edit`),
+  },
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),
     shop: path(ROOTS_DASHBOARD, '/e-commerce/shop'),

@@ -47,7 +47,7 @@ export interface CategoryDto {
    * @type {string}
    * @memberof CategoryDto
    */
-  icon: any[];
+  icon: any;
 
   /**
    * @type {string}

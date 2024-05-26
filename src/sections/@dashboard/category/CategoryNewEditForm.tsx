@@ -19,6 +19,7 @@ import {
 } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
 import { CategoryDto, CreateCategoryDto } from 'src/@types/models';
+import _ from 'lodash';
 
 // ----------------------------------------------------------------------
 
@@ -84,6 +85,10 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
   }, [isEdit, currentCategory]);
 
   const onSubmit = async (data: FormValuesProps) => {
+    if (data.parentId === undefined) {
+      delete data.parentId;
+    }
+
     try {
       await (isEdit
         ? handleUpdateCategory(currentCategory?.id || '', data)
@@ -98,9 +103,8 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
   };
 
   const handleCreateCategory = async (data: FormValuesProps) => {
-    AxiosApi.createCategory({ ...data , icon: data?.icon }).then(() =>
-      console.info('setting has been created!')
-    );
+    console.info(data, 'wtfffff is goin onnnn');
+    AxiosApi.createCategory({ data }).then(() => console.info('setting has been created!'));
   };
 
   const handleUpdateCategory = async (id: string, data: FormValuesProps) => {
@@ -111,10 +115,7 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
     (acceptedFiles: File[]) => {
       const icon = values.icon || [];
 
-      setValue('icon', [
-        ...icon,
-        ...acceptedFiles
-      ]);
+      setValue('icon', [...icon, ...acceptedFiles]);
     },
     [setValue, values.icon]
   );
@@ -144,6 +145,7 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
             >
               <RHFTextField name="title" label="Title" />
               <RHFSelect name="parentId" label="Parent">
+                {undefined}
                 {categories.map((option) => (
                   <option key={option.id} value={option.id}>
                     {option.title}

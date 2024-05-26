@@ -59,7 +59,7 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
 
   const NewUserSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
-    summery: Yup.string().required('Summery is required').email(),
+    summery: Yup.string().required('Summery is required'),
     description: Yup.string().required('Description is required'),
     categoryId: Yup.string().required('Category is required'),
     brandId: Yup.string().required('Brand is required'),
@@ -131,18 +131,18 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      await (isEdit ? handleCreateUser(data) : handleCreateUser(data));
+      await (isEdit ? handleCreateProduct(data) : handleCreateProduct(data));
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.user.list);
+      navigate(PATH_DASHBOARD.product.list);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleCreateUser = async (data: FormValuesProps) => {
-    AxiosApi.postProduct({ ...(data as any) });
+  const handleCreateProduct = async (data: FormValuesProps) => {
+    AxiosApi.postProduct({ data });
   };
 
   const handleDrop = useCallback(
@@ -182,11 +182,10 @@ export default function ProductNewEditForm({ isEdit, currentProduct }: Props) {
             gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
           }}
         >
+          {/* attributes */}
           <RHFTextField name="title" label="Title" />
           <RHFTextField name="summery" label="Summery" />
           <RHFTextField name="description" label="Description" />
-          <RHFTextField name="categoryId" label="Category" />
-          <RHFTextField name="brandId" label="Category" />
           <RHFSelect name="categoryId" label="Category">
             {categories.map((option) => (
               <option key={option.id} value={option.id}>

@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // @mui
-import {
-  Card,
-  Container,
-} from '@mui/material';
+import { Card, Container, Button } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -15,7 +12,9 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { useGetCategoryList } from 'src/hooks/query/category/useGetCategoryList';
-
+import Iconify from 'src/components/Iconify';
+import { CategoryDto } from 'src/@types/models';
+import ImageField from 'src/components/custom/ImageField';
 // ----------------------------------------------------------------------
 
 export default function CategoryList() {
@@ -31,11 +30,11 @@ export default function CategoryList() {
     !!tableState
   );
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.category.edit(`${rowId}`))
-  }
+    navigate(PATH_DASHBOARD.category.edit(`${rowId}`));
+  };
 
   return (
     <Page title="Category: List" sx={{ height: '100%' }}>
@@ -50,6 +49,16 @@ export default function CategoryList() {
             { name: 'Category', href: PATH_DASHBOARD.category.root },
             { name: 'List' },
           ]}
+          action={
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to={PATH_DASHBOARD.category.new}
+              startIcon={<Iconify icon={'eva:plus-fill'} />}
+            >
+              New Category
+            </Button>
+          }
         />
         <Card sx={{ flexGrow: 1 }}>
           <CustomDataGrid
@@ -66,6 +75,9 @@ export default function CategoryList() {
                 field: 'icon',
                 headerName: 'icon',
                 flex: 1,
+                renderCell: ({ row }: { row: CategoryDto }) => (
+                  <ImageField imageId={row.icon} />
+                ),
               },
               {
                 field: 'createdAt',
@@ -76,8 +88,8 @@ export default function CategoryList() {
             onQueryChange={(tableState) => {
               setTableState(tableState);
             }}
-            onRowClick={(row)=>{
-              handleRowClick(row.id)
+            onRowClick={(row) => {
+              handleRowClick(row.id);
             }}
           />
         </Card>
