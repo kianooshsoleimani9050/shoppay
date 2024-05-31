@@ -21,11 +21,16 @@ import { useNavigate } from 'react-router';
 export default function SupplierList() {
   const { themeStretch } = useSettings();
 
+  const [search, setSearch] = useState("")
   const [tableState, setTableState] = useState<QueryType>();
   const { data, isLoading } = useGetSupplierList(
     {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
+      ...(search && {
+
+        q: search
+      })
     },
     !!tableState,
   );
@@ -108,6 +113,10 @@ export default function SupplierList() {
             }}
             onRowClick={(row) => {
               handleRowClick(row.id)
+            }}
+            useCustomToolbar
+            onSearch={(searchText) => {
+              setSearch(searchText);
             }}
           />
         </Card>
