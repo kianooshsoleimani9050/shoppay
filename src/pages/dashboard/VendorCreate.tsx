@@ -24,23 +24,27 @@ export default function VendorCreate() {
 
   const { id = '' } = useParams();
 
-  const [vendor, setVendor ] = useState<VendorDto>()
+  const [vendor, setVendor] = useState<VendorDto>();
   const isEdit = pathname.includes('edit');
   useEffect(() => {
-    AxiosApi.singleVendor(id).then((res) => {
-      setVendor(res)
-    }).catch((err) => {console.error(err)});
-  }, [id])
+    AxiosApi.singleVendor(id)
+      .then((res) => {
+        setVendor(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [id]);
 
   return (
-    <Page title="Vendor: Create a new vendor">
+    <Page title="فروشنده: ساخت فروشنده">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new vendor' : 'Edit vendor'}
+          heading={!isEdit ? 'ساخت فروشنده' : 'ویرایش فروشنده'}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Vendor', href: PATH_DASHBOARD.vendor.list },
-            { name: !isEdit ? 'New vendor' : capitalCase(vendor?.title as unknown as string) },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'فروشنده', href: PATH_DASHBOARD.vendor.list },
+            { name: !isEdit ? 'ساخت فروشنده' : capitalCase(vendor?.title as unknown as string) },
           ]}
         />
 

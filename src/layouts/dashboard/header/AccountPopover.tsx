@@ -19,20 +19,20 @@ import { IconButtonAnimate } from '../../../components/animate';
 const MENU_OPTIONS = [
   {
     label: 'Home',
-    linkTo: '/',
+    linkTo: '/app',
   },
-  {
-    label: 'Profile',
-    linkTo: PATH_DASHBOARD.user.profile,
-  },
+  // {
+  //   label: 'Profile',
+  //   linkTo: PATH_DASHBOARD.user.profile,
+  // },
   {
     label: 'Settings',
-    linkTo: PATH_DASHBOARD.user.account,
+    linkTo: PATH_DASHBOARD.setting.list,
   },
 ];
 
 // ----------------------------------------------------------------------
-
+// @TODO
 export default function AccountPopover() {
   const navigate = useNavigate();
 
@@ -104,7 +104,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.displayName}
+            {user?.fullName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {user?.email}

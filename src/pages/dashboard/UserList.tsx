@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
-import {
-  Card,
-  Button,
-  Container,
-} from '@mui/material';
+import { Card, Button, Container, Typography } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -17,10 +13,12 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import { useGetUserList } from 'src/hooks/query/user/useGetUserList';
+import moment from 'jalali-moment';
+import { ProductDto } from 'src/@types/models';
 
 export default function UserList() {
   const { themeStretch } = useSettings();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [tableState, setTableState] = useState<QueryType>();
   const { data, isLoading } = useGetUserList(
@@ -28,22 +26,25 @@ export default function UserList() {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
     },
-    !!tableState,
+    !!tableState
   );
 
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.user.single(`${rowId}`))
-  }
+    navigate(PATH_DASHBOARD.user.single(`${rowId}`));
+  };
 
   return (
-    <Page title="User: List" sx={{ height: "100%" }}>
-      <Container maxWidth={themeStretch ? false : 'lg'} sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Page title="کاربر: لیست" sx={{ height: '100%' }}>
+      <Container
+        maxWidth={themeStretch ? false : 'lg'}
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
         <HeaderBreadcrumbs
-          heading="User List"
+          heading="کاربر لیست"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
-            { name: 'List' },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'کاربر', href: PATH_DASHBOARD.user.root },
+            { name: 'لیست' },
           ]}
           action={
             <Button
@@ -52,7 +53,7 @@ export default function UserList() {
               to={PATH_DASHBOARD.user.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New User
+              ساخت کاربر
             </Button>
           }
         />
@@ -63,38 +64,45 @@ export default function UserList() {
             rowCount={data?.meta.itemCount || 0}
             columns={[
               {
-                field: "fullName",
-                headerName: "Full Name",
+                field: 'fullName',
+                headerName: 'Full Name',
                 flex: 1,
               },
               {
-                field: "email",
-                headerName: "Email",
+                field: 'email',
+                headerName: 'Email',
                 flex: 1,
               },
               {
-                field: "role",
-                headerName: "Role",
+                field: 'role',
+                headerName: 'Role',
                 flex: 1,
               },
               {
-                field: "isActive",
-                headerName: "IsActive",
+                field: 'isActive',
+                headerName: 'IsActive',
                 flex: 1,
               },
               {
-                field: "mobile",
-                headerName: "Mobile",
+                field: 'mobile',
+                headerName: 'Mobile',
                 flex: 1,
               },
               {
-                field: "createdAt",
-                headerName: "CreatedAt",
+                field: 'updatedAt',
+                headerName: 'تاریخ ویرایش',
                 flex: 1,
+                renderCell: ({ row }: { row: ProductDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {moment(row?.updatedAt || row?.createdAt, 'YYYY/MM/DD')
+                      .locale('fa')
+                      .format('YYYY/MM/DD')}
+                  </Typography>
+                ),
               },
               {
-                field: "deletedAt",
-                headerName: "DeletedAt",
+                field: 'deletedAt',
+                headerName: 'DeletedAt',
                 flex: 1,
               },
             ]}
@@ -102,7 +110,7 @@ export default function UserList() {
               setTableState(tableState);
             }}
             onRowClick={(row) => {
-              handleRowClick(row.id)
+              handleRowClick(row.id);
             }}
           />
         </Card>

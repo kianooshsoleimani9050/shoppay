@@ -37,14 +37,14 @@ export default function ProductCreate() {
   const currentProduct = products.find((item) => paramCase(item.id || '') === id);
 
   return (
-    <Page title="Product: Create a new product">
+    <Page title="محصول: ساخت جدید محصول">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new product' : 'Edit product'}
+          heading={!isEdit ? 'ساخت جدید محصول' : 'ویرایش محصول'}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Product', href: PATH_DASHBOARD.product.list },
-            { name: !isEdit ? 'New product' : capitalCase(id) },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'محصول', href: PATH_DASHBOARD.product.list },
+            { name: !isEdit ? 'ساخت محصول' : capitalCase(id) },
           ]}
         />
 

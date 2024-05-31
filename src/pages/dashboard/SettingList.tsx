@@ -38,14 +38,14 @@ export default function SettingList() {
   }
 
   return (
-    <Page title="Setting: List" sx={{ height: "100%" }}>
+    <Page title="تنظیمات: لیست" sx={{ height: "100%" }}>
       <Container maxWidth={themeStretch ? false : 'lg'} sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <HeaderBreadcrumbs
-          heading="Setting List"
+          heading="تنظیمات لیست"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Setting', href: PATH_DASHBOARD.setting.root },
-            { name: 'List' },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'تنظیمات', href: PATH_DASHBOARD.setting.root },
+            { name: 'لیست' },
           ]}
           action={
             <Button
@@ -54,7 +54,7 @@ export default function SettingList() {
               to={PATH_DASHBOARD.setting.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New Setting
+              ساخت تنظیمات
             </Button>
           }
         />

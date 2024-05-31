@@ -38,14 +38,14 @@ export default function SettingCreate() {
   const currentCommission = settings.find((item) => paramCase(item.id) === id);
 
   return (
-    <Page title="Commission: Create a new commission">
+    <Page title="کمیسیون: ساخت کمیسیون">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new commission' : 'Edit commission'}
+          heading={!isEdit ? 'ساخت کمیسیون' : 'ویرایش کمیسیون'}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Commission', href: PATH_DASHBOARD.user.list },
-            { name: !isEdit ? 'New commission' : capitalCase(id) },
+            { name: 'داشبود', href: PATH_DASHBOARD.root },
+            { name: 'کمیسیون', href: PATH_DASHBOARD.user.list },
+            { name: !isEdit ? 'ساخت کمیسیون' : capitalCase(id) },
           ]}
         />
 

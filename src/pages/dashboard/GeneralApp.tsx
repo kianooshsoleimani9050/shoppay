@@ -1,21 +1,13 @@
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Container, Grid, Stack } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 // hooks
 import useSettings from '../../hooks/useSettings';
 // _mock_
-import { _appFeatured, _appAuthors, _appInstalled, _appRelated, _appInvoices } from '../../_mock';
 // components
 import Page from '../../components/Page';
 // sections
-import {
-  AppWidget,
-  AppNewInvoice,
-  AppTopAuthors,
-  AppTopRelated,
-  AppWidgetSummary,
-  AppTopInstalledCountries,
-} from '../../sections/@dashboard/general/app';
+import { AppNewInvoice, AppWidgetSummary } from '../../sections/@dashboard/general/app';
 // assets
 import { useEffect, useState } from 'react';
 import AxiosApi from 'src/utils/axios';
@@ -24,7 +16,6 @@ import { OrderDto } from 'src/@types/models';
 // ----------------------------------------------------------------------
 
 export default function GeneralApp() {
-
   const theme = useTheme();
 
   const { themeStretch } = useSettings();
@@ -44,11 +35,11 @@ export default function GeneralApp() {
     },
   });
 
-  const [orders, setOrders] = useState<OrderDto[]>([])
+  const [orders, setOrders] = useState<OrderDto[]>([]);
 
   useEffect(() => {
-    AxiosApi.stats().then((res) => setData(res))
-    AxiosApi.lastestOrders().then((res) => setOrders(res))
+    AxiosApi.stats().then((res) => setData(res));
+    AxiosApi.lastestOrders().then((res) => setOrders(res));
   }, []);
 
   return (
@@ -57,7 +48,7 @@ export default function GeneralApp() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <AppWidgetSummary
-              title="Total Active Users"
+              title="تعداد کاربران فعال"
               percent={data.user.percentage}
               total={data.user.count}
               chartColor={theme.palette.primary.main}
@@ -67,7 +58,7 @@ export default function GeneralApp() {
 
           <Grid item xs={12} md={4}>
             <AppWidgetSummary
-              title="Total Vendors"
+              title="تعداد فروشنده ها"
               percent={data.vendor.percentage}
               total={data.vendor.count}
               chartColor={theme.palette.chart.blue[0]}
@@ -77,7 +68,7 @@ export default function GeneralApp() {
 
           <Grid item xs={12} md={4}>
             <AppWidgetSummary
-              title="Total Suppliers"
+              title="تعداد تامین کننده ها"
               percent={data.supplier.percentage}
               total={data.supplier.count}
               chartColor={theme.palette.chart.red[0]}
@@ -86,14 +77,14 @@ export default function GeneralApp() {
           </Grid>
           <Grid item xs={12} lg={8}>
             <AppNewInvoice
-              title="New Orders"
+              title="لیست سفارشات جدید"
               tableData={orders}
               tableLabels={[
-                { id: 'id', label: 'Invoice ID' },
-                { id: 'commission', label: 'Commission' },
-                { id: 'totalPrice', label: 'Total price' },
-                { id: 'user', label: 'User full name' },
-                { id: 'status', label: 'Status' },
+                { id: 'id', label: 'شناسه سفارش' },
+                { id: 'commission', label: 'کمیسیون' },
+                { id: 'totalPrice', label: 'قیمت کل' },
+                { id: 'user', label: 'نام کاربر' },
+                { id: 'status', label: 'وضعیت' },
                 { id: '' },
               ]}
             />

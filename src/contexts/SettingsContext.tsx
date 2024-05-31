@@ -110,7 +110,7 @@ function SettingsProvider({ children }: SettingsProviderProps) {
   const onChangeDirectionByLang = (lang: string) => {
     setSettings({
       ...settings,
-      themeDirection: lang === 'ar' ? 'rtl' : 'ltr',
+      themeDirection: lang === 'fa' ? 'rtl' : 'ltr',
     });
   };
 

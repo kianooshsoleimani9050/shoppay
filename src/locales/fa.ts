@@ -41,6 +41,7 @@ const fa = {
   profile: `پروفایل`,
   account: `حساب`,
   product: `محصول`,
+  Product: `محصول`,
   category: `دسته بندی`,
   invoice: `facture`,
   details: `جزییات`,

@@ -1,10 +1,6 @@
 import { useState } from 'react';
 // @mui
-import {
-  Button,
-  Card,
-  Container,
-} from '@mui/material';
+import { Button, Card, Container } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // routes
@@ -21,7 +17,7 @@ import { useGetCommissionList } from 'src/hooks/query/setting/useGetCommissionLi
 
 export default function CommissionList() {
   const { themeStretch } = useSettings();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [tableState, setTableState] = useState<QueryType>();
   const { data, isLoading } = useGetCommissionList(
@@ -29,22 +25,25 @@ export default function CommissionList() {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
     },
-    !!tableState,
+    !!tableState
   );
 
   const handleRowClick = (rowId: string | number) => {
-    navigate(PATH_DASHBOARD.commission.edit(`${rowId}`))
-  }
+    navigate(PATH_DASHBOARD.commission.edit(`${rowId}`));
+  };
 
   return (
-    <Page title="Commission: List" sx={{ height: "100%" }}>
-      <Container maxWidth={themeStretch ? false : 'lg'} sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Page title="کمیسیون: لیست" sx={{ height: '100%' }}>
+      <Container
+        maxWidth={themeStretch ? false : 'lg'}
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
         <HeaderBreadcrumbs
-          heading="Commission List"
+          heading="کمیسیون لیست"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Commission', href: PATH_DASHBOARD.commission.root },
-            { name: 'List' },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'کمیسیون', href: PATH_DASHBOARD.commission.root },
+            { name: 'لیست' },
           ]}
           action={
             <Button
@@ -53,7 +52,7 @@ export default function CommissionList() {
               to={PATH_DASHBOARD.commission.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New Setting
+              ساخت کمیسیون
             </Button>
           }
         />
@@ -64,18 +63,18 @@ export default function CommissionList() {
             rowCount={data?.meta?.itemCount || 0}
             columns={[
               {
-                field: "percentage",
-                headerName: "Percentage",
+                field: 'percentage',
+                headerName: 'Percentage',
                 flex: 1,
               },
               {
-                field: "lessThan",
-                headerName: "Less than",
+                field: 'lessThan',
+                headerName: 'Less than',
                 flex: 1,
               },
               {
-                field: "moreThan",
-                headerName: "More than",
+                field: 'moreThan',
+                headerName: 'More than',
                 flex: 1,
               },
             ]}
@@ -83,7 +82,7 @@ export default function CommissionList() {
               setTableState(tableState);
             }}
             onRowClick={(row) => {
-              handleRowClick(row.id)
+              handleRowClick(row.id);
             }}
           />
         </Card>

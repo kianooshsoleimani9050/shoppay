@@ -34,14 +34,14 @@ export default function CategoryCreate() {
   const currentCategory = categories.find((user) => paramCase(user.id || "") === id);
 
   return (
-    <Page title="Category: Create a new category">
+    <Page title="دسته بندی: ساخت دسته بندی">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new category' : 'Edit category'}
+          heading={!isEdit ? 'ساخت دسته بندی' : 'ویرایش دسته بندی'}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Category', href: PATH_DASHBOARD.category.list },
-            { name: !isEdit ? 'New category' : capitalCase(id) },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'دسته بندی', href: PATH_DASHBOARD.category.list },
+            { name: !isEdit ? 'ساخت دسته بندی' : capitalCase(id) },
           ]}
         />
 

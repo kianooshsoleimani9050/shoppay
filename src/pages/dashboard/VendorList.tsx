@@ -15,6 +15,7 @@ import { CustomDataGrid, QueryType } from '../../components/custom/CustomDataGri
 import { VendorDto, VendorDtoStatusEnum } from 'src/@types/models';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import AxiosApi from 'src/utils/axios';
+import moment from 'jalali-moment';
 
 // ----------------------------------------------------------------------
 
@@ -45,21 +46,20 @@ export default function VendorList() {
       navigate(PATH_DASHBOARD.vendor.list);
     });
   };
-  const deActivate = (rowId: string) => {};
   const accept = (rowId: string) => {};
 
   return (
-    <Page title="Vendor: List" sx={{ height: '100%' }}>
+    <Page title="فروشنده: لیست" sx={{ height: '100%' }}>
       <Container
         maxWidth={themeStretch ? false : 'lg'}
         sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
         <HeaderBreadcrumbs
-          heading="Vendor List"
+          heading="فروشنده لیست"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Vendor', href: PATH_DASHBOARD.vendor.root },
-            { name: 'List' },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'فروشنده', href: PATH_DASHBOARD.vendor.root },
+            { name: 'لیست' },
           ]}
           action={
             <Button
@@ -68,7 +68,7 @@ export default function VendorList() {
               to={PATH_DASHBOARD.vendor.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New vendor
+              ساخت فروشنده
             </Button>
           }
         />
@@ -125,8 +125,15 @@ export default function VendorList() {
               },
               {
                 field: 'createdAt',
-                headerName: 'CreatedAt',
+                headerName: 'تاریخ عضویت',
                 flex: 1,
+                renderCell: ({ row }: { row: VendorDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {moment(row?.updatedAt || row?.createdAt, 'YYYY/MM/DD')
+                      .locale('fa')
+                      .format('YYYY/MM/DD')}
+                  </Typography>
+                ),
               },
               {
                 field: 'actions',

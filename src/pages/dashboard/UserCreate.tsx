@@ -24,24 +24,28 @@ export default function UserCreate() {
 
   const { id = '' } = useParams();
 
-  const [users, setUsers] = useState<UserDto[]>([])
+  const [users, setUsers] = useState<UserDto[]>([]);
   const isEdit = pathname.includes('edit');
   useEffect(() => {
-    AxiosApi.userList({}).then((res) => {
-      setUsers(res.data)
-    }).catch((err) => { console.error(err) });
-  }, [])
-  const currentUser = users.find((user) => paramCase(user.id || "") === id);
+    AxiosApi.userList({})
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+  const currentUser = users.find((user) => paramCase(user.id || '') === id);
 
   return (
-    <Page title="User: Create a new user">
+    <Page title="کاربر: ساخت کاربر">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new user' : 'Edit user'}
+          heading={!isEdit ? ' ساخت کاربر' : 'ویرایش کاربر'}
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.list },
-            { name: !isEdit ? 'New user' : capitalCase(id) },
+            { name: 'کاربر', href: PATH_DASHBOARD.user.list },
+            { name: !isEdit ? 'ساخت کاربر' : capitalCase(id) },
           ]}
         />
 

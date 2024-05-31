@@ -11,7 +11,12 @@ import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import { FormProvider, RHFTextField, RHFUploadMultiFile } from '../../../components/hook-form';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+  RHFUploadMultiFile,
+} from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
 import _ from 'lodash';
 import { CreateBrandDto } from 'src/@types/models/create-brand-dto';
@@ -31,12 +36,18 @@ export default function BrandNewEditForm({ isEdit, currentBrand }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewBrandSchema = Yup.object().shape({
-    title: Yup.string().required('full name is required'),
+    title: Yup.string().required('عنوان اجباری است'),
+    enTitle: Yup.string().required('عنوان اجباری است'),
+    status: Yup.string().required('وضعیت اجباری است'),
+    order: Yup.string().required('اولویت اجباری است'),
   });
 
   const defaultValues = useMemo(
     () => ({
       title: currentBrand?.title || '',
+      enTitle: currentBrand?.enTitle || '',
+      status: currentBrand?.status || true,
+      order: currentBrand?.order || 0,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentBrand]
@@ -121,7 +132,37 @@ export default function BrandNewEditForm({ isEdit, currentBrand }: Props) {
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <RHFTextField name="title" label="Title" />
+              <RHFTextField name="title" label="عنوان فارسی" />
+              <RHFTextField name="enTitle" label="عنوان انگلیسی" />
+              <RHFTextField name="order" label="اولویت" />
+              <RHFSelect name="status" label="وضعیت">
+                <option
+                  key={1}
+                  value={
+                    currentBrand?.status !== undefined
+                      ? currentBrand?.status === true
+                        ? 'true'
+                        : 'false'
+                      : 'true'
+                  }
+                  style={{ padding: '5px' }}
+                >
+                  فعال
+                </option>
+                <option
+                  key={2}
+                  value={
+                    currentBrand?.status !== undefined
+                      ? currentBrand?.status === true
+                        ? 'false'
+                        : 'true'
+                      : 'false'
+                  }
+                  style={{ padding: '5px' }}
+                >
+                  غیرفعال
+                </option>
+              </RHFSelect>
               <RHFUploadMultiFile
                 name="icon"
                 onDrop={handleDrop}
@@ -132,7 +173,7 @@ export default function BrandNewEditForm({ isEdit, currentBrand }: Props) {
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create brand' : 'Save Changes'}
+                {!isEdit ? 'ساخت برند' : 'ذخیره تغییرات'}
               </LoadingButton>
             </Stack>
           </Card>

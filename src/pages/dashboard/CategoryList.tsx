@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Card, Container, Button, Box } from '@mui/material';
+import { Card, Container, Button, Box, Typography } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -17,6 +17,7 @@ import { CategoryDto } from 'src/@types/models';
 import AxiosApi from 'src/utils/axios';
 import Image from 'src/components/Image';
 import { GridActionsCellItem } from '@mui/x-data-grid';
+import moment from 'jalali-moment';
 // ----------------------------------------------------------------------
 
 type CategoryIconPropsType = {
@@ -42,6 +43,20 @@ const CategoryIcon = ({ iconId, iconName }: CategoryIconPropsType) => {
     </Card>
   );
 };
+
+// const flattenCategories = (categories: CategoryDto[]) => {
+//   const flatList: CategoryDto[] = [];
+
+//   for (const item of categories) {
+//     if(item.children?.length !== 0){
+//       flatList.push(...item.children)
+//     } else {
+//       flatList.push(item);
+//     }
+//   }
+
+//   return flatList
+// };
 
 export default function CategoryList() {
   const { themeStretch } = useSettings();
@@ -69,17 +84,17 @@ export default function CategoryList() {
   };
 
   return (
-    <Page title="Category: List" sx={{ height: '100%' }}>
+    <Page title="دسته بندی: لیست" sx={{ height: '100%' }}>
       <Container
         maxWidth={themeStretch ? false : 'lg'}
         sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
         <HeaderBreadcrumbs
-          heading="Category List"
+          heading="دسته بندی لیست"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Category', href: PATH_DASHBOARD.category.root },
-            { name: 'List' },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'دسته بندی', href: PATH_DASHBOARD.category.root },
+            { name: 'لیست' },
           ]}
           action={
             <Button
@@ -88,7 +103,7 @@ export default function CategoryList() {
               to={PATH_DASHBOARD.category.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New Category
+              ساخت دسته بندی
             </Button>
           }
         />
@@ -100,8 +115,13 @@ export default function CategoryList() {
             rowHeight={80}
             columns={[
               {
+                field: 'title',
+                headerName: 'عنوان',
+                flex: 1,
+              },
+              {
                 field: 'icon',
-                headerName: 'icon',
+                headerName: 'آیکون',
                 renderCell: ({ row }: { row: CategoryDto }) => (
                   <Box display="flex" alignItems="center">
                     <CategoryIcon iconId={row.icon} iconName={row.icon} />
@@ -109,14 +129,21 @@ export default function CategoryList() {
                 ),
               },
               {
-                field: 'title',
-                headerName: 'Title',
+                field: 'childrenCount',
+                headerName: 'تعداد زیر دسته',
                 flex: 1,
               },
               {
-                field: 'createdAt',
-                headerName: 'CreatedAt',
+                field: 'updatedAt',
+                headerName: 'تاریخ ویرایش',
                 flex: 1,
+                renderCell: ({ row }: { row: CategoryDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {moment(row?.updatedAt || row?.createdAt, 'YYYY/MM/DD')
+                      .locale('fa')
+                      .format('YYYY/MM/DD')}
+                  </Typography>
+                ),
               },
               {
                 field: 'actions',

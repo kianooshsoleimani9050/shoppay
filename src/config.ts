@@ -1,6 +1,5 @@
 // @mui
-import { enUS, frFR, zhCN, viVN, arSD } from '@mui/material/locale';
-import { faIR } from 'date-fns/locale';
+import { enUS, faIR } from '@mui/material/locale';
 // components
 import { SettingsValueProps } from './components/settings/type';
 // routes
@@ -71,7 +70,7 @@ export const defaultSettings: SettingsValueProps = {
   themeDirection: 'rtl',
   themeContrast: 'default',
   themeLayout: 'horizontal',
-  themeColorPresets: 'default',
+  themeColorPresets: 'orange',
   themeStretch: false,
 };
 

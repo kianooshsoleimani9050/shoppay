@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Card, Container, Button, Box } from '@mui/material';
+import { Card, Container, Button, Box, Typography } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -12,23 +12,24 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid';
 import Iconify from 'src/components/Iconify';
-import { CategoryDto } from 'src/@types/models';
+import { BrandDto, CategoryDto } from 'src/@types/models';
 import { useGetBrandList } from 'src/hooks/query/brand/useGetBrandList';
 import AxiosApi from 'src/utils/axios';
 import Image from 'src/components/Image';
+import moment from 'jalali-moment';
 // ----------------------------------------------------------------------
 
 type BrandIconPropsType = {
   iconId: string;
-  iconName: string
-}
+  iconName: string;
+};
 const BrandIcon = ({ iconId, iconName }: BrandIconPropsType) => {
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState('');
   useEffect(() => {
     if (!!iconId) {
       AxiosApi.getFileLocalPath(`media/${iconId}`, iconName).then((res) => {
-        if (typeof res === "string") {
-          setImage(res)
+        if (typeof res === 'string') {
+          setImage(res);
         }
       });
     }
@@ -37,16 +38,10 @@ const BrandIcon = ({ iconId, iconName }: BrandIconPropsType) => {
 
   return (
     <Card sx={{ width: 60 }}>
-      <Image
-        src={image}
-        alt={image}
-        ratio="1/1"
-        width="100%"
-        height="100%"
-      />
+      <Image src={image} alt={image} ratio="1/1" width="100%" height="100%" />
     </Card>
-  )
-}
+  );
+};
 
 export default function BrandList() {
   const { themeStretch } = useSettings();
@@ -68,17 +63,17 @@ export default function BrandList() {
   };
 
   return (
-    <Page title="Brand: List" sx={{ height: '100%' }}>
+    <Page title="برند: لیست" sx={{ height: '100%' }}>
       <Container
         maxWidth={themeStretch ? false : 'lg'}
         sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
         <HeaderBreadcrumbs
-          heading="Brand List"
+          heading="لیست برند"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Brand', href: PATH_DASHBOARD.brand.root },
-            { name: 'List' },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'برند', href: PATH_DASHBOARD.brand.root },
+            { name: 'لیست' },
           ]}
           action={
             <Button
@@ -87,7 +82,7 @@ export default function BrandList() {
               to={PATH_DASHBOARD.brand.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
             >
-              New Brand
+              ساخت برند
             </Button>
           }
         />
@@ -100,7 +95,7 @@ export default function BrandList() {
             columns={[
               {
                 field: 'icon',
-                headerName: 'icon',
+                headerName: 'آیکون',
                 renderCell: ({ row }: { row: CategoryDto }) => (
                   <Box display="flex" alignItems="center">
                     <BrandIcon iconId={row.icon} iconName={row.icon} />
@@ -109,13 +104,40 @@ export default function BrandList() {
               },
               {
                 field: 'title',
-                headerName: 'Title',
+                headerName: 'عنوان فارسی',
                 flex: 1,
               },
               {
-                field: 'createdAt',
-                headerName: 'CreatedAt',
+                field: 'enTitle',
+                headerName: 'عنوان انگلیسی',
                 flex: 1,
+              },
+              {
+                field: 'order',
+                headerName: 'اولویت',
+                flex: 1,
+              },
+              {
+                field: 'status',
+                headerName: 'وضعیت',
+                flex: 1,
+                renderCell: ({ row }: { row: BrandDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {row.status === true ? 'فعال' : 'غیرفعال'}
+                  </Typography>
+                ),
+              },
+              {
+                field: 'updatedAt',
+                headerName: 'تاریخ ویرایش',
+                flex: 1,
+                renderCell: ({ row }: { row: BrandDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {moment(row?.updatedAt || row?.createdAt, 'YYYY/MM/DD')
+                      .locale('fa')
+                      .format('YYYY/MM/DD')}
+                  </Typography>
+                ),
               },
             ]}
             onQueryChange={(tableState) => {

@@ -34,14 +34,14 @@ export default function SettingCreate() {
   const currentSetting = settings.find((item) => paramCase(item.id) === id);
 
   return (
-    <Page title="Setting: Create a new setting">
+    <Page title="تنظیمات: ساخت تنظیمات">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new setting' : 'Edit setting'}
+          heading={!isEdit ? 'ساخت تنظیمات' : 'ویرایش تنظیمات'}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Setting', href: PATH_DASHBOARD.user.list },
-            { name: !isEdit ? 'New Setting' : capitalCase(id) },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'تنظیمات', href: PATH_DASHBOARD.user.list },
+            { name: !isEdit ? 'ساخت تنظیمات' : capitalCase(id) },
           ]}
         />
 

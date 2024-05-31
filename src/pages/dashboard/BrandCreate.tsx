@@ -24,24 +24,28 @@ export default function BrandCreate() {
 
   const { id = '' } = useParams();
 
-  const [brands, setBrands] = useState<BrandDto[]>([])
+  const [brands, setBrands] = useState<BrandDto[]>([]);
   const isEdit = pathname.includes('edit');
   useEffect(() => {
-    AxiosApi.brandList().then((res) => {
-      setBrands(res)
-    }).catch((err) => { console.error(err) });
-  }, [])
-  const currentBrand = brands.find((user) => paramCase(user.id || "") === id);
+    AxiosApi.brandList()
+      .then((res) => {
+        setBrands(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+  const currentBrand = brands.find((user) => paramCase(user.id || '') === id);
 
   return (
-    <Page title="Brand: Create a new brand">
+    <Page title="برند: ساخت برند">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new brand' : 'Edit brand'}
+          heading={!isEdit ? 'ساخت برند' : 'ویرایش برند'}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Brand', href: PATH_DASHBOARD.brand.list },
-            { name: !isEdit ? 'New brand' : capitalCase(id) },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
+            { name: 'برند', href: PATH_DASHBOARD.brand.list },
+            { name: !isEdit ? 'ساخت برند' : capitalCase(id) },
           ]}
         />
 

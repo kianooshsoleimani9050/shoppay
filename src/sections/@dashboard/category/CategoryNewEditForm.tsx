@@ -102,7 +102,6 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
   };
 
   const handleCreateCategory = async (data: FormValuesProps) => {
-    console.info(data, 'wtfffff is goin onnnn');
     AxiosApi.createCategory({ data }).then(() => console.info('setting has been created!'));
   };
 
@@ -142,11 +141,11 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <RHFTextField name="title" label="Title" />
-              <RHFSelect name="parentId" label="Parent">
-                {undefined}
+              <RHFTextField name="title" label="عنوان" />
+              <RHFTextField name="order" label="اولویت" />
+              <RHFSelect name="parentId" label="دسته مادر">
                 {categories.map((option) => (
-                  <option key={option.id} value={option.id}>
+                  <option key={option.id} value={option.id} style={{ padding: '5px' }}>
                     {option.title}
                   </option>
                 ))}
@@ -161,7 +160,7 @@ export default function CategoryNewEditForm({ isEdit, currentCategory }: Props) 
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create Category' : 'Save Changes'}
+                {!isEdit ? 'ساخت دسته بندی' : 'ثبت تغییرات'}
               </LoadingButton>
             </Stack>
           </Card>
