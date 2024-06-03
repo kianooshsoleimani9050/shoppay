@@ -34,6 +34,7 @@ const fa = {
   chat: `چت`,
   cards: `cartes`,
   posts: `پست ها`,
+  CATEGORY_SEARCH: 'جستجو در دسته بندی ها',
   create: `ساخت`,
   kanban: `kanban`,
   general: `جامع`,
