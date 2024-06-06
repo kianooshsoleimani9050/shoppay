@@ -25,6 +25,7 @@ import {
   UpdateSettingAdminDto,
   VendorDto,
 } from 'src/@types/models';
+import { CreateOrUpdateGeneralsDto } from 'src/@types/models/create-update-generals';
 
 // ----------------------------------------------------------------------
 
@@ -239,6 +240,7 @@ const AxiosApi = {
   // setting api
   settingList: (params: GetList) =>
     axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),
+  generalSetting: () => axiosInstance.get<SettingDto>('/settings/generals').then((res) => res),
   commissionList: (params: GetList) =>
     axiosInstance
       .get<ResponseList<CommissionDto[]>>('/settings/commissions', { params })
@@ -247,6 +249,8 @@ const AxiosApi = {
     axiosInstance.post('/settings/commissions', data).then(() => {}),
   settingCreate: (data: CreateSettingAdminDto) =>
     axiosInstance.post(`settings`, data).then(() => {}),
+  createGeneral: (data: CreateOrUpdateGeneralsDto) =>
+    axiosInstance.post(`settings/generals`, data).then(() => {}),
   settingUpdate: (id: string, data: UpdateSettingAdminDto) =>
     axiosInstance.put(`/settings/${id}`, data).then(() => {}),
 };

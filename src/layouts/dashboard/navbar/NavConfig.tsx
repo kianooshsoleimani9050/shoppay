@@ -11,14 +11,15 @@ const getIcon = (name: string) => (
 
 const ICONS = {
   blog: getIcon('ic_blog'),
-  order: getIcon('ic_mail'),
-  category: getIcon('ic_mail'),
-  brand: getIcon('ic_mail'),
-  product: getIcon('ic_mail'),
-  setting: getIcon('ic_mail'),
+  order: getIcon('ic_ecommerce'),
+  category: getIcon('ic_menu_item'),
+  brand: getIcon('ic_invoice'),
+  product: getIcon('ic_dashboard'),
+  setting: getIcon('ic_analytics'),
+  commission: getIcon('ic_blog'),
   vendor: getIcon('ic_cart'),
-  cart: getIcon('ic_cart'),
   chat: getIcon('ic_chat'),
+  supplier: getIcon('ic_kanban'),
   mail: getIcon('ic_mail'),
   user: getIcon('ic_user'),
   kanban: getIcon('ic_kanban'),
@@ -63,7 +64,7 @@ const navConfig = [
       {
         title: 'تامین کننده',
         path: PATH_DASHBOARD.supplier.root,
-        icon: ICONS.product,
+        icon: ICONS.supplier,
         children: [
           { title: 'لیست', path: PATH_DASHBOARD.supplier.list },
           { title: 'تایید نشده ها', path: PATH_DASHBOARD.supplier.pending },
@@ -74,14 +75,15 @@ const navConfig = [
         path: PATH_DASHBOARD.setting.root,
         icon: ICONS.setting,
         children: [
-          { title: 'لیست', path: PATH_DASHBOARD.setting.list },
+          { title: 'عمومی', path: PATH_DASHBOARD.setting.general },
           { title: 'ساخت', path: PATH_DASHBOARD.setting.new },
+          { title: 'قوانین', path: PATH_DASHBOARD.setting.roles },
         ],
       },
       {
         title: 'کمیسیون',
         path: PATH_DASHBOARD.commission.root,
-        icon: ICONS.setting,
+        icon: ICONS.commission,
         children: [
           { title: 'لیست', path: PATH_DASHBOARD.commission.list },
           { title: 'ساخت', path: PATH_DASHBOARD.commission.new },

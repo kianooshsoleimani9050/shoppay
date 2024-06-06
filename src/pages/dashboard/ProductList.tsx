@@ -15,6 +15,7 @@ import { CustomDataGrid, QueryType } from 'src/components/custom/CustomDataGrid'
 import { ProductDto } from 'src/@types/models';
 import { useGetProductList } from 'src/hooks/query/product/useGetProductList';
 import Iconify from 'src/components/Iconify';
+import moment from 'jalali-moment';
 
 export default function ProductList() {
   const { themeStretch } = useSettings();
@@ -43,7 +44,7 @@ export default function ProductList() {
         <HeaderBreadcrumbs
           heading="محصول لیست"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
+            { name: 'داشبورد', href: PATH_DASHBOARD.root },
             { name: 'محصول', href: PATH_DASHBOARD.product.root },
             { name: 'لیست' },
           ]}
@@ -66,12 +67,12 @@ export default function ProductList() {
             columns={[
               {
                 field: 'title',
-                headerName: 'Title',
+                headerName: 'عنوان',
                 flex: 1,
               },
               {
                 field: 'brand',
-                headerName: 'Brand',
+                headerName: 'برند',
                 flex: 1,
                 renderCell: ({ row }: { row: ProductDto }) => (
                   <Typography variant="body2" noWrap>
@@ -81,23 +82,35 @@ export default function ProductList() {
               },
               {
                 field: 'sale',
-                headerName: 'Sale',
+                headerName: 'تعداد خرید',
                 flex: 1,
               },
               {
                 field: 'view',
-                headerName: 'View',
+                headerName: 'تعداد بازدید',
                 flex: 1,
               },
               {
                 field: 'status',
-                headerName: 'Status',
+                headerName: 'وضعیت',
                 flex: 1,
+                renderCell: ({ row }: { row: ProductDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {row.status === true ? 'فعال' : 'غیرفعال'}
+                  </Typography>
+                ),
               },
               {
-                field: 'createdAt',
-                headerName: 'CreatedAt',
+                field: 'updatedAt',
+                headerName: 'تاریخ ویرایش',
                 flex: 1,
+                renderCell: ({ row }: { row: ProductDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {moment(row?.updatedAt || row?.createdAt, 'YYYY/MM/DD')
+                      .locale('fa')
+                      .format('YYYY/MM/DD')}
+                  </Typography>
+                ),
               },
             ]}
             onQueryChange={(tableState) => {

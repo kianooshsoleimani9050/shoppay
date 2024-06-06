@@ -112,9 +112,11 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/setting/list" replace />, index: true },
             { path: 'list', element: <SettingList /> },
+            { path: 'general', element: <GeneralSetting /> },
             { path: ':id/single', element: <SettingCreate /> },
             { path: 'new', element: <SettingCreate /> },
             { path: ':id/edit', element: <SettingCreate /> },
+            { path: 'roles', element: <SettingRoles /> },
           ],
         },
         {
@@ -285,6 +287,8 @@ const SupplierProfile = Loadable(lazy(() => import('../pages/dashboard/SupplierP
 // SETTING
 const SettingList = Loadable(lazy(() => import('../pages/dashboard/SettingList')));
 const SettingCreate = Loadable(lazy(() => import('../pages/dashboard/SettingCreate')));
+const GeneralSetting = Loadable(lazy(() => import('../pages/dashboard/GeneralCreate')));
+const SettingRoles = Loadable(lazy(() => import('../pages/dashboard/SettingRoles')));
 
 // COMMISSION
 const CommissionList = Loadable(lazy(() => import('../pages/dashboard/CommissionList')));
