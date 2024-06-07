@@ -5,6 +5,7 @@ import { Box, Stack, Button, Divider } from '@mui/material';
 // components
 import Iconify from '../../../components/Iconify';
 import { RHFTextField } from '../../../components/hook-form';
+import SettingRolesNewEditDetailsSubroles from './SettingRolesNewEditDetailsSubroles';
 
 // ----------------------------------------------------------------------
 
@@ -19,8 +20,7 @@ export default function SettingRolesNewEditDetails() {
   const handleAdd = () => {
     append({
       role: '',
-      subrole1: '',
-      subrole2: '',
+      subrole: [],
     });
   };
 
@@ -33,26 +33,15 @@ export default function SettingRolesNewEditDetails() {
       <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
         {fields.map((item, index) => (
           <Stack key={item.id} alignItems="flex-end" spacing={1.5}>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ width: 1 }}>
+            <Stack spacing={2} sx={{ width: 1 }}>
               <RHFTextField
                 size="small"
                 name={`items[${index}].role`}
                 label="Role"
                 InputLabelProps={{ shrink: true }}
+                fullWidth
               />
-
-              <RHFTextField
-                size="small"
-                name={`items[${index}].subrole1`}
-                label="Subrole 1"
-                InputLabelProps={{ shrink: true }}
-              />
-              <RHFTextField
-                size="small"
-                name={`items[${index}].subrole2`}
-                label="Subrole 2"
-                InputLabelProps={{ shrink: true }}
-              />
+            <SettingRolesNewEditDetailsSubroles globalIndex={index} />
             </Stack>
 
             <Button

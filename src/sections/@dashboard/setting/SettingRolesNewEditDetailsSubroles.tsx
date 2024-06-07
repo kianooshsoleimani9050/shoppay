@@ -8,12 +8,12 @@ import { RHFTextField } from '../../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
-export default function SettingRolesNewEditDetailsSubroles() {
+export default function SettingRolesNewEditDetailsSubroles({ globalIndex }:{globalIndex:number}) {
   const { control } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'items.subroles',
+    name: `items[${globalIndex}].subrole`,
   });
 
   const handleAdd = () => {
@@ -28,25 +28,17 @@ export default function SettingRolesNewEditDetailsSubroles() {
 
   return (
     <Box>
-      <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
+      <Stack spacing={3}>
         {fields.map((item, index) => (
           <Stack key={item.id} alignItems="flex-end" spacing={1.5}>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ width: 1 }}>
               <RHFTextField
                 size="small"
-                name={`items[${index}].role[${index}].subrole`}
-                label="Role"
-                InputLabelProps={{ shrink: true }}
-              />
-
-              <RHFTextField
-                size="small"
-                name={`items[${index}].subrole1`}
-                label="Subrole 1"
+                name={`items[${globalIndex}].subrole[${index}].subrole`}
+                label="Subrole"
                 InputLabelProps={{ shrink: true }}
               />
             </Stack>
-
             <Button
               size="small"
               color="error"
@@ -72,7 +64,7 @@ export default function SettingRolesNewEditDetailsSubroles() {
           onClick={handleAdd}
           sx={{ flexShrink: 0 }}
         >
-          Add new Role
+          Add new Subrule
         </Button>
       </Stack>
     </Box>

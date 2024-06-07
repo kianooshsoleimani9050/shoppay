@@ -12,22 +12,24 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import AxiosApi from 'src/utils/axios';
 import { useEffect, useState } from 'react';
+import { SettingDto } from 'src/@types/models';
+import GeneralNewEditForm from 'src/sections/@dashboard/setting/GeneralNewEditForm';
 import SettingRolesNewEditForm from 'src/sections/@dashboard/setting/SettingRolesNewEditForm';
-import { RuleDto } from 'src/@types/models/rule-dto';
+import SettingAboutUsNewEditForm from 'src/sections/@dashboard/setting/SettingAboutUsNewEditForm';
 
 // ----------------------------------------------------------------------
 
-export default function SettingRoles() {
+export default function SettingAboutUs() {
   const { themeStretch } = useSettings();
 
   const { pathname } = useLocation();
 
   const { id = '' } = useParams();
 
-  const [settings, setSetting] = useState<RuleDto>();
+  const [settings, setSetting] = useState<SettingDto>();
   const isEdit = pathname.includes('edit');
   useEffect(() => {
-    AxiosApi.rulesGetMany()
+    AxiosApi.aboutUsSetting()
       .then((res) => {
         setSetting(res.data);
       })
@@ -37,18 +39,18 @@ export default function SettingRoles() {
   }, []);
 
   return (
-    <Page title="تنظیمات: ساخت قوانین تنظیمات ">
+    <Page title="تنظیمات: درباره ما">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={!isEdit ? 'ساخت قوانین تنظیمات ' : 'ویرایش قوانین تنظیمات '}
           links={[
             { name: 'داشبورد', href: PATH_DASHBOARD.root },
-            { name: 'قوانین تنظیمات ', href: PATH_DASHBOARD.user.list },
-            { name: !isEdit ? 'ساخت قوانین تنظیمات ' : capitalCase(id) },
+            { name: 'تنظیمات ', href: PATH_DASHBOARD.user.list },
+            { name: !isEdit ? 'درباره ما' : capitalCase(id) },
           ]}
         />
 
-        <SettingRolesNewEditForm isEdit={isEdit} currentSetting={settings} />
+        <SettingAboutUsNewEditForm isEdit={isEdit} aboutus={settings} />
       </Container>
     </Page>
   );

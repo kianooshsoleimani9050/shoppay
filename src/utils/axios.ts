@@ -1,3 +1,6 @@
+import { CreateOrUpdateAboutUsDto } from '../@types/models/create-about-us-dto';
+import { CreateOrUpdateRuleDto } from '../@types/models/create-rule-dto';
+import { RuleDto } from '../@types/models/rule-dto';
 import { CreateBrandDto } from '../@types/models/create-brand-dto';
 import { CommissionDto } from '../@types/models/commission-dto';
 import { SettingDto } from '../@types/models/setting-dto';
@@ -241,6 +244,8 @@ const AxiosApi = {
   settingList: (params: GetList) =>
     axiosInstance.get<ResponseList<SettingDto[]>>('/settings', { params }).then((res) => res.data),
   generalSetting: () => axiosInstance.get<SettingDto>('/settings/generals').then((res) => res),
+  aboutUsSetting: () => axiosInstance.get<SettingDto>('/settings/about-us').then((res) => res),
+  rulesGetMany: () => axiosInstance.get<RuleDto>('/settings/rules').then((res) => res),
   commissionList: (params: GetList) =>
     axiosInstance
       .get<ResponseList<CommissionDto[]>>('/settings/commissions', { params })
@@ -251,6 +256,10 @@ const AxiosApi = {
     axiosInstance.post(`settings`, data).then(() => {}),
   createGeneral: (data: CreateOrUpdateGeneralsDto) =>
     axiosInstance.post(`settings/generals`, data).then(() => {}),
+  createAboutus: (data: CreateOrUpdateAboutUsDto) =>
+    axiosInstance.post(`settings/about-us`, data).then(() => {}),
+  createRule: (data: { bulk: CreateOrUpdateRuleDto[] }) =>
+    axiosInstance.post(`settings/rules`, data).then(() => {}),
   settingUpdate: (id: string, data: UpdateSettingAdminDto) =>
     axiosInstance.put(`/settings/${id}`, data).then(() => {}),
 };

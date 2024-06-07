@@ -78,6 +78,7 @@ const navConfig = [
           { title: 'عمومی', path: PATH_DASHBOARD.setting.general },
           { title: 'ساخت', path: PATH_DASHBOARD.setting.new },
           { title: 'قوانین', path: PATH_DASHBOARD.setting.roles },
+          { title: 'درباره ما', path: PATH_DASHBOARD.setting.aboutUs },
         ],
       },
       {

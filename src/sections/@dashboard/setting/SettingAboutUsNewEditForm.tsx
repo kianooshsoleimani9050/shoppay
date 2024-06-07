@@ -11,9 +11,10 @@ import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { FormProvider, RHFEditor, RHFTextField } from '../../../components/hook-form';
 import AxiosApi from 'src/utils/axios';
 import { SettingDto } from 'src/@types/models';
+import SettingRolesNewEditDetails from './SettingRolesNewEditDetails';
 
 // ----------------------------------------------------------------------
 
@@ -21,33 +22,23 @@ interface FormValuesProps extends SettingDto {}
 
 type Props = {
   isEdit: boolean;
-  currentSetting?: SettingDto;
+  aboutus?: SettingDto;
 };
 
-export default function GeneralNewEditForm({ isEdit, currentSetting }: Props) {
+export default function SettingAboutUsNewEditForm({ isEdit, aboutus }: Props) {
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const NewSettingSchema = Yup.object().shape({
-    address: Yup.string(),
-    telephone1: Yup.string(),
-    telephone2: Yup.string(),
-    telegram: Yup.string(),
-    instagram: Yup.string(),
-    siteAddress: Yup.string(),
+    value:Yup.string().required(),
   });
 
   const defaultValues = useMemo(
     () => ({
-      address: currentSetting?.value?.address,
-      telephone1: currentSetting?.value?.telephone1,
-      telephone2: currentSetting?.value?.telephone2,
-      telegram: currentSetting?.value?.telegram,
-      instagram: currentSetting?.value?.instagram,
-      siteAddress: currentSetting?.value?.siteAddress,
+      value:aboutus?.value || ""
     }),
-    [currentSetting]
+    [aboutus]
   );
 
   const methods = useForm<FormValuesProps>({
@@ -62,14 +53,14 @@ export default function GeneralNewEditForm({ isEdit, currentSetting }: Props) {
   } = methods;
 
   useEffect(() => {
-    if (isEdit && currentSetting) {
+    if (isEdit && aboutus) {
       reset(defaultValues as any);
     }
     if (!isEdit) {
       reset(defaultValues as any);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentSetting]);
+  }, [isEdit, aboutus]);
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
@@ -77,15 +68,13 @@ export default function GeneralNewEditForm({ isEdit, currentSetting }: Props) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      console.info(data)
       // navigate(PATH_DASHBOARD.setting.list);
     } catch (error) {
-      console.error(error);
     }
   };
 
   const handleCreateSetting = async (data: FormValuesProps) => {
-    AxiosApi.createGeneral({ ...(data as any) }).then(() =>
+    AxiosApi.createAboutus({ ...(data as any) }).then(() =>
       console.info('setting has been created!')
     );
   };
@@ -94,25 +83,10 @@ export default function GeneralNewEditForm({ isEdit, currentSetting }: Props) {
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
-            <Box
-              sx={{
-                display: 'grid',
-                columnGap: 2,
-                rowGap: 3,
-                gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
-              }}
-            >
-              <RHFTextField InputLabelProps={{ shrink:true }} name="address" label="آدرس" />
-              <RHFTextField InputLabelProps={{ shrink:true }} name="telephone1" label="تلفن ۱" />
-              <RHFTextField InputLabelProps={{ shrink:true }} name="telephone2" label="تلفن ۲" />
-              <RHFTextField InputLabelProps={{ shrink:true }} name="telegram" label="تلگرام" />
-              <RHFTextField InputLabelProps={{ shrink:true }} name="instagram" label="اینستاگران" />
-              <RHFTextField InputLabelProps={{ shrink:true }} name="siteAddress" label="آدرس سایت" />
-            </Box>
-
+            <RHFEditor name='value' />
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'ساخت تنظیمات' : 'ذخیره تغییرات'}
+                {!isEdit ? 'ساخت قوانین' : 'ذخیره تغییرات'}
               </LoadingButton>
             </Stack>
           </Card>
