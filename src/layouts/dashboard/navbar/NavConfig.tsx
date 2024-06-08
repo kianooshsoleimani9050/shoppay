@@ -38,12 +38,23 @@ const navConfig = [
     subheader: '',
     items: [
       {
-        title: 'فروشنده ها',
-        path: PATH_DASHBOARD.vendor.root,
-        icon: ICONS.vendor,
+        title: 'تنظیمات',
+        path: PATH_DASHBOARD.setting.root,
+        icon: ICONS.setting,
         children: [
-          { title: 'لیست', path: PATH_DASHBOARD.vendor.list },
-          { title: 'تایید نشده ها', path: PATH_DASHBOARD.vendor.pending },
+          { title: 'عمومی', path: PATH_DASHBOARD.setting.general },
+          // { title: 'ساخت', path: PATH_DASHBOARD.setting.new },
+          { title: 'قوانین', path: PATH_DASHBOARD.setting.roles },
+          { title: 'درباره ما', path: PATH_DASHBOARD.setting.aboutUs },
+        ],
+      },
+      {
+        title: 'کمیسیون',
+        path: PATH_DASHBOARD.commission.root,
+        icon: ICONS.commission,
+        children: [
+          { title: 'لیست', path: PATH_DASHBOARD.commission.list },
+          { title: 'ساخت', path: PATH_DASHBOARD.commission.new },
         ],
       },
       {
@@ -56,10 +67,13 @@ const navConfig = [
         ],
       },
       {
-        title: 'سفارش',
-        path: PATH_DASHBOARD.order.root,
-        icon: ICONS.order,
-        children: [{ title: 'لیست', path: PATH_DASHBOARD.order.list }],
+        title: 'فروشنده ها',
+        path: PATH_DASHBOARD.vendor.root,
+        icon: ICONS.vendor,
+        children: [
+          { title: 'لیست', path: PATH_DASHBOARD.vendor.list },
+          { title: 'تایید نشده ها', path: PATH_DASHBOARD.vendor.pending },
+        ],
       },
       {
         title: 'تامین کننده',
@@ -68,26 +82,6 @@ const navConfig = [
         children: [
           { title: 'لیست', path: PATH_DASHBOARD.supplier.list },
           { title: 'تایید نشده ها', path: PATH_DASHBOARD.supplier.pending },
-        ],
-      },
-      {
-        title: 'تنظیمات',
-        path: PATH_DASHBOARD.setting.root,
-        icon: ICONS.setting,
-        children: [
-          { title: 'عمومی', path: PATH_DASHBOARD.setting.general },
-          { title: 'ساخت', path: PATH_DASHBOARD.setting.new },
-          { title: 'قوانین', path: PATH_DASHBOARD.setting.roles },
-          { title: 'درباره ما', path: PATH_DASHBOARD.setting.aboutUs },
-        ],
-      },
-      {
-        title: 'کمیسیون',
-        path: PATH_DASHBOARD.commission.root,
-        icon: ICONS.commission,
-        children: [
-          { title: 'لیست', path: PATH_DASHBOARD.commission.list },
-          { title: 'ساخت', path: PATH_DASHBOARD.commission.new },
         ],
       },
       {
@@ -117,6 +111,12 @@ const navConfig = [
           { title: 'لیست', path: PATH_DASHBOARD.brand.list },
           { title: 'ساخت', path: PATH_DASHBOARD.brand.new },
         ],
+      },
+      {
+        title: 'سفارش',
+        path: PATH_DASHBOARD.order.root,
+        icon: ICONS.order,
+        children: [{ title: 'لیست', path: PATH_DASHBOARD.order.list }],
       },
     ],
   },

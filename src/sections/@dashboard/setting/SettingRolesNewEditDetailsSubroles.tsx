@@ -35,7 +35,7 @@ export default function SettingRolesNewEditDetailsSubroles({ globalIndex }:{glob
               <RHFTextField
                 size="small"
                 name={`items[${globalIndex}].subrole[${index}].subrole`}
-                label="Subrole"
+                label="زیر قانون"
                 InputLabelProps={{ shrink: true }}
               />
             </Stack>
@@ -45,7 +45,7 @@ export default function SettingRolesNewEditDetailsSubroles({ globalIndex }:{glob
               startIcon={<Iconify icon="eva:trash-2-outline" />}
               onClick={() => handleRemove(index)}
             >
-              Remove
+              حذف زیر قانون
             </Button>
           </Stack>
         ))}
@@ -64,7 +64,7 @@ export default function SettingRolesNewEditDetailsSubroles({ globalIndex }:{glob
           onClick={handleAdd}
           sx={{ flexShrink: 0 }}
         >
-          Add new Subrule
+          اضافه کردن زیر قانون جدید
         </Button>
       </Stack>
     </Box>

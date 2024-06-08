@@ -45,6 +45,7 @@ const BrandIcon = ({ iconId, iconName }: BrandIconPropsType) => {
 
 export default function BrandList() {
   const { themeStretch } = useSettings();
+  const [search, setSearch] = useState("")
 
   const [tableState, setTableState] = useState<QueryType>();
 
@@ -52,6 +53,10 @@ export default function BrandList() {
     {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
+      ...(search && {
+
+        q: search
+      })
     },
     !!tableState
   );
@@ -145,6 +150,10 @@ export default function BrandList() {
             }}
             onRowClick={(row) => {
               handleRowClick(row.id);
+            }}
+            useCustomToolbar
+            onSearch={(searchText) => {
+              setSearch(searchText);
             }}
           />
         </Card>

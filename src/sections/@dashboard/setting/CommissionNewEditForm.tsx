@@ -95,14 +95,14 @@ export default function CommissionNewEditForm({ isEdit, currentCommission }: Pro
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <RHFTextField name="percentage" label="Percentage" />
-              <RHFTextField name="lessThan" label="Less than" />
-              <RHFTextField name="moreThan" label="More than" />
+              <RHFTextField name="percentage" label="درصد کمیسیون" />
+              <RHFTextField name="lessThan" label="کمتر از" />
+              <RHFTextField name="moreThan" label="بشتر از" />
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create Commission' : 'Save Changes'}
+                {!isEdit ? 'ساخت کمیسیون' : 'ذخیره تغییرات'}
               </LoadingButton>
             </Stack>
           </Card>

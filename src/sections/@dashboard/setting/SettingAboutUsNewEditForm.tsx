@@ -86,7 +86,7 @@ export default function SettingAboutUsNewEditForm({ isEdit, aboutus }: Props) {
             <RHFEditor name='value' />
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'ساخت قوانین' : 'ذخیره تغییرات'}
+                {'ذخیره تغییرات'}
               </LoadingButton>
             </Stack>
           </Card>

@@ -46,6 +46,7 @@ const CategoryIcon = ({ iconId, iconName }: CategoryIconPropsType) => {
 
 export default function CategoryList() {
   const { themeStretch } = useSettings();
+  const [search, setSearch] = useState("")
 
   const [tableState, setTableState] = useState<QueryType>();
 
@@ -53,6 +54,10 @@ export default function CategoryList() {
     {
       page: tableState?.page || 1,
       take: tableState?.pageSize || 10,
+      ...(search && {
+
+        q: search
+      })
     },
     !!tableState
   );
@@ -101,17 +106,26 @@ export default function CategoryList() {
             rowHeight={80}
             columns={[
               {
-                field: 'title',
-                headerName: 'عنوان',
-                flex: 1,
-              },
-              {
                 field: 'icon',
                 headerName: 'آیکون',
                 renderCell: ({ row }: { row: CategoryDto }) => (
                   <Box display="flex" alignItems="center">
                     <CategoryIcon iconId={row.icon} iconName={row.icon} />
                   </Box>
+                ),
+              },
+              {
+                field: 'title',
+                headerName: 'عنوان',
+                flex: 1,
+              },
+              {
+                field: 'parent',
+                headerName: 'ٔدسته مادر',
+                renderCell: ({ row }: { row: CategoryDto }) => (
+                  <Typography variant="body2" noWrap>
+                    {row?.parent?.title}
+                  </Typography>
                 ),
               },
               {
@@ -153,6 +167,10 @@ export default function CategoryList() {
             }}
             onRowClick={(row) => {
               handleRowClick(row.id);
+            }}
+            useCustomToolbar
+            onSearch={(searchText) => {
+              setSearch(searchText);
             }}
           />
         </Card>

@@ -64,17 +64,17 @@ export default function CommissionList() {
             columns={[
               {
                 field: 'percentage',
-                headerName: 'Percentage',
+                headerName: 'درصد کمیسیون',
                 flex: 1,
               },
               {
                 field: 'lessThan',
-                headerName: 'Less than',
+                headerName: 'کمتر از',
                 flex: 1,
               },
               {
                 field: 'moreThan',
-                headerName: 'More than',
+                headerName: 'بیشتر از',
                 flex: 1,
               },
             ]}

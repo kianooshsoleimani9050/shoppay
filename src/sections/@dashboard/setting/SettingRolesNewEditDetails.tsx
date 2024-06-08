@@ -37,7 +37,7 @@ export default function SettingRolesNewEditDetails() {
               <RHFTextField
                 size="small"
                 name={`items[${index}].role`}
-                label="Role"
+                label="قانون"
                 InputLabelProps={{ shrink: true }}
                 fullWidth
               />
@@ -50,7 +50,7 @@ export default function SettingRolesNewEditDetails() {
               startIcon={<Iconify icon="eva:trash-2-outline" />}
               onClick={() => handleRemove(index)}
             >
-              Remove
+              حذف
             </Button>
           </Stack>
         ))}
@@ -69,7 +69,7 @@ export default function SettingRolesNewEditDetails() {
           onClick={handleAdd}
           sx={{ flexShrink: 0 }}
         >
-          Add new Role
+          اضافه کردن قانون جدید
         </Button>
       </Stack>
     </Box>
