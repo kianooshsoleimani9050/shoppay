@@ -21,6 +21,7 @@ import {
   CreateCategoryDto,
   CreateCommissionAdminDto,
   CreateSettingAdminDto,
+  CreateSliderDto,
   LogDto,
   ProductDto,
   ProductRequestDto,
@@ -262,6 +263,29 @@ const AxiosApi = {
     axiosInstance.post(`settings/rules`, data).then(() => {}),
   settingUpdate: (id: string, data: UpdateSettingAdminDto) =>
     axiosInstance.put(`/settings/${id}`, data).then(() => {}),
+  getSliders: () =>
+    axiosInstance
+      .get<{ Slider?: any[]; Square?: any[]; Wide?: any[] }>('/sliders')
+      .then((res) => res),
+  postSliders: ({
+    data,
+  }: {
+    data: CreateSliderDto & {
+      icon: File | Blob;
+    };
+  }) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((val) => {
+          formData.append(key, val);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+    return axiosInstance.post('/sliders', formData).then((res) => res.data);
+  },
 };
 
 export default AxiosApi;

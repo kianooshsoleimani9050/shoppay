@@ -69,6 +69,7 @@ export const PATH_DASHBOARD = {
     general: path(ROOTS_DASHBOARD, '/setting/general'),
     roles: path(ROOTS_DASHBOARD, '/setting/roles'),
     aboutUs: path(ROOTS_DASHBOARD, '/setting/about-us'),
+    banner: path(ROOTS_DASHBOARD, '/setting/banner'),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/setting/${id}/edit`),
   },
   commission: {

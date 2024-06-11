@@ -46,6 +46,7 @@ const navConfig = [
           // { title: 'ساخت', path: PATH_DASHBOARD.setting.new },
           { title: 'قوانین', path: PATH_DASHBOARD.setting.roles },
           { title: 'درباره ما', path: PATH_DASHBOARD.setting.aboutUs },
+          { title: 'بنر', path: PATH_DASHBOARD.setting.banner },
         ],
       },
       {

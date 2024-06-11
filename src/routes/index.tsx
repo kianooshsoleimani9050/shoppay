@@ -118,6 +118,7 @@ export default function Router() {
             { path: ':id/edit', element: <SettingCreate /> },
             { path: 'roles', element: <SettingRoles /> },
             { path: 'about-us', element: <SettingAboutUs /> },
+            { path: 'banner', element: <SettingBanner /> },
           ],
         },
         {
@@ -291,6 +292,7 @@ const SettingCreate = Loadable(lazy(() => import('../pages/dashboard/SettingCrea
 const GeneralSetting = Loadable(lazy(() => import('../pages/dashboard/GeneralCreate')));
 const SettingRoles = Loadable(lazy(() => import('../pages/dashboard/SettingRoles')));
 const SettingAboutUs = Loadable(lazy(() => import('../pages/dashboard/SettingAboutUs')));
+const SettingBanner = Loadable(lazy(() => import('../pages/dashboard/SettingBanner')));
 
 // COMMISSION
 const CommissionList = Loadable(lazy(() => import('../pages/dashboard/CommissionList')));

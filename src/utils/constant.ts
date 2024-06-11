@@ -27,6 +27,9 @@ export const QUERY_KEYS = {
   COMMISSION: {
     LIST: 'commission-list',
   },
+  SLIDER: {
+    LIST: 'slider-list',
+  },
   ORDER: {
     LIST: 'order-list',
   },
